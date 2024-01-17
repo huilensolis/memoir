@@ -1,5 +1,7 @@
 # Memoir
 
+Memoir is a web application that empowers users to cultivate a daily journaling habit effortlessly. With an intuitive interface, it provides a private and organized space for users to capture their thoughts, reflections, and experiences. Memoir fosters self-reflection and personal growth through simple yet powerful features, making it the ideal platform for those on a journey of daily introspection.
+
 # **MVP Features:**
 
 1. **User Registration and Profile:**
