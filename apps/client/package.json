@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest npx playwright text"
+    "test": "vitest"
   },
   "dependencies": {
     "next": "14.0.4",
