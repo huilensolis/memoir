@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsnd --respawn --clear ./src/bin/www.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node ./dist/src/bin/www.ts"
+    "start": "npm run build && node ./dist/src/bin/www.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +18,8 @@
     "supertest": "^6.3.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "jest": "^29.7.0"
   }
 }
