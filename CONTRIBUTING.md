@@ -1,14 +1,15 @@
 # Contributing
 
-## clone the repo
+## getting started
+### clone the repo
 
 ```bash
 git clone https://github.com/Huilensolis/memoir --depth=1
 ```
 
-## create a .env file inside each app folder, and fill it, following the examples provided on the files env.example in each folder
+### create a .env file inside `/apps/client` and `/apps/api`, and fill it, following the examples provided in `/apps/client/env.example` and `/apps/api/env.example`
 
-## install turbo repo
+### install turbo repo
 
 pnpm:
 
@@ -28,34 +29,34 @@ yarn:
 yarn global add turbo
 ```
 
-## install packages
+### install packages
 
 ```bash
 pnpm i
 ```
 
-## start the development server (for both: the client and api)
+### start the development server (for both: the client and api)
 
-The command turbo <command> works as a npm script executer. It executes the scripts on both the api and client. To declare a turbo script, you can edit the turbo.json file, on the "pipeline" section.
+The command turbo <command> works as a npm script executer. It executes the scripts decalred on both the api and client package.json.
 For more information, see https://turbo.build/repo/docs
 
 ```bash
 turbo dev
 ```
 
-## run linting
+### run linting
 
 ```bash
 turbo lint
 ```
 
-## run build
+### run build
 
 ```bash
 turbo build
 ```
 
-## run tests
+### run tests
 
 ```bash
 turbo test
