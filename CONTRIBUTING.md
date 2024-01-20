@@ -1,6 +1,7 @@
 # Contributing
 
 ## getting started
+
 ### clone the repo
 
 ```bash
@@ -33,6 +34,12 @@ yarn global add turbo
 
 ```bash
 pnpm i
+```
+
+#### before starting the api server, you must have installed bun.
+
+```bash
+curl -fsSL https://bun.sh/install | bash
 ```
 
 ### start the development server (for both: the client and api)
