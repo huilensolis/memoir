@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "api",
   "version": "1.0.0",
   "description": "",
@@ -8,6 +7,8 @@
     "dev": "bun --watch ./src/bin/www.ts",
     "build": "bun build ./src/bin/www.ts",
     "start": "NODE_ENV=production bun ./src/bin/www.ts",
+    "generate-migration": "drizzle-kit generate:pg",
+    "migrate": "bun ./migration.ts",
     "test": "jest"
   },
   "keywords": [],
@@ -25,7 +26,7 @@
     "@elysiajs/cors": "^0.8.0",
     "@elysiajs/swagger": "^0.8.3",
     "drizzle-orm": "^0.29.3",
-    "elysia": "^0.8.9",
+    "elysia": "latest",
     "pg": "^8.11.3"
   }
 }

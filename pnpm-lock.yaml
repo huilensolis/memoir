@@ -20,7 +20,7 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(@types/pg@8.10.9)(bun-types@1.0.24)(pg@8.11.3)
       elysia:
-        specifier: ^0.8.9
+        specifier: latest
         version: 0.8.9
       pg:
         specifier: ^8.11.3
