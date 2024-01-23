@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production bun ./src/bin/www.ts",
     "generate-migration": "drizzle-kit generate:pg",
     "migrate": "bun ./migration.ts",
-    "test": "jest"
+    "test": "bun test --watch"
   },
   "keywords": [],
   "author": "",
@@ -18,12 +18,12 @@
     "@types/pg": "^8.10.9",
     "bun-types": "^1.0.24",
     "drizzle-kit": "^0.20.13",
-    "jest": "^29.7.0",
-    "rimraf": "^5.0.1",
-    "supertest": "^6.3.4"
+    "rimraf": "^5.0.1"
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.8.0",
     "@elysiajs/cors": "^0.8.0",
+    "@elysiajs/jwt": "^0.8.0",
     "@elysiajs/swagger": "^0.8.3",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",

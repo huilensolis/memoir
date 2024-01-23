@@ -1,13 +1,12 @@
 import Elysia from "elysia";
 import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
-import { UserRouter } from "./features/user/router";
+import { Routes } from "./config/routing";
 
-const app = new Elysia().get("/", () => "Hello World");
+const app = new Elysia();
 app.use(cors());
 app.use(swagger());
 
-// routing
-app.use(UserRouter);
+app.use(Routes);
 
 export { app };
