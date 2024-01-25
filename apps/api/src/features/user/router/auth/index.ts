@@ -47,7 +47,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
 
           if (error || !data || !data.user) throw new Error("bad credentials");
 
-          const payload = jwt.sign({ user: data.user });
+          const payload = await jwt.sign({ user: data.user });
 
           set.status = "OK";
           return { token: payload };
