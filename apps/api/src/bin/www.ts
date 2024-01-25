@@ -1,6 +1,8 @@
 import { app } from "../app";
+import { environment } from "../config/database/env-variables";
 
 (() => {
-  app.listen(process.env.PORT || 3000);
-  console.log("app running on port" + " " + process.env.PORT || 3000);
+  const port = environment.port;
+  app.listen(port);
+  console.log(`app running on port ${port}`);
 })();
