@@ -24,7 +24,6 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           });
 
           if (!data || !data.user || error) {
-            set.status = "Unauthorized";
             throw new Error();
           }
           const { user } = data;
@@ -35,7 +34,6 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           };
         } catch (error) {
           set.status = "Internal Server Error";
-          console.log(error);
           throw new Error("something wet wrong");
         }
       },

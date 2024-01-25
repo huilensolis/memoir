@@ -9,13 +9,14 @@ Routes.onAfterHandle(({ set }) => {
 Routes.onError(({ code, error }) => {
   if (code === "NOT_FOUND") return { error: "Route not found :(" };
 
-  const responseError = () => {
-    if (error.validator && error.validator.schema) {
-      return error.validator.schema;
-    } else return error.message;
-  };
+  if (code == "VALIDATION")
+    return new Response(JSON.stringify({ error: error.validator }));
 
-  return new Response(JSON.stringify({ error: responseError() }));
+  return new Response(
+    JSON.stringify({
+      error: error.message,
+    }),
+  );
 });
 
 Routes.use(JwtPlugin);
