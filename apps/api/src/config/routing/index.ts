@@ -7,9 +7,15 @@ Routes.onAfterHandle(({ set }) => {
   set.headers["Content-Type"] = "application/json; charset=utf8";
 });
 Routes.onError(({ code, error }) => {
-  if (code === "NOT_FOUND") return "Route not found :(";
+  if (code === "NOT_FOUND") return { error: "Route not found :(" };
 
-  return new Response(error.toString());
+  const responseError = () => {
+    if (error.validator && error.validator.schema) {
+      return error.validator.schema;
+    } else return error.message;
+  };
+
+  return new Response(JSON.stringify({ error: responseError() }));
 });
 
 Routes.use(JwtPlugin);

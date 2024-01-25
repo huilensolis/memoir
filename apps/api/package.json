@@ -25,6 +25,7 @@
     "@elysiajs/cors": "^0.8.0",
     "@elysiajs/jwt": "^0.8.0",
     "@elysiajs/swagger": "^0.8.3",
+    "deep-email-validator": "^0.1.21",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
     "pg": "^8.11.3"

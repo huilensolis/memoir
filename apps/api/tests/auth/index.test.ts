@@ -8,7 +8,7 @@ beforeAll(async () => await db.delete(Users));
 describe("auth tests", () => {
   const correctUser = {
     name: "Huilen Solis",
-    email: "huilensolistest@gmail.com",
+    email: "huilensolis@skiff.com",
     password: Array(16).fill("h").join(""), // we send a password of 16 characteres
   };
 
@@ -30,7 +30,7 @@ describe("auth tests", () => {
     expect(body["token"]).toBeString();
   });
 
-  it("should log in correctly", async () => {
+  it("should log in correctly on /auth/sign-in", async () => {
     const res = await app.handle(
       new Request("http://localhost:3000/auth/sign-in", {
         method: "POST",
@@ -50,5 +50,25 @@ describe("auth tests", () => {
     expect(body).toBeObject();
     expect(body).toContainKey("token");
     expect(body.token).toBeString();
+  });
+
+  it("should return an error if the gmail is not a gmail in /auth/sign-up", async () => {
+    const res = await app.handle(
+      new Request("http://localhost:3000/auth/sign-up", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: correctUser.name,
+          password: correctUser.password,
+          email: "incorrectemail",
+        }),
+      }),
+    );
+
+    const body = await res.json();
+
+    expect(res.ok).toBeFalse();
+    expect(res.status).toBe(400);
+    expect(body).toContainKey("error");
   });
 });

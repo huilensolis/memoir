@@ -1,6 +1,7 @@
 import { JwtPlugin } from "@/shared/plugins";
 import Elysia, { t } from "elysia";
 import { UserProvider } from "../../provider";
+import { validateEmail } from "../../utils/validate-email";
 
 export const AuthRouter = new Elysia().group("/auth", (app) =>
   app
@@ -9,8 +10,17 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
       "/sign-up",
       async ({ body, set, jwt }) => {
         try {
+          const { name, email, password } = body;
+
+          const { isEmailValid } = await validateEmail(email);
+
+          if (!isEmailValid) {
+            set.status = "Bad Request";
+            return { error: "invalid email" };
+          }
+
           const { data, error } = await UserProvider.auth.signUp({
-            user: body,
+            user: { name, email, password },
           });
 
           if (!data || !data.user || error) {
@@ -24,7 +34,9 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
             token: await jwt.sign({ user }),
           };
         } catch (error) {
-          throw new Error("something wen wrong");
+          set.status = "Internal Server Error";
+          console.log(error);
+          throw new Error("something wet wrong");
         }
       },
       {
@@ -52,6 +64,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           set.status = "OK";
           return { token: payload };
         } catch (error) {
+          set.status = "Internal Server Error";
           throw new Error(
             "it looks like youre using bad credentials, or the account doesnt exist, or the server had an error",
           );
