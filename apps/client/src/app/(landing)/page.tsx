@@ -3,12 +3,18 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <nav className="absolute top-0 l-0 py-4">
+      <nav className="absolute top-0 l-0 py-4 flex gap-2">
         <Link
           href="/app"
           className="font-semibold bg-orange-100 px-4 py-2 rounded-full hover:bg-orange-200 ease-in-out transition-all duration-75"
         >
           Launch app
+        </Link>
+        <Link
+          href="/auth/sign-in"
+          className="font-semibold bg-orange-100 px-4 py-2 rounded-full hover:bg-orange-200 ease-in-out transition-all duration-75"
+        >
+          Sign In
         </Link>
       </nav>
       <div className="max-w-xl w-full space-y-8">

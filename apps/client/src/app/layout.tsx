@@ -60,7 +60,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${satoshi.className} bg-yellow-50 `}>{children}</body>
+      <body className={`${satoshi.className} bg-neutral-50 `}>{children}</body>
     </html>
   );
 }
