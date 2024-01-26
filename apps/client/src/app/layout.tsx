@@ -1,8 +1,52 @@
+import localFont from "next/font/local";
+
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const satoshi = localFont({
+  src: [
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-LightItalic.woff2",
+      weight: "300",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-Italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-Medium.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-MediumItalic.woff2",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-Bold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/satoshi/Fonts/WEB/fonts/Satoshi-BoldItalic.woff2",
+      weight: "800",
+      style: "italic",
+    },
+  ],
+});
 
 export const metadata: Metadata = {
   title: "Memoir",
@@ -16,7 +60,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={satoshi.className}>{children}</body>
     </html>
   );
 }
