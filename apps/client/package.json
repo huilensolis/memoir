@@ -12,7 +12,8 @@
   "dependencies": {
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",
