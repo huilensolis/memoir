@@ -32,8 +32,6 @@ export function SignUpForm() {
       password,
     });
 
-    console.log({ token, error });
-
     if (error || !token) {
       setError(true);
       return;
