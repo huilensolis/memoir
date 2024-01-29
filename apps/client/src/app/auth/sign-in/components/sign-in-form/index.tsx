@@ -61,7 +61,7 @@ export function SignInForm() {
           type="submit"
           disabled={!isValid || isValidating || isSubmitting}
         >
-          Sign Up
+          Sign In
         </PrimaryButton>
       </div>
     </form>

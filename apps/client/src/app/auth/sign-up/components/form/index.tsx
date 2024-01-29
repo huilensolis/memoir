@@ -1,19 +1,46 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Input } from "@/components/ui/input/text";
 import { signUpFormModels } from "../../sign-up.models";
 import { PrimaryButton } from "@/components/ui/buttons/primary";
+import { AuthService } from "@/services/api/auth";
+import { ClientRoutingService } from "@/services/routing/client";
 
 export function SignUpForm() {
+  const [error, setError] = useState<boolean>(false);
+
   const {
     handleSubmit,
     formState: { errors, isValid, isSubmitting, dirtyFields, isValidating },
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
-  function signUp(data: signUpFormModels) {}
+  const router = useRouter();
+
+  async function signUp(data: signUpFormModels) {
+    if (!data.name || !data.password || !data.email) return;
+
+    const { name, email, password } = data;
+
+    const { token, error } = await AuthService.signUp({
+      email,
+      name,
+      password,
+    });
+
+    console.log({ token, error });
+
+    if (error || !token) {
+      setError(true);
+      return;
+    }
+
+    router.push(new ClientRoutingService().app.home);
+  }
 
   return (
     <form
@@ -45,8 +72,8 @@ export function SignUpForm() {
           required: { value: true, message: "email is required" },
           minLength: { value: 5, message: "email min characteres is 5" },
           maxLength: {
-            message: "email max length is 20 characteres",
-            value: 20,
+            message: "email max length is 100 characteres",
+            value: 100,
           },
           pattern: {
             value: /\S+@\S+\.\S+/,
@@ -79,6 +106,7 @@ export function SignUpForm() {
           Sign Up
         </PrimaryButton>
       </div>
+      {error && <span className="text-red-500">something went wrong</span>}
     </form>
   );
 }
