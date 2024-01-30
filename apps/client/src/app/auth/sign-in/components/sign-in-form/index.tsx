@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ClientRoutingService } from "@/services/routing/client";
 import { AuthService } from "@/services/api/auth";
+import { useCookies } from "@/hooks/use-cookies";
 
 export function SignInForm() {
   const [error, setError] = useState<boolean>(false);
@@ -19,6 +20,8 @@ export function SignInForm() {
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
   const router = useRouter();
+
+  const { createCookie } = useCookies({ name: "token" });
 
   async function signIn(data: signUpFormModels) {
     if (!data.password || !data.email) return;
@@ -35,6 +38,7 @@ export function SignInForm() {
       return;
     }
 
+    createCookie({ value: token });
     router.push(new ClientRoutingService().app.home);
   }
 

@@ -9,6 +9,7 @@ import { signUpFormModels } from "../../sign-up.models";
 import { PrimaryButton } from "@/components/ui/buttons/primary";
 import { AuthService } from "@/services/api/auth";
 import { ClientRoutingService } from "@/services/routing/client";
+import { useCookies } from "@/hooks/use-cookies";
 
 export function SignUpForm() {
   const [error, setError] = useState<boolean>(false);
@@ -18,6 +19,8 @@ export function SignUpForm() {
     formState: { errors, isValid, isSubmitting, dirtyFields, isValidating },
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
+
+  const { createCookie } = useCookies({ name: "token" });
 
   const router = useRouter();
 
@@ -36,7 +39,7 @@ export function SignUpForm() {
       setError(true);
       return;
     }
-
+    createCookie({ value: token });
     router.push(new ClientRoutingService().app.home);
   }
 
