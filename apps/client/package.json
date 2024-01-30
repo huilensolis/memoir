@@ -10,9 +10,12 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@elysiajs/eden": "^0.8.1",
+    "elysia": "^0.8.14",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",
