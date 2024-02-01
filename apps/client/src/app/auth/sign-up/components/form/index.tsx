@@ -20,7 +20,7 @@ export function SignUpForm() {
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
-  const { createCookie } = useCookies({ name: "token" });
+  const { createCookie } = useCookies({ name: "access_token" });
 
   const router = useRouter();
 

@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production bun ./src/bin/www.ts",
     "generate-migration": "drizzle-kit generate:pg",
     "migrate": "bun ./migration.ts",
-    "test": "bun test --watch"
+    "test": "bun test --timeout 10000"
   },
   "keywords": [],
   "author": "",

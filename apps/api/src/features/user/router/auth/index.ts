@@ -34,7 +34,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           };
         } catch (error) {
           set.status = "Internal Server Error";
-          throw new Error("something wet wrong");
+          return { error: "something went wrong" };
         }
       },
       {
@@ -63,9 +63,10 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           return { token: payload };
         } catch (error) {
           set.status = "Internal Server Error";
-          throw new Error(
-            "it looks like youre using bad credentials, or the account doesnt exist, or the server had an error",
-          );
+          return {
+            error:
+              "it looks like youre using bad credentials, or the account doesnt exist, or the server had an error",
+          };
         }
       },
       {
@@ -74,5 +75,41 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           password: t.String({ minLength: 14, maxLength: 20 }),
         }),
       },
-    ),
+    )
+    .post("/token", async ({ cookie, set, jwt }) => {
+      try {
+        const cookieToken = cookie.acces_token;
+
+        if (!cookieToken) {
+          set.status = "Bad Request";
+          return { error: "we could not find the token on the cookies" };
+        }
+
+        const tokenPayload = await jwt.verify(cookieToken);
+
+        if (!tokenPayload) {
+          set.status = "Unauthorized";
+          return { error: "token signature is not valid" };
+        }
+
+        const { exp } = tokenPayload;
+
+        if (!exp) {
+          set.status = "Bad Request";
+          return { error: "we could not find the expiration date on token" };
+        }
+
+        if (exp - new Date().getTime() <= 0) {
+          set.status = "Unauthorized";
+          return { error: "token expired" };
+        }
+
+        set.status = "Accepted";
+        return;
+      } catch (error) {
+        console.log(error);
+        set.status = "Unauthorized";
+        return { error: "token expired or unauthorized" };
+      }
+    }),
 );

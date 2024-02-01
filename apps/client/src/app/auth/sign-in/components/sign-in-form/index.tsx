@@ -21,7 +21,7 @@ export function SignInForm() {
 
   const router = useRouter();
 
-  const { createCookie } = useCookies({ name: "token" });
+  const { createCookie } = useCookies({ name: "access_token" });
 
   async function signIn(data: signUpFormModels) {
     if (!data.password || !data.email) return;
