@@ -1,13 +1,13 @@
 import jwt from "@elysiajs/jwt";
 import Elysia, { t } from "elysia";
-import { environment } from "../../../config/database/env-variables";
 import cookie from "@elysiajs/cookie";
+import { Environment } from "@/config/environment";
 
 export const JwtPlugin = new Elysia()
   .use(
     jwt({
       name: "jwt",
-      secret: environment.jwtSecret,
+      secret: Environment.jwtSecret,
       schema: t.Object({
         user: t.Object({
           id: t.String(),

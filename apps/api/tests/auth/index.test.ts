@@ -1,3 +1,7 @@
+import { Environment } from "@/config/environment";
+
+export const endpointPath = `${Environment.apiUrl}/auth`;
+
 export const correctUser = {
   name: "Huilen Solis",
   email: "huilensolis@skiff.com",

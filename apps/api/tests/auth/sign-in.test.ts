@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { createUser } from "../utils/user";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
+import { endpointPath } from "./index.test";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
@@ -14,7 +15,7 @@ describe("sign in tests", () => {
     if (!token || !user) throw new Error("user coul not be created");
 
     const res = await app.handle(
-      new Request("http://localhost:3000/auth/sign-in", {
+      new Request(`${endpointPath}/sign-in`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

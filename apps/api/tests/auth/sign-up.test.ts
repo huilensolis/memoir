@@ -1,5 +1,5 @@
 import { app } from "@/app";
-import { correctUser } from "./index.test";
+import { correctUser, endpointPath } from "./index.test";
 import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
@@ -10,7 +10,7 @@ afterAll(async () => await db.delete(Users));
 describe("sign up tests", () => {
   it("should create a user correctly on /auth/sign-up", async () => {
     const res = await app.handle(
-      new Request("http://localhost:3000/auth/sign-up", {
+      new Request(`${endpointPath}/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...correctUser }),
@@ -28,7 +28,7 @@ describe("sign up tests", () => {
 
   it("should return an error if the email is not a email in /auth/sign-up", async () => {
     const res = await app.handle(
-      new Request("http://localhost:3000/auth/sign-up", {
+      new Request(`${endpointPath}/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
