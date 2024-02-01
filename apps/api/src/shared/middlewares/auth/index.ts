@@ -16,7 +16,11 @@ export const isAuthenticated = new Elysia()
 
       if (tokenPayload === false) throw new Error("could not verify jwt");
 
-      const { user } = tokenPayload;
+      const { user, exp } = tokenPayload;
+
+      if (!exp) throw new Error("no exp date found in token");
+
+      if (exp - new Date().getTime() <= 0) throw new Error("jwt expired");
 
       if (!user) throw new Error("not user found");
 
@@ -33,9 +37,8 @@ export const isAuthenticated = new Elysia()
 
       return { user };
     } catch (error) {
-      console.log(error);
-
       set.status = "Unauthorized";
+      set.headers = { "Content-Type": "application/json; utf8;" };
       throw new Error("unauthorized");
     }
   });
