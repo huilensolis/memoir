@@ -1,10 +1,11 @@
 import { app } from "@/app";
+import { correctUser } from "./index.test";
+import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
-import { describe, it, expect, beforeEach } from "bun:test";
-import { correctUser } from "./index.test";
 
 beforeEach(async () => await db.delete(Users));
+afterAll(async () => await db.delete(Users));
 
 describe("sign up tests", () => {
   it("should create a user correctly on /auth/sign-up", async () => {
