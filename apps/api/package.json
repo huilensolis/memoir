@@ -7,8 +7,8 @@
     "setup": "docker compose up -d",
     "clean-up": "docker compose down -v ",
     "dev": "bun --watch ./src/bin/www.ts",
-    "build": "bun build ./src/bin/www.ts",
-    "start": "NODE_ENV=production bun ./src/bin/www.ts",
+    "build": "bun build ./src/bin/www.ts --target bun --outdir ./dist",
+    "start": "NODE_ENV=production bun ./dist/www.js",
     "generate-migration": "drizzle-kit generate:pg",
     "migrate": "bun ./migration.ts",
     "test": "bun test --timeout 10000"
