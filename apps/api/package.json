@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "docker compose up -d",
+    "clean-up": "docker compose down -v ",
     "dev": "bun --watch ./src/bin/www.ts",
     "build": "bun build ./src/bin/www.ts",
     "start": "NODE_ENV=production bun ./src/bin/www.ts",
