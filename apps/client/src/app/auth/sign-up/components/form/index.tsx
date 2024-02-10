@@ -7,9 +7,8 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input/text";
 import { signUpFormModels } from "../../sign-up.models";
 import { PrimaryButton } from "@/components/ui/buttons/primary";
-import { AuthService } from "@/services/api/auth";
 import { ClientRoutingService } from "@/services/routing/client";
-import { useCookies } from "@/hooks/use-cookies";
+import { useSession } from "@/hooks/use-session";
 
 export function SignUpForm() {
   const [error, setError] = useState<boolean>(false);
@@ -20,32 +19,28 @@ export function SignUpForm() {
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
-  const { createCookie } = useCookies({ name: "access_token" });
+  const { signUp } = useSession();
 
   const router = useRouter();
 
-  async function signUp(data: signUpFormModels) {
+  async function handleSignUp(data: signUpFormModels) {
     if (!data.name || !data.password || !data.email) return;
 
     const { name, email, password } = data;
 
-    const { token, error } = await AuthService.signUp({
-      email,
-      name,
-      password,
-    });
+    const { error } = await signUp({ name, email, password });
 
-    if (error || !token) {
+    if (error) {
       setError(true);
       return;
     }
-    createCookie({ value: token });
-    router.push(new ClientRoutingService().app.home);
+
+    router.push(ClientRoutingService.app.home);
   }
 
   return (
     <form
-      onSubmit={handleSubmit(signUp)}
+      onSubmit={handleSubmit(handleSignUp)}
       className="w-full flex flex-col gap-3"
     >
       <Input

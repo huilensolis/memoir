@@ -8,8 +8,7 @@ import { PrimaryButton } from "@/components/ui/buttons/primary";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ClientRoutingService } from "@/services/routing/client";
-import { AuthService } from "@/services/api/auth";
-import { useCookies } from "@/hooks/use-cookies";
+import { useSession } from "@/hooks/use-session";
 
 export function SignInForm() {
   const [error, setError] = useState<boolean>(false);
@@ -21,30 +20,26 @@ export function SignInForm() {
 
   const router = useRouter();
 
-  const { createCookie } = useCookies({ name: "access_token" });
+  const { signIn } = useSession();
 
-  async function signIn(data: signUpFormModels) {
+  async function handleSignIn(data: signUpFormModels) {
     if (!data.password || !data.email) return;
 
     const { email, password } = data;
 
-    const { token, error } = await AuthService.signIn({
-      email,
-      password,
-    });
+    const { error } = await signIn({ email, password });
 
-    if (error || !token) {
+    if (error) {
       setError(true);
       return;
     }
 
-    createCookie({ value: token });
-    router.push(new ClientRoutingService().app.home);
+    router.push(ClientRoutingService.app.home);
   }
 
   return (
     <form
-      onSubmit={handleSubmit(signIn)}
+      onSubmit={handleSubmit(handleSignIn)}
       className="w-full flex flex-col gap-3"
     >
       <Input

@@ -1,11 +1,11 @@
 export class ClientRoutingService {
   cosntructor() {}
 
-  get auth() {
+  public static get auth() {
     return { signUp: "/auth/sign-up", signIn: "/auth/sign-in" };
   }
 
-  get app() {
+  public static get app() {
     return {
       home: "/app",
     };
