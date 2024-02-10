@@ -1,22 +1,22 @@
 {
   "name": "memoir",
   "version": "1.0.0",
-  "description": "Memoir is a web application that empowers users to cultivate a daily journaling habit effortlessly. With an intuitive interface, it provides a private and organized space for users to capture their thoughts, reflections, and experiences. Memoir fosters self-reflection and personal growth through simple yet powerful features, making it the ideal platform for those on a journey of daily introspection.",
+  "author": "huilensolis",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Huilensolis/memoir.git"
+  },
   "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/Huilensolis/memoir/issues"
+  },
+  "description": "Memoir is a web application that empowers users to cultivate a daily journaling habit effortlessly. With an intuitive interface, it provides a private and organized space for users to capture their thoughts, reflections, and experiences. Memoir fosters self-reflection and personal growth through simple yet powerful features, making it the ideal platform for those on a journey of daily introspection.",
+  "homepage": "https://github.com/Huilensolis/memoir#readme",
+  "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "workspaces": [
     "./apps/*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Huilensolis/memoir.git"
-  },
-  "author": "huilensolis",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Huilensolis/memoir/issues"
-  },
-  "homepage": "https://github.com/Huilensolis/memoir#readme"
+  ]
 }

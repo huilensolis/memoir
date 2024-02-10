@@ -12,7 +12,7 @@ export async function signUp({
 
   try {
     const { isEmailAvailable } = await checkIfEmailIsAvailable(email);
-    //
+
     if (!isEmailAvailable) throw new Error("Email not available");
 
     const hashedPassword = await Bun.password.hash(password, {
