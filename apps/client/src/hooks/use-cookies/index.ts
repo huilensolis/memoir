@@ -13,11 +13,17 @@ export function useCookies({ name }: { name: string }) {
     return allCookies[thisCookieIndex];
   });
 
-  function createCookie({ value }: { value: string }) {
+  function updateCookie({ value }: { value: string }) {
     const cookie = `${name}=${value}`;
     document.cookie = cookie;
     setCookie(cookie);
   }
 
-  return { cookie, createCookie };
+  function deleteCookie() {
+    const cookie = `${name}=null`;
+    document.cookie = cookie;
+    setCookie(null);
+  }
+
+  return { cookie, updateCookie, deleteCookie };
 }
