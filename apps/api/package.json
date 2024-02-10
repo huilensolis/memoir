@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "docker compose up -d",
+    "setup": "docker compose up -d && bun run generate-migration && bun run migrate",
     "clean-up": "docker compose down -v ",
     "dev": "bun --watch ./src/bin/www.ts",
     "build": "bun build ./src/bin/www.ts --target bun --outdir ./dist",
@@ -27,9 +27,9 @@
     "@elysiajs/cors": "^0.8.0",
     "@elysiajs/jwt": "^0.8.0",
     "@elysiajs/swagger": "^0.8.3",
-    "deep-email-validator": "^0.1.21",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
+    "email-validator": "^2.0.4",
     "pg": "^8.11.3"
   }
 }

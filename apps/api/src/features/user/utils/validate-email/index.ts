@@ -1,7 +1,9 @@
-import validate from "deep-email-validator";
+import EmailValidator from "email-validator";
 
 export async function validateEmail(email: string) {
+  const emailValidation = EmailValidator.validate(email);
+
   return {
-    isEmailValid: Boolean(email.includes("@") && email.includes(".com")),
+    isEmailValid: Boolean(emailValidation),
   };
 }

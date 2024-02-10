@@ -8,7 +8,7 @@ beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
 
 describe("sign up tests", () => {
-  it("should create a user correctly on /auth/sign-up", async () => {
+  it("should create a user correctly", async () => {
     const res = await app.handle(
       new Request(`${endpointPath}/sign-up`, {
         method: "POST",
@@ -26,7 +26,7 @@ describe("sign up tests", () => {
     expect(body["token"]).toBeString();
   });
 
-  it("should return an error if the email is not a email in /auth/sign-up", async () => {
+  it("should return an error if the email is not a email", async () => {
     const res = await app.handle(
       new Request(`${endpointPath}/sign-up`, {
         method: "POST",
@@ -34,7 +34,27 @@ describe("sign up tests", () => {
         body: JSON.stringify({
           name: correctUser.name,
           password: correctUser.password,
-          email: "incorrectemail",
+          email: "notAnEmail",
+        }),
+      }),
+    );
+
+    const body = await res.json();
+
+    expect(res.ok).toBeFalse();
+    expect(res.status).toBe(400);
+    expect(body).toContainKey("error");
+  });
+
+  it("should return an error if the email format is missing domain", async () => {
+    const res = await app.handle(
+      new Request(`${endpointPath}/sign-up`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: correctUser.name,
+          password: correctUser.password,
+          email: "test@gmail",
         }),
       }),
     );
