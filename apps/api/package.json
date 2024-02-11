@@ -1,6 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -31,5 +32,6 @@
     "elysia": "latest",
     "email-validator": "^2.0.4",
     "pg": "^8.11.3"
-  }
+  },
+  "packageManager": "^bun@1.0.25"
 }
