@@ -1,28 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ClientRoutingService } from "./services/routing/client";
+import { ClientRoutingService } from "./models/routing/client";
 
-export default function middleware(request: NextRequest) {
-  const cookies = request.cookies.get("access_token");
+import { cookies } from "next/headers";
+import { AuthService } from "./models/api/auth";
 
-  if (!cookies) {
-    const url = request.nextUrl.clone();
+export default async function middleware(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  url.pathname = ClientRoutingService.auth.signIn;
+  const urlSignInPath = url;
 
-    url.pathname = ClientRoutingService.auth.signIn;
+  const cookieStore = cookies();
 
+  const access_token = cookieStore.get("access_token");
+
+  if (!access_token || !access_token.value || !access_token.name) {
     console.log(
       `no cookies found in middleware request. redirecting to ${url.pathname}`,
     );
 
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(urlSignInPath);
   }
 
-  // we check if the token is valid
-  // if(token is not valid){
-  // return redirect to login
-  // }
-  // else {
-  // return;
-  // }
+  try {
+    const { isTokenValid } = await AuthService.checkToken({
+      cookies: `access_token=${access_token.value}`,
+    });
+
+    if (!isTokenValid) throw new Error("token invalid");
+  } catch (error) {
+    return NextResponse.redirect(urlSignInPath);
+  }
 }
 
 export const config = {

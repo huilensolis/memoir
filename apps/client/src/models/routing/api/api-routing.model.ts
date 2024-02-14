@@ -1,5 +1,6 @@
 export class ApiRoutingService {
-  protected static baseUrl = "http://localhost:3000";
+  protected static baseUrl =
+    process.env.API_URL || "https://localhost:3001/api";
 
   constructor() {}
 
@@ -12,6 +13,8 @@ export class ApiRoutingService {
       auth: {
         signUp: this.getPath("auth/sign-up"),
         signIn: this.getPath("auth/sign-in"),
+        signOut: this.getPath("auth/sign-out"),
+        checkToken: this.getPath("auth/token"),
       },
     };
   }

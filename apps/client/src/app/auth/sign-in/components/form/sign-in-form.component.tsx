@@ -1,34 +1,33 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-import { Input } from "@/components/ui/input/text";
-import { signUpFormModels } from "../../sign-up.models";
+import { Input } from "@/components/ui/input/text/";
+import { signUpFormModels } from "../../sign-in.models";
 import { PrimaryButton } from "@/components/ui/buttons/primary";
-import { ClientRoutingService } from "@/services/routing/client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ClientRoutingService } from "@/models/routing/client";
 import { useSession } from "@/hooks/use-session";
 
-export function SignUpForm() {
+export function SignInForm() {
   const [error, setError] = useState<boolean>(false);
-
   const {
     handleSubmit,
     formState: { errors, isValid, isSubmitting, dirtyFields, isValidating },
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
-  const { signUp } = useSession();
-
   const router = useRouter();
 
-  async function handleSignUp(data: signUpFormModels) {
-    if (!data.name || !data.password || !data.email) return;
+  const { signIn } = useSession();
 
-    const { name, email, password } = data;
+  async function handleSignIn(data: signUpFormModels) {
+    if (!data.password || !data.email) return;
 
-    const { error } = await signUp({ name, email, password });
+    const { email, password } = data;
+
+    const { error } = await signIn({ email, password });
 
     if (error) {
       setError(true);
@@ -40,24 +39,9 @@ export function SignUpForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(handleSignUp)}
+      onSubmit={handleSubmit(handleSignIn)}
       className="w-full flex flex-col gap-3"
     >
-      <Input
-        type="text"
-        id="name"
-        placeholder="Name"
-        error={errors.name?.message ?? null}
-        correct={!errors.name?.message && dirtyFields.name ? true : false}
-        {...register("name", {
-          required: { value: true, message: "name is required" },
-          minLength: { value: 3, message: "name min characteres is 3" },
-          maxLength: {
-            value: 20,
-            message: "name max length is 20 characteres",
-          },
-        })}
-      />
       <Input
         type="email"
         id="email"
@@ -99,7 +83,7 @@ export function SignUpForm() {
           type="submit"
           disabled={!isValid || isValidating || isSubmitting}
         >
-          Sign Up
+          Sign In
         </PrimaryButton>
       </div>
       {error && <span className="text-red-500">something went wrong</span>}

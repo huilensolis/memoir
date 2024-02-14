@@ -1,4 +1,4 @@
-import { ApiRoutingService } from "@/services/routing/api";
+import { ApiRoutingService } from "@/models/routing/api";
 import { ApiService } from "..";
 
 export class AuthService extends ApiService {
@@ -54,6 +54,45 @@ export class AuthService extends ApiService {
       return { error: null, token: data.token };
     } catch (error) {
       return { token: null, error: error as Error };
+    }
+  }
+
+  public static async signOut() {
+    try {
+      const { error } = await this.fetcher().get<{}>({
+        url: ApiRoutingService.routing.auth.signOut,
+      });
+
+      if (error) throw new Error("error singing out");
+
+      return Promise.resolve();
+    } catch (error) {
+      return Promise.reject();
+    }
+  }
+
+  public static async checkToken({
+    cookies = "",
+  }: {
+    cookies?: string;
+  }): Promise<{
+    isTokenValid: boolean;
+  }> {
+    try {
+      const { error } = await this.fetcher().get<{}>({
+        url: ApiRoutingService.routing.auth.checkToken,
+        headers: cookies ? { Cookie: cookies } : {},
+      });
+
+      if (error) {
+        throw new Error(
+          "there is been an error on the check token request request response",
+        );
+      }
+
+      return { isTokenValid: true };
+    } catch (error) {
+      return { isTokenValid: false };
     }
   }
 }

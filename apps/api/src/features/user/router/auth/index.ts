@@ -8,7 +8,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
     .use(JwtPlugin)
     .post(
       "/sign-up",
-      async ({ body, set, jwt }) => {
+      async ({ body, set, jwt, setCookie }) => {
         try {
           const { name, email, password } = body;
 
@@ -26,12 +26,12 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           if (!data || !data.user || error) {
             throw new Error();
           }
-          const { user } = data;
+
+          const token = await jwt.sign({ user: data.user });
 
           set.status = 201;
-          return {
-            token: await jwt.sign({ user }),
-          };
+          setCookie("access_token", token);
+          return;
         } catch (error) {
           set.status = "Internal Server Error";
           return { error: "something went wrong" };
@@ -47,7 +47,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
     )
     .post(
       "/sign-in",
-      async ({ body, jwt, set }) => {
+      async ({ body, jwt, set, setCookie }) => {
         const { email, password } = body;
 
         try {
@@ -57,10 +57,10 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
 
           if (error || !data || !data.user) throw new Error("bad credentials");
 
-          const payload = await jwt.sign({ user: data.user });
+          const token = await jwt.sign({ user: data.user });
 
-          set.status = "OK";
-          return { token: payload };
+          set.status = "Accepted";
+          setCookie("access_token", token);
         } catch (error) {
           set.status = "Internal Server Error";
           return {
@@ -76,16 +76,14 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
         }),
       },
     )
-    .post("/token", async ({ cookie, set, jwt }) => {
+    .get("/token", async ({ cookie: { access_token }, set, jwt }) => {
       try {
-        const cookieToken = cookie.acces_token;
-
-        if (!cookieToken) {
+        if (!access_token) {
           set.status = "Bad Request";
           return { error: "we could not find the token on the cookies" };
         }
 
-        const tokenPayload = await jwt.verify(cookieToken);
+        const tokenPayload = await jwt.verify(access_token);
 
         if (!tokenPayload) {
           set.status = "Unauthorized";
@@ -105,11 +103,18 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
         }
 
         set.status = "Accepted";
-        return;
+        return {};
       } catch (error) {
         console.log(error);
         set.status = "Unauthorized";
         return { error: "token expired or unauthorized" };
       }
+    })
+    .get("/sign-out", ({ setCookie, set }) => {
+      setCookie("access_token", "null", {
+        expires: new Date(new Date().getTime() - 1),
+      });
+      set.status = 201;
+      return {};
     }),
 );

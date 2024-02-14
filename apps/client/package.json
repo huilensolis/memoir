@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "setup-https": "bash ./scripts/set-https-certificate.bash"
   },
   "dependencies": {
     "@elysiajs/eden": "^0.8.1",
@@ -33,5 +34,5 @@
     "typescript": "^5",
     "vitest": "^1.2.1"
   },
-  "packageManager": "^bun@1.0.25"
+  "packageManager": "^pnpm@8.15.1"
 }

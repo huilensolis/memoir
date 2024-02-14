@@ -1,4 +1,7 @@
-import type { FetcherReturn } from "./fetcher.models";
+interface FetcherReturn<T> {
+  data: T | null;
+  error: Error | null;
+}
 
 export class Fetcher {
   protected static fetcher() {
@@ -42,12 +45,19 @@ export class Fetcher {
           return Promise.reject();
         }
       },
-      async get<T>({ url }: { url: string }): Promise<FetcherReturn<T>> {
+      async get<T>({
+        url,
+        headers = {},
+      }: {
+        url: string;
+        headers?: Record<string, string>;
+      }): Promise<FetcherReturn<T>> {
         try {
           const res = await fetch(url, {
             method: "GET",
             headers: {
               "Content-Type": "application/json; utf8",
+              ...headers,
             },
           });
 

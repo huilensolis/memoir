@@ -18,4 +18,11 @@ export const JwtPlugin = new Elysia()
       exp: new Date().getTime() + 1000 * 60 * 60 * 24 * 14, // 14 days in the future
     }),
   )
-  .use(cookie({ httpOnly: true }));
+  .use(
+    cookie({
+      httpOnly: true,
+      expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 14,
+      sameSite: "none",
+      secure: true,
+    }),
+  );

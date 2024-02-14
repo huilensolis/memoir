@@ -6,7 +6,9 @@ const Routes = new Elysia();
 Routes.onAfterHandle(({ set }) => {
   set.headers["Content-Type"] = "application/json; charset=utf8";
 });
-Routes.onError(({ code, error }) => {
+Routes.onError(({ code, error, path }) => {
+  console.log({ path });
+
   if (code === "NOT_FOUND") return { error: "Route not found :(" };
 
   if (code == "VALIDATION")
