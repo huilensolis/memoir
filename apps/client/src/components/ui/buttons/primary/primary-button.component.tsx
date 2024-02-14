@@ -1,5 +1,3 @@
-"use client";
-
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface IPrimaryButton extends ButtonHTMLAttributes<HTMLButtonElement> {

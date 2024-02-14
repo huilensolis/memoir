@@ -1,33 +1,34 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-
-import { Input } from "@/components/ui/input/text";
-import { signUpFormModels } from "../../sign-in.models";
-import { PrimaryButton } from "@/components/ui/buttons/primary";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ClientRoutingService } from "@/services/routing/client";
+import { useState } from "react";
+
+import { Input } from "@/components/ui/input/text/";
+import { signUpFormModels } from "../../sign-up.models";
+import { PrimaryButton } from "@/components/ui/buttons/primary";
+import { ClientRoutingService } from "@/models/routing/client";
 import { useSession } from "@/hooks/use-session";
 
-export function SignInForm() {
+export function SignUpForm() {
   const [error, setError] = useState<boolean>(false);
+
   const {
     handleSubmit,
     formState: { errors, isValid, isSubmitting, dirtyFields, isValidating },
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
+  const { signUp } = useSession();
+
   const router = useRouter();
 
-  const { signIn } = useSession();
+  async function handleSignUp(data: signUpFormModels) {
+    if (!data.name || !data.password || !data.email) return;
 
-  async function handleSignIn(data: signUpFormModels) {
-    if (!data.password || !data.email) return;
+    const { name, email, password } = data;
 
-    const { email, password } = data;
-
-    const { error } = await signIn({ email, password });
+    const { error } = await signUp({ name, email, password });
 
     if (error) {
       setError(true);
@@ -39,9 +40,24 @@ export function SignInForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(handleSignIn)}
+      onSubmit={handleSubmit(handleSignUp)}
       className="w-full flex flex-col gap-3"
     >
+      <Input
+        type="text"
+        id="name"
+        placeholder="Name"
+        error={errors.name?.message ?? null}
+        correct={!errors.name?.message && dirtyFields.name ? true : false}
+        {...register("name", {
+          required: { value: true, message: "name is required" },
+          minLength: { value: 3, message: "name min characteres is 3" },
+          maxLength: {
+            value: 20,
+            message: "name max length is 20 characteres",
+          },
+        })}
+      />
       <Input
         type="email"
         id="email"
@@ -83,7 +99,7 @@ export function SignInForm() {
           type="submit"
           disabled={!isValid || isValidating || isSubmitting}
         >
-          Sign In
+          Sign Up
         </PrimaryButton>
       </div>
       {error && <span className="text-red-500">something went wrong</span>}

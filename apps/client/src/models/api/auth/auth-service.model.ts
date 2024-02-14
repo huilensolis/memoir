@@ -1,4 +1,4 @@
-import { ApiRoutingService } from "@/services/routing/api";
+import { ApiRoutingService } from "@/models/routing/api";
 import { ApiService } from "..";
 
 export class AuthService extends ApiService {

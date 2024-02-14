@@ -1,4 +1,7 @@
-import type { FetcherReturn } from "./fetcher.models";
+interface FetcherReturn<T> {
+  data: T | null;
+  error: Error | null;
+}
 
 export class Fetcher {
   protected static fetcher() {
