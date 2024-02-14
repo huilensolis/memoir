@@ -17,7 +17,13 @@
 /build
 
 # https certificate
-.key
+root.crt
+root.key
+root.srl
+server.crt
+server.csr
+server.key
+
 # misc
 .DS_Store
 *.pem
