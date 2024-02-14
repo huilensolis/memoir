@@ -16,6 +16,8 @@
 # production
 /build
 
+# https certificate
+.key
 # misc
 .DS_Store
 *.pem
@@ -38,3 +40,5 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+certificates
