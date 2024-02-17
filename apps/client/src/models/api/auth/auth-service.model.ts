@@ -1,5 +1,6 @@
 import { ApiRoutingService } from "@/models/routing/api";
 import { ApiService } from "..";
+import { API_CONFIG } from "@/config/api/api.config";
 
 export class AuthService extends ApiService {
   constructor() {
@@ -89,7 +90,9 @@ export class AuthService extends ApiService {
     try {
       const { error } = await this.fetcher().get<{}>({
         url: ApiRoutingService.routing.auth.checkToken,
-        headers: cookies ? { Cookie: cookies } : {},
+        headers: cookies
+          ? { Cookie: `${API_CONFIG.cookieName}=${cookies}` }
+          : {},
       });
 
       if (error) {

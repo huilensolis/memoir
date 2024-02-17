@@ -3,6 +3,7 @@ import { ClientRoutingService } from "./models/routing/client";
 
 import { cookies } from "next/headers";
 import { AuthService } from "./models/api/auth";
+import { API_CONFIG } from "./config/api/api.config";
 
 export default async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -11,7 +12,7 @@ export default async function middleware(request: NextRequest) {
 
   const cookieStore = cookies();
 
-  const access_token = cookieStore.get("access_token");
+  const access_token = cookieStore.get(API_CONFIG.cookieName);
 
   if (!access_token || !access_token.value || !access_token.name) {
     console.log(
@@ -23,7 +24,7 @@ export default async function middleware(request: NextRequest) {
 
   try {
     const { isTokenValid } = await AuthService.checkToken({
-      cookies: `access_token=${access_token.value}`,
+      cookies: access_token.value,
     });
 
     if (!isTokenValid) throw new Error("token invalid");
