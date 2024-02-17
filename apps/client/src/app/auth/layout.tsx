@@ -2,6 +2,7 @@
 
 import { WithUserNotAuthenticated } from "@/components/wrappers/protect-from-authenticated-users";
 import { ClientRoutingService } from "@/models/routing/client";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -14,9 +15,21 @@ export default async function AuthLayout({
     <WithUserNotAuthenticated redirectUrl={ClientRoutingService.app.home}>
       <div className="grid xl:grid-cols-2 grid-cols-1 grid-rows-1 w-full max-w-[110rem] h-screen p-5">
         <section className="flex flex-col items-center justify-center h-full w-full">
-          <nav className="w-full flex justify-end items-center gap-2 px-5 py-2">
-            <Link href="/auth/sign-up">SignUp</Link>
-            <Link href="/auth/sign-in">Sign In</Link>
+          <nav className="w-full flex justify-end items-center gap-1 px-5 py-2">
+            <Link
+              href={ClientRoutingService.auth.signUp}
+              className="flex items-center p-1 px-3 hover:bg-neutral-200 transition-all duration-75 rounded-sm font-semibold"
+            >
+              Sign Up
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href={ClientRoutingService.auth.signIn}
+              className="flex items-center p-1 px-3 hover:bg-neutral-200 transition-all duration-75 rounded-sm font-semibold"
+            >
+              Sign In
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
           </nav>
           {children}
         </section>
