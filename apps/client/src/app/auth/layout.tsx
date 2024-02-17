@@ -2,7 +2,6 @@
 
 import { WithUserNotAuthenticated } from "@/components/wrappers/protect-from-authenticated-users";
 import { ClientRoutingService } from "@/models/routing/client";
-import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -21,16 +20,26 @@ export default async function AuthLayout({
           </nav>
           {children}
         </section>
-        <section className="w-full h-full md:flex hidden">
-          <Image
-            src={
-              "/Leonardo_Diffusion_XL_Design_an_AI_image_generator_prompt_for_2.jpg"
-            }
-            width={1000}
-            height={1000}
-            alt="journaling book"
-            className="w-full h-full object-cover object-center rounded-md"
-          />
+        <section className="w-full h-full md:flex hidden relative">
+          <ul className="grid grid-cols-3 grid-rows-6 w-full">
+            <li className="col-span-2 w-full h-full border-b border-r border-neutral-300"></li>
+            <li className="w-full h-full"></li>
+            <li className="w-full h-full border-r border-neutral-300"></li>
+            <li className="col-span-2 w-full h-full"></li>
+            <li className="col-span-3 w-full h-full border-t border-neutral-300"></li>
+            <li className="col-span-2 w-full h-ful"></li>
+            <li className="w-full h-full"></li>
+            <li className="w-full h-full border-r border-neutral-300"></li>
+            <li className="col-span-2 w-full h-full border-t border-neutral-300"></li>
+            <li className="col-span-2 w-full h-full border-t border-r border-neutral-300"></li>
+            <li className="w-full h-full"></li>
+          </ul>
+          <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center">
+            <h2 className="text-balance text-center text-neutral-700 font-bold text-5xl">
+              Begin your journey of self-discovery – one entry a day. Unlock the
+              power of reflection and growth with Memoir
+            </h2>
+          </div>
         </section>
       </div>
     </WithUserNotAuthenticated>
