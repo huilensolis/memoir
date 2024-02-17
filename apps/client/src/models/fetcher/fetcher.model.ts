@@ -8,7 +8,7 @@ export class Fetcher {
     return {
       async post<T>({
         url,
-        body,
+        body = {},
       }: {
         url: string;
         body: Object;
@@ -21,14 +21,26 @@ export class Fetcher {
             },
             body: JSON.stringify(body),
           });
+
+          if (!res.ok) {
+            throw new Error("error on post request");
+          }
+
           const bodyData: T = await res.json();
 
           return { data: bodyData, error: null };
         } catch (error) {
+          console.log("on catch");
           return { data: null, error: error as Error };
         }
       },
-      async put({ url, body }: { url: string; body: Object }): Promise<void> {
+      async put({
+        url,
+        body,
+      }: {
+        url: string;
+        body: Object;
+      }): Promise<{ error: Error | null }> {
         try {
           const res = await fetch(url, {
             method: "PUT",
@@ -39,10 +51,12 @@ export class Fetcher {
           });
 
           if (!res.ok) {
-            return Promise.reject();
-          } else throw new Error("error on put request");
+            throw new Error("error on post request");
+          }
+
+          return { error: null };
         } catch (error) {
-          return Promise.reject();
+          return { error: error as Error };
         }
       },
       async get<T>({
@@ -62,7 +76,7 @@ export class Fetcher {
           });
 
           if (!res.ok) {
-            return Promise.reject();
+            throw new Error("error on post request");
           }
 
           const body: T = await res.json();
@@ -72,7 +86,7 @@ export class Fetcher {
           return { data: null, error: error as Error };
         }
       },
-      async delete({ url }: { url: string }): Promise<void> {
+      async delete({ url }: { url: string }): Promise<{ error: Error | null }> {
         try {
           const res = await fetch(url, {
             method: "DELETE",
@@ -82,12 +96,12 @@ export class Fetcher {
           });
 
           if (!res.ok) {
-            return Promise.reject();
+            throw new Error("error on post request");
           }
 
-          return Promise.resolve();
+          return { error: null };
         } catch (error) {
-          return Promise.reject();
+          return { error: error as Error };
         }
       },
     };

@@ -12,9 +12,11 @@ import { useSession } from "@/hooks/use-session";
 
 export function SignInForm() {
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const {
     handleSubmit,
-    formState: { errors, isValid, isSubmitting, dirtyFields, isValidating },
+    formState: { errors, isValid, isDirty, dirtyFields, isValidating },
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
@@ -25,16 +27,22 @@ export function SignInForm() {
   async function handleSignIn(data: signUpFormModels) {
     if (!data.password || !data.email) return;
 
-    const { email, password } = data;
+    try {
+      setLoading(true);
 
-    const { error } = await signIn({ email, password });
+      const { email, password } = data;
+      const { error } = await signIn({ email, password });
 
-    if (error) {
+      if (error) {
+        throw new Error("error signing in");
+      }
+
+      return router.push(ClientRoutingService.app.home);
+    } catch (error) {
       setError(true);
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    router.push(ClientRoutingService.app.home);
   }
 
   return (
@@ -81,7 +89,8 @@ export function SignInForm() {
       <div className="mt-4">
         <PrimaryButton
           type="submit"
-          disabled={!isValid || isValidating || isSubmitting}
+          disabled={!isValid || isValidating || loading || !isDirty}
+          isLoading={loading}
         >
           Sign In
         </PrimaryButton>

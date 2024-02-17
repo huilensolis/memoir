@@ -12,10 +12,11 @@ import { useSession } from "@/hooks/use-session";
 
 export function SignUpForm() {
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     handleSubmit,
-    formState: { errors, isValid, isSubmitting, dirtyFields, isValidating },
+    formState: { errors, isValid, dirtyFields, isDirty, isValidating },
     register,
   } = useForm<signUpFormModels>({ mode: "onChange" });
 
@@ -26,16 +27,23 @@ export function SignUpForm() {
   async function handleSignUp(data: signUpFormModels) {
     if (!data.name || !data.password || !data.email) return;
 
-    const { name, email, password } = data;
+    try {
+      setLoading(true);
 
-    const { error } = await signUp({ name, email, password });
+      const { name, email, password } = data;
+      const { error } = await signUp({ name, email, password });
 
-    if (error) {
+      if (error) {
+        console.log({ error });
+        throw new Error("error signing in");
+      }
+
+      return router.push(ClientRoutingService.app.home);
+    } catch (error) {
       setError(true);
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    router.push(ClientRoutingService.app.home);
   }
 
   return (
@@ -97,7 +105,8 @@ export function SignUpForm() {
       <div className="mt-4">
         <PrimaryButton
           type="submit"
-          disabled={!isValid || isValidating || isSubmitting}
+          disabled={!isValid || isValidating || loading || !isDirty}
+          isLoading={loading}
         >
           Sign Up
         </PrimaryButton>
