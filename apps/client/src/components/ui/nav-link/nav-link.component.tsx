@@ -14,7 +14,6 @@ export function NavLink({ icon, title, href, count }: TNavLink) {
     if (typeof location !== "undefined") {
       if (location.pathname === href) setIsActive(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [href, pathName]);
 
   const Icon = icon;
