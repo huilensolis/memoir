@@ -3,14 +3,19 @@
 import Link from "next/link";
 import { TNavLink } from "./nav-link.models";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function NavLink({ icon, title, href, count }: TNavLink) {
   const [isActive, setIsActive] = useState(false);
 
+  const pathName = usePathname();
+
   useEffect(() => {
-    if (location.pathname === href) setIsActive(true);
+    if (typeof location !== "undefined") {
+      if (location.pathname === href) setIsActive(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [href, location]);
+  }, [href, pathName]);
 
   const Icon = icon;
   return (
