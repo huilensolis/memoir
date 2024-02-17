@@ -14,22 +14,24 @@ export class AuthService extends ApiService {
     email: string;
     password: string;
     name: string;
-  }): Promise<{ token: string | null; error: Error | null }> {
+  }): Promise<{ error: Error | null }> {
+    console.log("heree");
     try {
-      const { data, error } = await this.fetcher().post<{ token: string }>({
+      const { error } = await this.fetcher().post<{}>({
         url: ApiRoutingService.routing.auth.signUp,
         body: { email, password, name },
       });
 
-      if (!data || !data.token || error) {
+      if (error) {
+        console.log("here is been an error");
         throw new Error(
           "there is been an error on the sign up request response",
         );
       }
 
-      return { error: null, token: data.token };
+      return { error: null };
     } catch (error) {
-      return { token: null, error: error as Error };
+      return { error: error as Error };
     }
   }
   public static async signIn({
@@ -38,22 +40,22 @@ export class AuthService extends ApiService {
   }: {
     email: string;
     password: string;
-  }): Promise<{ token: string | null; error: Error | null }> {
+  }): Promise<{ error: Error | null }> {
     try {
-      const { data, error } = await this.fetcher().post<{ token: string }>({
+      const { error } = await this.fetcher().post<{}>({
         url: ApiRoutingService.routing.auth.signIn,
         body: { email, password },
       });
 
-      if (!data || !data.token || error) {
+      if (error) {
         throw new Error(
           "there is been an error on the sign up request response",
         );
       }
 
-      return { error: null, token: data.token };
+      return { error: null };
     } catch (error) {
-      return { token: null, error: error as Error };
+      return { error: error as Error };
     }
   }
 
@@ -71,6 +73,12 @@ export class AuthService extends ApiService {
     }
   }
 
+  /*
+   *@param cookies: string
+   * sets the cookies explicitly on the request.
+   * this is not necesary on the client side,
+   * as the cookeis are sent by the browser
+   */
   public static async checkToken({
     cookies = "",
   }: {

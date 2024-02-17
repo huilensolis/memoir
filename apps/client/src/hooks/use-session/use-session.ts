@@ -1,19 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCookies } from "../use-cookies";
 import { AuthService } from "@/models/api/auth";
 
 export function useSession() {
   const [session, setSession] = useState<string | null>(null);
-
-  const { cookie, updateCookie, deleteCookie } = useCookies({
-    name: "access_token",
-  });
+  const [useEffectTrigger, triggerUseEffect] = useState<boolean>(false);
 
   useEffect(() => {
-    setSession(cookie);
-  }, [cookie]);
+    // get user data and set session
+  }, [useEffectTrigger]);
 
   async function signUp({
     email,
@@ -23,23 +19,21 @@ export function useSession() {
     email: string;
     name: string;
     password: string;
-  }): Promise<{ error: string | null }> {
+  }): Promise<{ error: Error | null }> {
     try {
-      const { token, error } = await AuthService.signUp({
+      const { error } = await AuthService.signUp({
         email,
         name,
         password,
       });
-
-      if (error || !token) {
+      console.log({ error });
+      if (error) {
         throw new Error("error signing up");
       }
 
-      updateCookie({ value: token });
-
       return { error: null };
     } catch (error) {
-      return { error: error as string };
+      return { error: error as Error };
     }
   }
 
@@ -51,16 +45,14 @@ export function useSession() {
     password: string;
   }): Promise<{ error: string | null }> {
     try {
-      const { token, error } = await AuthService.signIn({
+      const { error } = await AuthService.signIn({
         email,
         password,
       });
 
-      if (error || !token) {
+      if (error) {
         throw new Error("there is been an error trying to sign in");
       }
-
-      updateCookie({ value: token });
 
       return { error: null };
     } catch (error) {
@@ -68,8 +60,8 @@ export function useSession() {
     }
   }
 
-  function signOut() {
-    deleteCookie();
+  async function signOut() {
+    await AuthService.signOut();
   }
 
   return { session, signUp, signIn, signOut };

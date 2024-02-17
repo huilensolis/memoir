@@ -31,9 +31,8 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
 
           set.status = 201;
           setCookie("access_token", token);
-          return;
+          return {};
         } catch (error) {
-          console.log(error);
           set.status = "Internal Server Error";
           return { error: "something went wrong" };
         }
@@ -62,6 +61,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
 
           set.status = "Accepted";
           setCookie("access_token", token);
+          return {};
         } catch (error) {
           set.status = "Internal Server Error";
           return {
