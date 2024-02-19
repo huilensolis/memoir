@@ -2,6 +2,7 @@ import { JwtPlugin } from "@/shared/plugins";
 import Elysia, { t } from "elysia";
 import { UserProvider } from "../../provider";
 import { validateEmail } from "../../utils/validate-email";
+import { UserAdaper } from "../../adapters";
 
 export const AuthRouter = new Elysia().group("/auth", (app) =>
   app
@@ -27,7 +28,11 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
             throw new Error();
           }
 
-          const token = await jwt.sign({ user: data.user });
+          const userAdapter = new UserAdaper({ user: data.user });
+
+          const { user } = userAdapter.toSafeUser();
+
+          const token = await jwt.sign({ user: user });
 
           set.status = 201;
           setCookie("access_token", token);
@@ -57,7 +62,11 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
 
           if (error || !data || !data.user) throw new Error("bad credentials");
 
-          const token = await jwt.sign({ user: data.user });
+          const userAdapter = new UserAdaper({ user: data.user });
+
+          const { user } = userAdapter.toSafeUser();
+
+          const token = await jwt.sign({ user });
 
           set.status = "Accepted";
           setCookie("access_token", token);

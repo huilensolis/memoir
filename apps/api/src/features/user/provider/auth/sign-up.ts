@@ -1,13 +1,13 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../../../config/database";
 import { Users } from "../../schema";
-import { SafeUser, NewUser } from "../../models/user.model";
+import { NewUser, User } from "../../models/user.model";
 
 export async function signUp({
   user,
 }: {
   user: NewUser;
-}): Promise<{ data: { user: SafeUser } | null; error: Error | null }> {
+}): Promise<{ data: { user: User } | null; error: Error | null }> {
   const { email, name, password } = user;
 
   try {
@@ -20,14 +20,10 @@ export async function signUp({
       cost: 10,
     });
 
-    const result: SafeUser[] = (await db
+    const result = await db
       .insert(Users)
       .values({ name, email, password: hashedPassword })
-      .returning({
-        id: Users.id,
-        name: Users.name,
-        email: Users.email,
-      })) as any;
+      .returning();
 
     return Promise.resolve({ data: { user: result[0] }, error: null });
   } catch (error) {

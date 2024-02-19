@@ -2,6 +2,7 @@ import Elysia from "elysia";
 import { JwtPlugin } from "../../plugins";
 import { UserProvider } from "@/features/user/provider";
 import { SafeUser } from "@/features/user/models/user.model";
+import { UserAdaper } from "@/features/user/adapters";
 
 export const isAuthenticated = new Elysia()
   .use(JwtPlugin)
@@ -34,6 +35,10 @@ export const isAuthenticated = new Elysia()
 
       if (user.email !== userFromDb.email)
         throw new Error("user email doesnt match");
+
+      const userAdapter = new UserAdaper({ user });
+
+      const safeUser = userFromDb;
 
       return { user };
     } catch (error) {
