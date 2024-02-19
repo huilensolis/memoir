@@ -23,6 +23,7 @@ export async function createUser(): Promise<{
 
     return { user: correctUser, cookie };
   } catch (error) {
+    console.log({ error });
     return { user: null, cookie: null };
   }
 }

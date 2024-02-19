@@ -1,8 +1,7 @@
-import { JwtPlugin } from "@/shared/plugins";
 import Elysia, { t } from "elysia";
-import { UserProvider } from "../../provider";
-import { validateEmail } from "../../utils/validate-email";
+import { JwtPlugin } from "@/shared/plugins";
 import { UserAdaper } from "../../adapters";
+import { AuthProvider } from "../../provider/auth";
 
 export const AuthRouter = new Elysia().group("/auth", (app) =>
   app
@@ -13,14 +12,14 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
         try {
           const { name, email, password } = body;
 
-          const { isEmailValid } = await validateEmail(email);
+          const { isEmailValid } = await AuthProvider.validateEmail(email);
 
           if (!isEmailValid) {
             set.status = "Bad Request";
             return { error: "invalid email" };
           }
 
-          const { data, error } = await UserProvider.auth.signUp({
+          const { data, error } = await AuthProvider.signUp({
             user: { name, email, password },
           });
 
@@ -39,6 +38,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           return {};
         } catch (error) {
           set.status = "Unauthorized";
+          console.log({ error });
           return { error: "something went wrong" };
         }
       },
@@ -56,7 +56,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
         const { email, password } = body;
 
         try {
-          const { error, data } = await UserProvider.auth.signIn({
+          const { error, data } = await AuthProvider.signIn({
             credentials: { email, password },
           });
 
