@@ -33,7 +33,6 @@ export async function signIn({
 
     return Promise.resolve({ data: { user }, error: null });
   } catch (error) {
-    console.log(error);
     return Promise.reject({ data: null, error: Error });
   }
 }

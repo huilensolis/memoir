@@ -5,7 +5,7 @@ import { NewUser } from "@/features/user/models";
 
 export async function createUser(): Promise<{
   user: NewUser | null;
-  token: string | null;
+  cookie: string | null;
 }> {
   try {
     const res = await app.handle(
@@ -16,13 +16,13 @@ export async function createUser(): Promise<{
       }),
     );
 
-    const { token } = await res.json();
+    const cookie = res.headers.getSetCookie()[0];
 
-    if (!token)
+    if (!cookie)
       throw new Error("no token found in response trying to create a user");
 
-    return { user: correctUser, token };
+    return { user: correctUser, cookie };
   } catch (error) {
-    return { user: null, token: null };
+    return { user: null, cookie: null };
   }
 }

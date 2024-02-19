@@ -38,7 +38,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           setCookie("access_token", token);
           return {};
         } catch (error) {
-          set.status = "Internal Server Error";
+          set.status = "Unauthorized";
           return { error: "something went wrong" };
         }
       },
@@ -72,7 +72,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
           setCookie("access_token", token);
           return {};
         } catch (error) {
-          set.status = "Internal Server Error";
+          set.status = "Unauthorized";
           return {
             error:
               "it looks like youre using bad credentials, or the account doesnt exist, or the server had an error",
