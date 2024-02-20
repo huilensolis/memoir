@@ -1,5 +1,4 @@
 import Elysia, { t } from "elysia";
-import { UserProvider } from "../../provider";
 import { isAuthenticated } from "@/shared/middlewares/auth";
 
 export const UserRouter = new Elysia().group("/user", (app) =>

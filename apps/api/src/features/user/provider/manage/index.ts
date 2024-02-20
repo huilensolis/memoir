@@ -2,12 +2,12 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../../config/database";
 import { Users } from "../../schema";
 import { PromiseReturnHanler } from "@/shared/models/promises";
-import { User } from "../../models";
+import { NewUser, User } from "../../models";
 
 export class UserProvider {
   constructor() {}
 
-  static async get({
+  static async getById({
     userId,
   }: {
     userId: string;
@@ -24,6 +24,37 @@ export class UserProvider {
       return { data: { user }, error: null };
     } catch (error) {
       return { error: error, data: null };
+    }
+  }
+
+  async update({
+    userId,
+    user,
+  }: {
+    userId: string;
+    user: NewUser;
+  }): PromiseReturnHanler<null, Error> {
+    try {
+      await db.update(Users).set(user).where(eq(Users.id, userId));
+      return { error: null, data: null };
+    } catch (error) {
+      return { error: error as Error, data: null };
+    }
+  }
+
+  async delete({
+    userId,
+  }: {
+    userId: string;
+  }): PromiseReturnHanler<null, Error> {
+    try {
+      await db
+        .update(Users)
+        .set({ end_date: JSON.stringify(new Date()) })
+        .where(eq(Users.id, userId));
+      return { error: null, data: null };
+    } catch (error) {
+      return { error: error as Error, data: null };
     }
   }
 }

@@ -1,6 +1,6 @@
 import Elysia, { t } from "elysia";
 import { JwtPlugin } from "@/shared/plugins";
-import { UserAdaper } from "../../adapters";
+import { UserAdapter } from "../../adapters";
 import { AuthProvider } from "../../provider/auth";
 
 export const AuthRouter = new Elysia().group("/auth", (app) =>
@@ -27,9 +27,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
             throw new Error();
           }
 
-          const userAdapter = new UserAdaper({ user: data.user });
-
-          const { user } = userAdapter.toSafeUser();
+          const { user } = UserAdapter.toSafeUser({ user: data.user });
 
           const token = await jwt.sign({ user: user });
 
@@ -62,9 +60,7 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
 
           if (error || !data || !data.user) throw new Error("bad credentials");
 
-          const userAdapter = new UserAdaper({ user: data.user });
-
-          const { user } = userAdapter.toSafeUser();
+          const { user } = UserAdapter.toSafeUser({ user: data.user });
 
           const token = await jwt.sign({ user });
 
