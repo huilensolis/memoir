@@ -3,30 +3,48 @@ import { createUser } from "../utils/user";
 import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
-import { endpointPath } from "./index.test";
+import { endpointPath } from "./index";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
 
 describe("token validation endpoints", () => {
   it("should accept token", async () => {
-    const { user, token } = await createUser();
+    const { cookie } = await createUser();
 
-    if (!user || !token) throw new Error("error creating user");
-
-    const cookie = `access_token=${token}`;
+    if (!cookie) throw new Error("error creating user");
 
     const res = await app.handle(
       new Request(`${endpointPath}/token`, {
-        method: "POST",
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
           cookie: cookie,
         },
       }),
     );
 
+    const body = await res.json();
+
     expect(res.ok).toBeTrue();
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(202);
+    expect(body).toBeEmptyObject();
+  });
+  it("should reject token if invalid", async () => {
+    const res = await app.handle(
+      new Request(`${endpointPath}/token`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          cookie: `access_token=invalidToken`,
+        },
+      }),
+    );
+
+    const body = await res.json();
+
+    expect(res.ok).toBeFalse;
+    expect(res.status).toBe(401);
+    expect(body).toContainKey("error");
   });
 });

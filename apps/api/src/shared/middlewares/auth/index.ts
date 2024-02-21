@@ -1,7 +1,8 @@
 import Elysia from "elysia";
 import { JwtPlugin } from "../../plugins";
-import { UserProvider } from "@/features/user/provider";
 import { SafeUser } from "@/features/user/models/user.model";
+import { UserAdapter } from "@/features/user/adapters";
+import { UserProvider } from "@/features/user/provider/user";
 
 export const isAuthenticated = new Elysia()
   .use(JwtPlugin)
@@ -24,7 +25,7 @@ export const isAuthenticated = new Elysia()
 
       if (!user) throw new Error("not user found");
 
-      const { data, error } = await UserProvider.manage.get({
+      const { data, error } = await UserProvider.getById({
         userId: user.id,
       });
 
@@ -35,7 +36,9 @@ export const isAuthenticated = new Elysia()
       if (user.email !== userFromDb.email)
         throw new Error("user email doesnt match");
 
-      return { user };
+      const { user: safeUser } = UserAdapter.toSafeUser({ user: userFromDb });
+
+      return { user: safeUser };
     } catch (error) {
       set.status = "Unauthorized";
       set.headers = { "Content-Type": "application/json; utf8;" };

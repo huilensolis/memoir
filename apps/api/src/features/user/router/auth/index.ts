@@ -1,7 +1,7 @@
-import { JwtPlugin } from "@/shared/plugins";
 import Elysia, { t } from "elysia";
-import { UserProvider } from "../../provider";
-import { validateEmail } from "../../utils/validate-email";
+import { JwtPlugin } from "@/shared/plugins";
+import { UserAdapter } from "../../adapters";
+import { AuthProvider } from "../../provider/auth";
 
 export const AuthRouter = new Elysia().group("/auth", (app) =>
   app
@@ -12,14 +12,14 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
         try {
           const { name, email, password } = body;
 
-          const { isEmailValid } = await validateEmail(email);
+          const { isEmailValid } = await AuthProvider.validateEmail(email);
 
           if (!isEmailValid) {
             set.status = "Bad Request";
             return { error: "invalid email" };
           }
 
-          const { data, error } = await UserProvider.auth.signUp({
+          const { data, error } = await AuthProvider.signUp({
             user: { name, email, password },
           });
 
@@ -27,13 +27,16 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
             throw new Error();
           }
 
-          const token = await jwt.sign({ user: data.user });
+          const { user } = UserAdapter.toSafeUser({ user: data.user });
+
+          const token = await jwt.sign({ user: user });
 
           set.status = 201;
           setCookie("access_token", token);
           return {};
         } catch (error) {
-          set.status = "Internal Server Error";
+          set.status = "Unauthorized";
+          console.log({ error });
           return { error: "something went wrong" };
         }
       },
@@ -51,19 +54,21 @@ export const AuthRouter = new Elysia().group("/auth", (app) =>
         const { email, password } = body;
 
         try {
-          const { error, data } = await UserProvider.auth.signIn({
+          const { error, data } = await AuthProvider.signIn({
             credentials: { email, password },
           });
 
           if (error || !data || !data.user) throw new Error("bad credentials");
 
-          const token = await jwt.sign({ user: data.user });
+          const { user } = UserAdapter.toSafeUser({ user: data.user });
+
+          const token = await jwt.sign({ user });
 
           set.status = "Accepted";
           setCookie("access_token", token);
           return {};
         } catch (error) {
-          set.status = "Internal Server Error";
+          set.status = "Unauthorized";
           return {
             error:
               "it looks like youre using bad credentials, or the account doesnt exist, or the server had an error",

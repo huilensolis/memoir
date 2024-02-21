@@ -3,21 +3,21 @@ import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { createUser } from "../utils/user";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
-import { endpointPath } from "./index.test";
+import { endpointPath } from "./index";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
 
-describe("sign in tests", () => {
-  it("should log in correctly on /auth/sign-in", async () => {
-    const { token, user } = await createUser();
+describe("sign in tests on /auth/sign-in", () => {
+  it("should log in correctly", async () => {
+    const { user } = await createUser();
 
-    if (!token || !user) throw new Error("user coul not be created");
+    if (!user) throw new Error("user could not be created");
 
     const res = await app.handle(
       new Request(`${endpointPath}/sign-in`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify({
           email: user.email,
           password: user.password,
@@ -25,13 +25,46 @@ describe("sign in tests", () => {
       }),
     );
 
-    const body: { token: string } = await res.json();
+    const body = await res.json();
 
-    expect(res.ok).toBe(true);
-    expect(res.status).toBe(200);
+    const setCookie = res.headers.getSetCookie();
+
+    const cookie = setCookie[0];
+
+    expect(res.ok).toBeTrue();
+    expect(res.status).toBe(202);
 
     expect(body).toBeObject();
-    expect(body).toContainKey("token");
-    expect(body.token).toBeString();
+    expect(body).toBeEmptyObject();
+    expect(cookie).toBeString();
+    expect(cookie).toStartWith("access_token=");
+  });
+
+  it("should reject log in if credentials are wrong", async () => {
+    const { cookie, user } = await createUser();
+
+    if (!cookie || !user) throw new Error("user could not be created");
+
+    const res = await app.handle(
+      new Request(`${endpointPath}/sign-in`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", cookies: cookie },
+        body: JSON.stringify({
+          email: "some wrong email",
+          password: "some worng password",
+        }),
+      }),
+    );
+
+    const body = await res.json();
+
+    const setCookie = res.headers.getSetCookie();
+
+    const cookieOnHeaders = setCookie[0];
+
+    expect(res.ok).toBeFalse();
+    expect(res.status).toBe(401);
+    expect(body).toContainKey("error");
+    expect(cookieOnHeaders).toBeUndefined();
   });
 });

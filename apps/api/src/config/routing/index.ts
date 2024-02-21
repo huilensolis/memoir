@@ -6,14 +6,20 @@ const Routes = new Elysia();
 Routes.onAfterHandle(({ set }) => {
   set.headers["Content-Type"] = "application/json; charset=utf8";
 });
-Routes.onError(({ code, error, path }) => {
-  console.log({ path });
+Routes.onError(({ code, error, path, set }) => {
+  console.log({ path, error, code });
 
-  if (code === "NOT_FOUND") return { error: "Route not found :(" };
+  if (code === "NOT_FOUND") {
+    set.status = "Not Found";
+    return { error: "Route not found :(" };
+  }
 
-  if (code == "VALIDATION")
+  if (code == "VALIDATION") {
+    set.status = "Bad Request";
     return new Response(JSON.stringify({ error: error.validator }));
+  }
 
+  set.status = "Internal Server Error";
   return new Response(
     JSON.stringify({
       error: error.message,
