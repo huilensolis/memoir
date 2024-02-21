@@ -2,7 +2,8 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../../config/database";
 import { Users } from "../../schema";
 import { PromiseReturnHanler } from "@/shared/models/promises";
-import { NewUser, User } from "../../models";
+import { User } from "../../models";
+import { updateUser } from "../../models/user.model";
 
 export class UserProvider {
   constructor() {}
@@ -27,22 +28,45 @@ export class UserProvider {
     }
   }
 
-  async update({
+  static async getByEmail({
+    userEmail,
+  }: {
+    userEmail: string;
+  }): PromiseReturnHanler<{ user: User }, Error | unknown> {
+    try {
+      const result = await db
+        .select()
+        .from(Users)
+        .where(eq(Users.email, userEmail));
+
+      if (!result || result.length === 0) throw new Error("User not found");
+
+      const user = result[0];
+
+      if (!user) throw new Error("User not found");
+
+      return { data: { user }, error: null };
+    } catch (error) {
+      return { error: error, data: null };
+    }
+  }
+
+  static async update({
     userId,
     user,
   }: {
     userId: string;
-    user: NewUser;
-  }): PromiseReturnHanler<null, Error> {
+    user: updateUser;
+  }): Promise<{ error: Error | null }> {
     try {
       await db.update(Users).set(user).where(eq(Users.id, userId));
-      return { error: null, data: null };
+      return { error: null };
     } catch (error) {
-      return { error: error as Error, data: null };
+      return { error: error as Error };
     }
   }
 
-  async delete({
+  static async delete({
     userId,
   }: {
     userId: string;
