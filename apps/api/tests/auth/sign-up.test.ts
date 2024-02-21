@@ -1,8 +1,9 @@
 import { app } from "@/app";
-import { correctUser, endpointPath } from "./index.test";
+import { endpointPath } from "./index";
 import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
+import { correctUser } from "../utils/user";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
@@ -12,12 +13,12 @@ describe("sign up tests", () => {
     const res = await app.handle(
       new Request(`${endpointPath}/sign-up`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify({ ...correctUser }),
       }),
     );
 
-    const body: { token: string } = await res.json();
+    const body = await res.json();
 
     const setCookie = res.headers.getSetCookie();
     const cookie = setCookie[0];

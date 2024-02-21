@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../../config/database";
 import { Users } from "../../schema";
 import { PromiseReturnHanler } from "@/shared/models/promises";
-import { User } from "../../models";
+import type { User } from "../../models";
 import { updateUser } from "../../models/user.model";
 
 export class UserProvider {
@@ -59,7 +59,13 @@ export class UserProvider {
     user: updateUser;
   }): Promise<{ error: Error | null }> {
     try {
-      await db.update(Users).set(user).where(eq(Users.id, userId));
+      await db
+        .update(Users)
+        .set({
+          ...user,
+        })
+        .where(eq(Users.id, userId));
+
       return { error: null };
     } catch (error) {
       return { error: error as Error };

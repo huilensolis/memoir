@@ -3,8 +3,7 @@ import { createUser } from "../utils/user";
 import { describe, it, expect, beforeEach, afterAll } from "bun:test";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
-import { endpointPath } from "./index.test";
-import jwt from "@elysiajs/jwt";
+import { endpointPath } from "./index";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
@@ -19,7 +18,7 @@ describe("token validation endpoints", () => {
       new Request(`${endpointPath}/token`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
           cookie: cookie,
         },
       }),

@@ -2,7 +2,7 @@ import Elysia from "elysia";
 import { JwtPlugin } from "../../plugins";
 import { SafeUser } from "@/features/user/models/user.model";
 import { UserAdapter } from "@/features/user/adapters";
-import { UserProvider } from "@/features/user/provider/manage";
+import { UserProvider } from "@/features/user/provider/user";
 
 export const isAuthenticated = new Elysia()
   .use(JwtPlugin)
