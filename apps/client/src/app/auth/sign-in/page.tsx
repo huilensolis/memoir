@@ -17,7 +17,7 @@ export default function SignInPage() {
       </nav>
       <article className="w-full max-w-md h-full flex flex-col gap-6 items-center justify-center">
         <h1 className="text-4xl w-full font-medium text-neutral-700 text-balance">
-          Log into an existing account at Memoir
+          Log in to an existing account at Memoir
         </h1>
         <section className="w-full">
           <SignInForm />
