@@ -9,6 +9,14 @@ Routes.onAfterHandle(({ set }) => {
 Routes.onError(({ code, error, path, set }) => {
   console.log({ path, error, code });
 
+  if (code === "UNKNOWN") {
+    set.status = "Unauthorized";
+    return {
+      error:
+        "there is been an error, you may be unauthorized, or there may be another error",
+    };
+  }
+
   if (code === "NOT_FOUND") {
     set.status = "Not Found";
     return { error: "Route not found :(" };
