@@ -63,6 +63,13 @@ export class AuthProvider {
       );
       if (!doesPasswordMatch) throw new Error("password does not match");
 
+      if (user.end_date) {
+        await db
+          .update(Users)
+          .set({ end_date: null })
+          .where(eq(Users.id, user.id));
+      }
+
       return Promise.resolve({ data: { user }, error: null });
     } catch (error) {
       return Promise.reject({ data: null, error: Error });
