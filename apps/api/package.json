@@ -27,6 +27,7 @@
   "dependencies": {
     "@elysiajs/cookie": "^0.8.0",
     "@elysiajs/cors": "^0.8.0",
+    "@elysiajs/cron": "^0.8.0",
     "@elysiajs/jwt": "^0.8.0",
     "@elysiajs/swagger": "^0.8.3",
     "drizzle-orm": "^0.29.3",
