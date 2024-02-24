@@ -23,12 +23,6 @@ export const UserRouter = new Elysia().group("/user", (app) =>
 
           const { user: unsafeUser } = data;
 
-          const { user: activeUser } = UserAdapter.toOnlyActive({
-            user: unsafeUser,
-          });
-
-          if (!activeUser) throw new Error("this user account is inactive");
-
           const { user: safeUser } = UserAdapter.toSafeUser({
             user: unsafeUser,
           });
