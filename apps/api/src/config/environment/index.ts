@@ -1,12 +1,14 @@
-export class Environment {
-  public static port = process.env.PORT || 3000;
-  public static jwtSecret = process.env.JWT_SECRET || "secret";
-  public static apiUrl = `http://localhost:${this.port}`;
+import { cleanEnv, port, str, url } from "envalid";
 
-  public static databaseCredentials = {
-    user: process.env.POSTGRES_USER,
-    database: process.env.POSTGRES_DB,
-    password: process.env.POSTGRES_PASSWORD,
-  };
-  constructor() {}
-}
+export const Environment = cleanEnv(process.env, {
+  PORT: port({ default: 3001 }),
+  JWT_SECRET: str(),
+  API_URL: url({
+    default: `http://localhost:${process.env.PORT}`,
+    desc: "the url of this api server",
+  }),
+  POSTGRES_USER: str(),
+  POSTGRES_DATABASE: str(),
+  POSTGRES_PASSWORD: str(),
+  NODE_ENV: str({ choices: ["development", "test", "production", "staging"] }),
+});

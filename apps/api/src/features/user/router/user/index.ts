@@ -57,7 +57,6 @@ export const UserRouter = new Elysia().group("/user", (app) =>
           if (error) throw new Error("error deleting user");
 
           set.status = "Created";
-          console.log("sending response");
           return {};
         } catch (error) {
           set.status = "Internal Server Error";

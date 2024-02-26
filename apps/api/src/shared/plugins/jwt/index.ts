@@ -7,7 +7,7 @@ export const JwtPlugin = new Elysia()
   .use(
     jwt({
       name: "jwt",
-      secret: Environment.jwtSecret,
+      secret: Environment.JWT_SECRET,
       schema: t.Object({
         user: t.Object({
           id: t.String(),
