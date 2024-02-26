@@ -33,6 +33,7 @@
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
     "email-validator": "^2.0.4",
+    "envalid": "^8.0.0",
     "pg": "^8.11.3"
   },
   "packageManager": "^bun@1.0.25"
