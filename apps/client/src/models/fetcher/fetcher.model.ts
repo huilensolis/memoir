@@ -11,7 +11,7 @@ export class Fetcher {
         body = {},
       }: {
         url: string;
-        body: Object;
+        body: unknown;
       }): Promise<FetcherReturn<T>> {
         try {
           const res = await fetch(url, {
@@ -39,7 +39,7 @@ export class Fetcher {
         body,
       }: {
         url: string;
-        body: Object;
+        body: unknown;
       }): Promise<{ error: Error | null }> {
         try {
           const res = await fetch(url, {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input/text/";
-import { signUpFormModels } from "../../sign-up.models";
+import { type signUpFormModels } from "../../sign-up.models";
 import { PrimaryButton } from "@/components/ui/buttons/primary";
 import { ClientRoutingService } from "@/models/routing/client";
 import { useSession } from "@/hooks/use-session";
@@ -38,7 +38,7 @@ export function SignUpForm() {
         throw new Error("error signing in");
       }
 
-      return router.push(ClientRoutingService.app.home);
+      router.push(ClientRoutingService.app.home);
     } catch (error) {
       setError(true);
     } finally {
@@ -56,7 +56,7 @@ export function SignUpForm() {
         id="name"
         placeholder="Name"
         error={errors.name?.message ?? null}
-        correct={!errors.name?.message && dirtyFields.name ? true : false}
+        correct={!(errors.name?.message && dirtyFields.name)}
         {...register("name", {
           required: { value: true, message: "name is required" },
           minLength: { value: 3, message: "name min characteres is 3" },
@@ -71,7 +71,7 @@ export function SignUpForm() {
         id="email"
         placeholder="Email"
         error={errors.email?.message ?? null}
-        correct={!errors.email?.message && dirtyFields.email ? true : false}
+        correct={!(errors.email?.message && dirtyFields.email)}
         {...register("email", {
           required: { value: true, message: "email is required" },
           minLength: { value: 5, message: "email min characteres is 5" },
@@ -90,9 +90,7 @@ export function SignUpForm() {
         id="password"
         placeholder="Password"
         error={errors.password?.message ?? null}
-        correct={
-          !errors.password?.message && dirtyFields.password ? true : false
-        }
+        correct={!(errors.password?.message && dirtyFields.password)}
         {...register("password", {
           required: { value: true, message: "password is required" },
           minLength: { value: 14, message: "password min characteres is 14" },

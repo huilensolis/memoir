@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { ClientRoutingService } from "./models/routing/client";
 
 import { cookies } from "next/headers";
@@ -12,9 +12,9 @@ export default async function middleware(request: NextRequest) {
 
   const cookieStore = cookies();
 
-  const access_token = cookieStore.get(API_CONFIG.cookieName);
+  const accessToken = cookieStore.get(API_CONFIG.cookieName);
 
-  if (!access_token || !access_token.value || !access_token.name) {
+  if (!accessToken?.value || !accessToken.name) {
     console.log(
       `no cookies found in middleware request. redirecting to ${url.pathname}`,
     );
@@ -24,12 +24,11 @@ export default async function middleware(request: NextRequest) {
 
   try {
     const { isTokenValid } = await AuthService.checkToken({
-      cookies: access_token.value,
+      cookies: accessToken.value,
     });
 
     if (!isTokenValid) throw new Error("token invalid");
   } catch (error) {
-    console.log(`token is invalid, redirecting to ${urlSignInPath}`);
     return NextResponse.redirect(urlSignInPath);
   }
 }

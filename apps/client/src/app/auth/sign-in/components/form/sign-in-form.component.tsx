@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 
 import { Input } from "@/components/ui/input/text/";
-import { signUpFormModels } from "../../sign-in.models";
+import { type signUpFormModels } from "../../sign-in.models";
 import { PrimaryButton } from "@/components/ui/buttons/primary";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -37,7 +37,7 @@ export function SignInForm() {
         throw new Error("error signing in");
       }
 
-      return router.push(ClientRoutingService.app.home);
+      router.push(ClientRoutingService.app.home);
     } catch (error) {
       setError(true);
     } finally {
@@ -55,7 +55,7 @@ export function SignInForm() {
         id="email"
         placeholder="Email"
         error={errors.email?.message ?? null}
-        correct={!errors.email?.message && dirtyFields.email ? true : false}
+        correct={!(errors.email?.message && dirtyFields.email)}
         {...register("email", {
           required: { value: true, message: "email is required" },
           minLength: { value: 5, message: "email min characteres is 5" },
@@ -74,9 +74,7 @@ export function SignInForm() {
         id="password"
         placeholder="Password"
         error={errors.password?.message ?? null}
-        correct={
-          !errors.password?.message && dirtyFields.password ? true : false
-        }
+        correct={!(errors.password?.message && dirtyFields.password)}
         {...register("password", {
           required: { value: true, message: "password is required" },
           minLength: { value: 14, message: "password min characteres is 14" },

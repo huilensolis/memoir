@@ -1,6 +1,6 @@
 "use client";
 
-import { InputHTMLAttributes, forwardRef } from "react";
+import { type InputHTMLAttributes, forwardRef } from "react";
 
 interface CustomInput extends InputHTMLAttributes<HTMLInputElement> {
   error: string | null;

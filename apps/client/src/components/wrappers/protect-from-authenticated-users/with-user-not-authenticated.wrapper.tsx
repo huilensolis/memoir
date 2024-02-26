@@ -15,7 +15,7 @@ export async function WithUserNotAuthenticated({
 
   const cookieToken = cookieStore.get(API_CONFIG.cookieName);
 
-  if (cookieToken && cookieToken.value && cookieToken.name) {
+  if (cookieToken?.value && cookieToken.name) {
     const { isTokenValid } = await AuthService.checkToken({
       cookies: cookieToken.value,
     });

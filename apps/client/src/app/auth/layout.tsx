@@ -2,7 +2,7 @@
 
 import { WithUserNotAuthenticated } from "@/components/wrappers/protect-from-authenticated-users";
 import { ClientRoutingService } from "@/models/routing/client";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 export default async function AuthLayout({
   children,

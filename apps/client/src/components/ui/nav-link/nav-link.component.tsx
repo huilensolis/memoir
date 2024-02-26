@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TNavLink } from "./nav-link.models";
+import { type TNavLink } from "./nav-link.models";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 

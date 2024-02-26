@@ -1,3 +1,19 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "standard-with-typescript", "prettier"],
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "no-multiple-empty-lines": "off",
+    "@typescript-eslint/promise-function-async": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/triple-slash-reference": "off",
+    "@typescript-eslint/indent": "off",
+    "eslint-multinine-ternary": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/consistent-type-definitions": "off"
+  }
 }
