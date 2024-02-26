@@ -2,13 +2,14 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
 import * as schema from "./schema";
+import { Environment } from "../environment";
 
 const pool = new Pool({
   host: "127.0.0.1",
   port: 5432,
-  user: "memoir_user",
-  password: "memoir_password",
-  database: "memoir_db",
+  user: Environment.databaseCredentials.user,
+  password: Environment.databaseCredentials.password,
+  database: Environment.databaseCredentials.database,
 });
 
 await pool.connect();
