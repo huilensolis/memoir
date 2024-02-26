@@ -1,0 +1,24 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "outputs": ["./dist/**"],
+      "cache": true,
+      "dependsOn": ["setup"]
+    },
+    "dev": {
+      "cache": true,
+      "dependsOn": ["setup"]
+    },
+    "setup": {
+      "cache": true
+    },
+    "clean-up": {
+      "cache": false
+    },
+    "test": {
+      "cache": false,
+      "dependsOn": ["setup"]
+    }
+  }
+}

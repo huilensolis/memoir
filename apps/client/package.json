@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest",
-    "setup-https": "bash ./scripts/set-https-certificate.bash"
+    "test": "vitest"
   },
   "dependencies": {
     "@elysiajs/eden": "^0.8.1",
