@@ -9,6 +9,9 @@
     "clean-up": "docker compose down -v ",
     "dev": "bun --watch ./src/bin/www.ts",
     "build": "bun build ./src/bin/www.ts --target bun --outdir ./dist",
+    "lint": "bunx @biomejs/biome lint .",
+    "format": "bunx @biomejs/biome format . --write",
+    "check": "bunx @biomejs/biome check --apply .",
     "start": "NODE_ENV=production bun ./dist/www.js",
     "generate-migration": "drizzle-kit generate:pg",
     "migrate": "bun ./migration.ts",
@@ -18,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@types/pg": "^8.10.9",
     "ajv": "^8.12.0",
     "bun-types": "^1.0.24",

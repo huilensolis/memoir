@@ -11,32 +11,26 @@ async function startDocker() {
 async function awaitForDocker() {
   console.log("testing database connection...");
 
-  return new Promise(async (resolve, reject) => {
-    const pool = new Pool({
-      host: "127.0.0.1",
-      port: 5432,
-      user: "memoir_user",
-      password: "memoir_password",
-      database: "memoir_db",
-    });
-
-    let error: any;
-    for (let i = 0; i <= 10; i++) {
-      await Bun.sleep(5000);
-      try {
-        await pool.connect();
-        console.log("connected succesfully to database!");
-        return resolve("");
-      } catch (error) {
-        console.log("database connection is not ready yet, retrying in 5s");
-        console.log(`attempt ${i} of 10`);
-
-        if (i <= 10) error = error;
-      }
-    }
-
-    reject({ message: "database connection failed after 10 attempts", error });
+  const pool = new Pool({
+    host: "127.0.0.1",
+    port: 5432,
+    user: "memoir_user",
+    password: "memoir_password",
+    database: "memoir_db",
   });
+
+  for (let i = 0; i <= 10; i++) {
+    await Bun.sleep(5000);
+    try {
+      await pool.connect();
+      console.log("connected succesfully to database!");
+    } catch (error) {
+      console.log("database connection is not ready yet, retrying in 5s");
+      console.log(`attempt ${i} of 10`);
+
+      if (i <= 10) throw new Error(JSON.stringify(error));
+    }
+  }
 }
 
 async function generateMigration() {

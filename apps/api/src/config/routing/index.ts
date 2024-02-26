@@ -22,7 +22,7 @@ Routes.onError(({ code, error, path, set }) => {
     return { error: "Route not found :(" };
   }
 
-  if (code == "VALIDATION") {
+  if (code === "VALIDATION") {
     set.status = "Bad Request";
     return new Response(JSON.stringify({ error: error.validator }));
   }

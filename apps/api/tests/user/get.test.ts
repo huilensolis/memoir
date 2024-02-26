@@ -13,32 +13,32 @@ beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
 
 describe("get user on /user", () => {
-  it("should get user correctly", async () => {
-    const { user, cookie } = await createUser();
+	it("should get user correctly", async () => {
+		const { user, cookie } = await createUser();
 
-    if (!user || !cookie) throw new Error("user could not be created");
+		if (!user || !cookie) throw new Error("user could not be created");
 
-    const res = await app.handle(
-      new Request(`${endpointPath}/`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json", cookie: cookie },
-      }),
-    );
+		const res = await app.handle(
+			new Request(`${endpointPath}/`, {
+				method: "GET",
+				headers: { "Content-Type": "application/json", cookie: cookie },
+			}),
+		);
 
-    expect(res.ok).toBeTrue();
-    expect(res.status).toBe(200);
+		expect(res.ok).toBeTrue();
+		expect(res.status).toBe(200);
 
-    const body: { user: SafeUser | undefined; error: string | undefined } =
-      await res.json();
+		const body: { user: SafeUser | undefined; error: string | undefined } =
+			await res.json();
 
-    expect(body).toBeObject();
-    expect(body).toContainKey("user");
+		expect(body).toBeObject();
+		expect(body).toContainKey("user");
 
-    const { user: userOnBody } = body;
+		const { user: userOnBody } = body;
 
-    const validate = new Ajv().compile(SafeUserSchema);
-    const isResponseValid = validate(userOnBody);
+		const validate = new Ajv().compile(SafeUserSchema);
+		const isResponseValid = validate(userOnBody);
 
-    expect(isResponseValid).toBeTrue();
-  });
+		expect(isResponseValid).toBeTrue();
+	});
 });
