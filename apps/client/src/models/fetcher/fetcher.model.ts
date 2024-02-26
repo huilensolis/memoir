@@ -83,6 +83,7 @@ export class Fetcher {
 
           return { data: body, error: null };
         } catch (error) {
+          console.log({ error });
           return { data: null, error: error as Error };
         }
       },

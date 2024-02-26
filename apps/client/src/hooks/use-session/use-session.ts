@@ -26,7 +26,6 @@ export function useSession() {
         name,
         password,
       });
-      console.log({ error });
       if (error) {
         throw new Error("error signing up");
       }

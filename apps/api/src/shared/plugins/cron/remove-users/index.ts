@@ -17,8 +17,13 @@ export const pluginCronCleanInactiveUsers = (app: Elysia) => {
 
         if (inactiveUsers.length === 0) return;
 
+        const today = new Date();
         for await (const inactiveUser of inactiveUsers) {
-          await db.delete(Users).where(eq(Users.id, inactiveUser.id));
+          if (
+            inactiveUser.end_date !== null &&
+            today.getTime() <= new Date(inactiveUser.end_date).getTime()
+          )
+            await db.delete(Users).where(eq(Users.id, inactiveUser.id));
         }
       },
     }),
