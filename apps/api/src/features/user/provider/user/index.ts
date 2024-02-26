@@ -6,8 +6,6 @@ import type { User } from "../../models";
 import { updateUser } from "../../models/user.model";
 
 export class UserProvider {
-  constructor() {}
-
   static async getById({
     userId,
   }: {

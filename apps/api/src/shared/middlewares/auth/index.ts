@@ -5,52 +5,52 @@ import { UserAdapter } from "@/features/user/adapters";
 import { UserProvider } from "@/features/user/provider/user";
 
 export const isAuthenticated = (app: Elysia) => {
-  return app
-    .use(JwtPlugin)
-    .derive(async ({ jwt, cookie, set }): Promise<{ user: SafeUser }> => {
-      try {
-        if (!cookie || !cookie.access_token)
-          throw new Error("no token found on cookies");
+	return app
+		.use(JwtPlugin)
+		.derive(async ({ jwt, cookie, set }): Promise<{ user: SafeUser }> => {
+			try {
+				if (!cookie || !cookie.access_token)
+					throw new Error("no token found on cookies");
 
-        const { access_token } = cookie;
+				const { access_token } = cookie;
 
-        const tokenPayload = await jwt.verify(access_token);
+				const tokenPayload = await jwt.verify(access_token);
 
-        if (tokenPayload === false) throw new Error("could not verify jwt");
+				if (tokenPayload === false) throw new Error("could not verify jwt");
 
-        const { user, exp } = tokenPayload;
+				const { user, exp } = tokenPayload;
 
-        if (!exp) throw new Error("no exp date found in token");
+				if (!exp) throw new Error("no exp date found in token");
 
-        if (exp - new Date().getTime() <= 0) throw new Error("jwt expired");
+				if (exp - new Date().getTime() <= 0) throw new Error("jwt expired");
 
-        if (!user) throw new Error("not user found");
+				if (!user) throw new Error("not user found");
 
-        const { data, error } = await UserProvider.getById({
-          userId: user.id,
-        });
+				const { data, error } = await UserProvider.getById({
+					userId: user.id,
+				});
 
-        if (error || !data || !data.user)
-          throw new Error("could not fetch user");
+				if (error || !data || !data.user)
+					throw new Error("could not fetch user");
 
-        const { user: userFromDb } = data;
+				const { user: userFromDb } = data;
 
-        if (user.email !== userFromDb.email)
-          throw new Error("user email doesnt match");
+				if (user.email !== userFromDb.email)
+					throw new Error("user email doesnt match");
 
-        const { user: isUserActive } = UserAdapter.toOnlyActive({
-          user: userFromDb,
-        });
+				const { user: isUserActive } = UserAdapter.toOnlyActive({
+					user: userFromDb,
+				});
 
-        if (!isUserActive) throw new Error("user is not active");
+				if (!isUserActive) throw new Error("user is not active");
 
-        const { user: safeUser } = UserAdapter.toSafeUser({ user: userFromDb });
+				const { user: safeUser } = UserAdapter.toSafeUser({ user: userFromDb });
 
-        return { user: safeUser };
-      } catch (error) {
-        set.status = "Unauthorized";
-        set.headers = { "Content-Type": "application/json; utf8;" };
-        throw new Error("Unauthorized");
-      }
-    });
+				return { user: safeUser };
+			} catch (error) {
+				set.status = "Unauthorized";
+				set.headers = { "Content-Type": "application/json; utf8;" };
+				throw new Error("Unauthorized");
+			}
+		});
 };

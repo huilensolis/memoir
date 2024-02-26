@@ -1,5 +1,5 @@
 import { AsideNav } from "@/components/feature/aside-nav";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (

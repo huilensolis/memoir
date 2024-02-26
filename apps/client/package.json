@@ -12,8 +12,11 @@
   "dependencies": {
     "@elysiajs/eden": "^0.8.1",
     "elysia": "^0.8.14",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
     "lucide-react": "^0.331.0",
     "next": "14.0.4",
+    "prettier": "^3.2.5",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3"
@@ -26,7 +29,7 @@
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
+    "eslint": "^8.56.0",
     "eslint-config-next": "14.0.4",
     "jsdom": "^23.2.0",
     "postcss": "^8",

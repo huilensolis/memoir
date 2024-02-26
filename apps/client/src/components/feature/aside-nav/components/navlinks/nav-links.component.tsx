@@ -3,10 +3,10 @@
 import { NavLink } from "@/components/ui/nav-link";
 import { Axis3dIcon, BookOpen, PenTool, Search, Settings } from "lucide-react";
 import { ClientRoutingService } from "@/models/routing/client";
-import { TNavLink } from "@/components/ui/nav-link/nav-link.models";
+import { type TNavLink } from "@/components/ui/nav-link/nav-link.models";
 
 export function AsideNavLinks() {
-  const NAV_ITEMS: Array<TNavLink> = [
+  const NAV_ITEMS: TNavLink[] = [
     {
       title: "Home",
       icon: Axis3dIcon,

@@ -17,7 +17,7 @@ export class AuthService extends ApiService {
     name: string;
   }): Promise<{ error: Error | null }> {
     try {
-      const { error } = await this.fetcher().post<{}>({
+      const { error } = await this.fetcher().post<null>({
         url: ApiRoutingService.routing.auth.signUp,
         body: { email, password, name },
       });
@@ -33,6 +33,7 @@ export class AuthService extends ApiService {
       return { error: error as Error };
     }
   }
+
   public static async signIn({
     email,
     password,
@@ -41,7 +42,7 @@ export class AuthService extends ApiService {
     password: string;
   }): Promise<{ error: Error | null }> {
     try {
-      const { error } = await this.fetcher().post<{}>({
+      const { error } = await this.fetcher().post<null>({
         url: ApiRoutingService.routing.auth.signIn,
         body: { email, password },
       });
@@ -60,15 +61,13 @@ export class AuthService extends ApiService {
 
   public static async signOut() {
     try {
-      const { error } = await this.fetcher().get<{}>({
+      const { error } = await this.fetcher().get<null>({
         url: ApiRoutingService.routing.auth.signOut,
       });
 
       if (error) throw new Error("error singing out");
-
-      return Promise.resolve();
     } catch (error) {
-      return Promise.reject();
+      throw new Error("error singing out");
     }
   }
 
@@ -87,7 +86,7 @@ export class AuthService extends ApiService {
   }> {
     console.log({ url: ApiRoutingService.routing.auth.checkToken });
     try {
-      const { error } = await this.fetcher().get<{}>({
+      const { error } = await this.fetcher().get<null>({
         url: ApiRoutingService.routing.auth.checkToken,
         headers: cookies
           ? { Cookie: `${API_CONFIG.cookieName}=${cookies}` }

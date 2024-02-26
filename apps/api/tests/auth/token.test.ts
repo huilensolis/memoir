@@ -36,7 +36,7 @@ describe("token validation endpoints", () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          cookie: `access_token=invalidToken`,
+          cookie: "access_token" + "=" + "invalidToken",
         },
       }),
     );

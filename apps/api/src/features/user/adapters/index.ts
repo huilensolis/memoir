@@ -8,7 +8,7 @@ export class UserAdapter {
   }
 
   static toOnlyActive({ user }: { user: User }): { user: User | null } {
-    if (typeof user.end_date !== null) {
+    if (user.end_date !== null) {
       return { user };
     }
 

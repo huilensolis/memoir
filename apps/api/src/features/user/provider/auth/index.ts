@@ -82,7 +82,8 @@ export class AuthProvider {
     const result = await db.select().from(Users).where(eq(Users.email, email));
     if (!result || result.length === 0)
       return Promise.resolve({ isEmailAvailable: true });
-    else return Promise.resolve({ isEmailAvailable: false });
+
+    return Promise.resolve({ isEmailAvailable: false });
   }
 
   static async validateEmail(email: string) {

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { type ButtonHTMLAttributes, type ReactNode } from "react";
 
 interface IPrimaryButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
