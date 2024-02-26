@@ -1,6 +1,5 @@
 export class ApiRoutingService {
-  protected static baseUrl =
-    process.env.API_URL || "https://localhost:3001/api";
+  protected static baseUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api`;
 
   constructor() {}
 

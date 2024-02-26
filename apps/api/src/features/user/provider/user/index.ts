@@ -80,7 +80,11 @@ export class UserProvider {
     try {
       await db
         .update(Users)
-        .set({ end_date: JSON.stringify(new Date()) })
+        .set({
+          end_date: JSON.stringify(
+            new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30), // 30 days in the future since today
+          ),
+        })
         .where(eq(Users.id, userId));
       return { error: null, data: null };
     } catch (error) {

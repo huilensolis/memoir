@@ -29,6 +29,7 @@ export default async function middleware(request: NextRequest) {
 
     if (!isTokenValid) throw new Error("token invalid");
   } catch (error) {
+    console.log(`token is invalid, redirecting to ${urlSignInPath}`);
     return NextResponse.redirect(urlSignInPath);
   }
 }

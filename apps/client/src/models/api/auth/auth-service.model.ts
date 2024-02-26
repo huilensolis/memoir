@@ -16,7 +16,6 @@ export class AuthService extends ApiService {
     password: string;
     name: string;
   }): Promise<{ error: Error | null }> {
-    console.log("heree");
     try {
       const { error } = await this.fetcher().post<{}>({
         url: ApiRoutingService.routing.auth.signUp,
@@ -24,7 +23,6 @@ export class AuthService extends ApiService {
       });
 
       if (error) {
-        console.log("here is been an error");
         throw new Error(
           "there is been an error on the sign up request response",
         );
@@ -87,6 +85,7 @@ export class AuthService extends ApiService {
   }): Promise<{
     isTokenValid: boolean;
   }> {
+    console.log({ url: ApiRoutingService.routing.auth.checkToken });
     try {
       const { error } = await this.fetcher().get<{}>({
         url: ApiRoutingService.routing.auth.checkToken,
