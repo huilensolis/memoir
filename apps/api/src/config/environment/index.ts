@@ -10,4 +10,5 @@ export const Environment = cleanEnv(process.env, {
   POSTGRES_USER: str(),
   POSTGRES_DATABASE: str(),
   POSTGRES_PASSWORD: str(),
+  NODE_ENV: str({ choices: ["development", "test", "production", "staging"] }),
 });
