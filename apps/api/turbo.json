@@ -13,6 +13,9 @@
     "setup": {
       "cache": true
     },
+    "clean-up": {
+      "cache": false
+    },
     "test": {
       "cache": false,
       "dependsOn": ["setup"]
