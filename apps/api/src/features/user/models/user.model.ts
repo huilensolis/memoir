@@ -1,4 +1,3 @@
-import { t } from "elysia";
 import { Users } from "../schema/index";
 import { UserSchema } from "../router/models";
 
