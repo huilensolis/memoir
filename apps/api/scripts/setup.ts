@@ -24,6 +24,7 @@ async function awaitForDocker() {
     try {
       await pool.connect();
       console.log("connected succesfully to database!");
+      return
     } catch (error) {
       console.log("database connection is not ready yet, retrying in 5s");
       console.log(`attempt ${i} of 10`);
