@@ -14,6 +14,7 @@ export class ApiRoutingService {
         signIn: this.getPath("auth/sign-in"),
         signOut: this.getPath("auth/sign-out"),
         checkToken: this.getPath("auth/token"),
+        getUser: this.getPath("/user"),
       },
     };
   }

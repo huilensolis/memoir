@@ -1,6 +1,7 @@
 import { ApiRoutingService } from "@/models/routing/api";
 import { ApiService } from "..";
 import { API_CONFIG } from "@/config/api/api.config";
+import { type User } from "@/types/user";
 
 export class AuthService extends ApiService {
   constructor() {
@@ -84,7 +85,6 @@ export class AuthService extends ApiService {
   }): Promise<{
     isTokenValid: boolean;
   }> {
-    console.log({ url: ApiRoutingService.routing.auth.checkToken });
     try {
       const { error } = await this.fetcher().get<null>({
         url: ApiRoutingService.routing.auth.checkToken,
@@ -102,6 +102,29 @@ export class AuthService extends ApiService {
       return { isTokenValid: true };
     } catch (error) {
       return { isTokenValid: false };
+    }
+  }
+
+  public static async getUser({
+    Cookie = null,
+  }: {
+    Cookie?: string;
+  }): Promise<{ user: User | null }> {
+    try {
+      const { error, data } = await this.fetcher().get<{ user: User }>({
+        url: ApiRoutingService.routing.auth.getUser,
+        headers: Cookie ? { Cookie } : {},
+      });
+
+      if (error ?? !data) throw new Error("error getting user");
+
+      const { user } = data;
+
+      if (!user) throw new Error("user not found in response json");
+
+      return { user };
+    } catch (error) {
+      return { user: null };
     }
   }
 }

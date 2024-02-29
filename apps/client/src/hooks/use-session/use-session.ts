@@ -2,6 +2,7 @@
 
 // import { useEffect, useState } from "react";
 import { AuthService } from "@/models/api/auth";
+import { type User } from "@/types/user";
 
 export function useSession() {
   // const [session, setSession] = useState<string | null>(null);
@@ -63,5 +64,11 @@ export function useSession() {
     await AuthService.signOut();
   }
 
-  return { signUp, signIn, signOut };
+  async function getUser(): Promise<{ user: User | null }> {
+    const { user } = await AuthService.getUser();
+
+    return { user };
+  }
+
+  return { signUp, signIn, signOut, getUser };
 }
