@@ -24,12 +24,12 @@ async function awaitForDocker() {
     try {
       await pool.connect();
       console.log("connected succesfully to database!");
-      return
+      return;
     } catch (error) {
       console.log("database connection is not ready yet, retrying in 5s");
       console.log(`attempt ${i} of 10`);
 
-      if (i <= 10) throw new Error(JSON.stringify(error));
+      if (i >= 10) throw new Error(JSON.stringify(error));
     }
   }
 }
