@@ -36,6 +36,7 @@
     "@elysiajs/swagger": "^0.8.3",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
+    "elysia-helmet": "^1.0.2",
     "elysia-rate-limit": "^2.0.1",
     "email-validator": "^2.0.4",
     "envalid": "^8.0.0",
