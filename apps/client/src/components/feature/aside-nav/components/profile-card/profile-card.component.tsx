@@ -4,9 +4,33 @@ import { SignOutBtn } from "@/components/feature/auth/sign-out";
 import { AccordionRoot } from "@/components/ui/accordion";
 import { Box } from "@/components/ui/box";
 import { NavLink } from "@/components/ui/nav-link";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useSession } from "@/hooks/use-session";
+import { type User } from "@/types/user";
 import { Bolt, ChevronsUpDown, CircleUserRound, Timer } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function ProfileCard() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { getUser } = useSession();
+
+  useEffect(() => {
+    async function syncUser() {
+      const { user } = await getUser();
+
+      if (user) setUser(user);
+
+      setLoading(false);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    syncUser();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <AccordionRoot.Provider type="single" collapsible className="w-full">
       <AccordionRoot.Item value="user-card" className="relative w-full">
@@ -14,7 +38,10 @@ export function ProfileCard() {
           <article className="w-full flex items-center justify-between gap-2 p-1 px-2">
             <section className="flex gap-2 items-center">
               <CircleUserRound />
-              <h4 className="font-semibold">username</h4>
+              {loading && <Skeleton className="w-32 h-4" />}
+              {!loading && user && (
+                <h4 className="font-semibold">{user.name}</h4>
+              )}
             </section>
             <ChevronsUpDown />
           </article>
