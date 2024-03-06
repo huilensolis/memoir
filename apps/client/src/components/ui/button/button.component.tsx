@@ -4,7 +4,15 @@ import { type ButtonProps, buttonVariants } from "./button.models";
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, size, loading = false, children, disabled, ...props },
+    {
+      className,
+      variant,
+      size,
+      loading = false,
+      children,
+      disabled = false,
+      ...props
+    },
     ref,
   ) => {
     return (

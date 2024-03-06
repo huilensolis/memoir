@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { AuthService } from "@/models/api/auth";
 import { ClientRoutingService } from "@/models/routing/client";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -24,7 +25,13 @@ export function SignOutBtn() {
   }
 
   return (
-    <Button loading={loading} onClick={signOut} className="w-full">
+    <Button
+      variant="outline"
+      loading={loading}
+      onClick={signOut}
+      className="w-full flex gap-2"
+    >
+      <LogOut />
       Sign Out
     </Button>
   );
