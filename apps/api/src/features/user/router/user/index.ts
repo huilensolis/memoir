@@ -4,10 +4,19 @@ import { UserProvider } from "../../provider/user";
 import { UserAdapter } from "../../adapters";
 import { SafeUserSchema, UserSchema } from "../models/";
 import { cleanKeysWithEmptyValue } from "@/shared/utils/objects/clean-keys";
+import { rateLimit } from "elysia-rate-limit";
+import { Environment } from "@/config/environment";
 
 export const UserRouter = new Elysia().group("/user", (app) =>
   app
     .use(isAuthenticated)
+    .use(
+      rateLimit({
+        duration: 6000,
+        max: Environment.NODE_ENV === "test" ? 200 : 20,
+        generator: (req, server) => server?.requestIP(req)?.address ?? "",
+      }),
+    )
     .get(
       "/",
       async ({ set, user }) => {

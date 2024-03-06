@@ -1,8 +1,9 @@
 "use client";
 
-import { PrimaryButton } from "@/components/ui/buttons/primary";
+import { Button } from "@/components/ui/button";
 import { AuthService } from "@/models/api/auth";
 import { ClientRoutingService } from "@/models/routing/client";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -24,8 +25,14 @@ export function SignOutBtn() {
   }
 
   return (
-    <PrimaryButton isLoading={loading} onClick={signOut}>
+    <Button
+      variant="outline"
+      loading={loading}
+      onClick={signOut}
+      className="w-full flex gap-2"
+    >
+      <LogOut />
       Sign Out
-    </PrimaryButton>
+    </Button>
   );
 }
