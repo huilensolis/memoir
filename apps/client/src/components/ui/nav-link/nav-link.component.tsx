@@ -22,7 +22,7 @@ export function NavLink({ icon, title, href, count }: TNavLink) {
       href={href}
       className={`flex w-full justify-between py-2 px-2 rounded-md text-md font-semibold transition-all duration-75 ${
         isActive
-          ? "bg-neutral-950 text-white"
+          ? "bg-primary text-neutral-50"
           : "bg-transparent hover:bg-zinc-200"
       }`}
     >
@@ -32,10 +32,8 @@ export function NavLink({ icon, title, href, count }: TNavLink) {
       </section>
       {count && (
         <span
-          className={`flex item-center justify-center px-2 rounded border ${
-            isActive
-              ? "bg-gray-700 border-gray-500"
-              : "bg-gray-200 border-gray-400"
+          className={`flex item-center justify-center px-2 rounded ${
+            isActive ? "bg-secondary text-primary" : "bg-primary text-secondary"
           }`}
         >
           {count}

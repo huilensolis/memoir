@@ -1,5 +1,4 @@
 import { Hr } from "@/components/ui/hr";
-import { SignOutBtn } from "../auth/sign-out";
 import { AsideNavLinks } from "./components/navlinks";
 import { ProfileCard } from "./components/profile-card";
 
@@ -10,7 +9,6 @@ export async function AsideNav() {
       <Hr orientation="horizontal" className="my-1" />
       <AsideNavLinks />
       <Hr orientation="horizontal" className="my-1" />
-      <SignOutBtn />
     </aside>
   );
 }

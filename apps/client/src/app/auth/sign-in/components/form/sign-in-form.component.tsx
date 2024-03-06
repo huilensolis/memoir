@@ -2,13 +2,14 @@
 
 import { useForm } from "react-hook-form";
 
-import { Input } from "@/components/ui/input/text/";
+import { TextInput } from "@/components/ui/input/text/";
 import { type signUpFormModels } from "../../sign-in.models";
-import { PrimaryButton } from "@/components/ui/buttons/primary";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ClientRoutingService } from "@/models/routing/client";
 import { useSession } from "@/hooks/use-session";
+import { Label } from "@/components/ui/input/label";
+import { Button } from "@/components/ui/button";
 
 export function SignInForm() {
   const [error, setError] = useState<boolean>(false);
@@ -50,48 +51,56 @@ export function SignInForm() {
       onSubmit={handleSubmit(handleSignIn)}
       className="w-full flex flex-col gap-3"
     >
-      <Input
-        type="email"
-        id="email"
-        placeholder="Email"
-        error={errors.email?.message ?? null}
-        correct={!(errors.email?.message && dirtyFields.email)}
-        {...register("email", {
-          required: { value: true, message: "email is required" },
-          minLength: { value: 5, message: "email min characteres is 5" },
-          maxLength: {
-            message: "email max length is 100 characteres",
-            value: 100,
-          },
-          pattern: {
-            value: /\S+@\S+\.\S+/,
-            message: "email does not match email format",
-          },
-        })}
-      />
-      <Input
-        type="password"
-        id="password"
-        placeholder="Password"
-        error={errors.password?.message ?? null}
-        correct={!(errors.password?.message && dirtyFields.password)}
-        {...register("password", {
-          required: { value: true, message: "password is required" },
-          minLength: { value: 14, message: "password min characteres is 14" },
-          maxLength: {
-            value: 20,
-            message: "password max length is 20 characteres",
-          },
-        })}
-      />
+      <fieldset>
+        <Label htmlFor="email">Email</Label>
+        <TextInput
+          type="email"
+          id="email"
+          placeholder="myemail@gmail.com"
+          error={errors.email?.message ?? null}
+          correct={!(errors.email?.message && dirtyFields.email)}
+          {...register("email", {
+            required: { value: true, message: "email is required" },
+            minLength: { value: 5, message: "email min characteres is 5" },
+            maxLength: {
+              message: "email max length is 100 characteres",
+              value: 100,
+            },
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "email does not match email format",
+            },
+          })}
+        />
+      </fieldset>
+      <fieldset>
+        <Label htmlFor="password">Password</Label>
+        <TextInput
+          type="password"
+          id="password"
+          placeholder="**********"
+          error={errors.password?.message ?? null}
+          correct={!(errors.password?.message && dirtyFields.password)}
+          {...register("password", {
+            required: { value: true, message: "password is required" },
+            minLength: { value: 14, message: "password min characteres is 14" },
+            maxLength: {
+              value: 20,
+              message: "password max length is 20 characteres",
+            },
+          })}
+        />
+      </fieldset>
       <div className="mt-4">
-        <PrimaryButton
+        <Button
+          variant="default"
           type="submit"
           disabled={!isValid || isValidating || loading || !isDirty}
-          isLoading={loading}
+          loading={loading}
+          className="w-full"
         >
           Sign In
-        </PrimaryButton>
+        </Button>
       </div>
       {error && <span className="text-red-500">something went wrong</span>}
     </form>

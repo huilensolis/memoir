@@ -2,25 +2,25 @@
 
 import { type InputHTMLAttributes, forwardRef } from "react";
 
-interface CustomInput extends InputHTMLAttributes<HTMLInputElement> {
+type TProps = InputHTMLAttributes<HTMLInputElement> & {
   error: string | null;
   correct: boolean;
-}
+};
 
 //  eslint-disable-next-line react/display-name
-export const Input = forwardRef<HTMLInputElement, CustomInput>(
-  ({ error, correct, ...props }, inputRef) => (
+export const TextInput = forwardRef<HTMLInputElement, TProps>(
+  ({ error, correct, className, ...props }, inputRef) => (
     <div className="w-full flex flex-col">
       <input
         {...props}
         ref={inputRef}
-        className={`py-2 px-2 text-neutral-700 font-semibold text-lg bg-neutral-100 border ${
+        className={[
           error
             ? "border-red-500 focus:border-red-300"
-            : correct
-              ? "border-teal-500 focus:border-blue-300"
-              : "border-neutral-200 focus:border-neutral-300"
-        } rounded-md focus:outline-none`}
+            : "focus-visible:ring-1 focus-visible:ring-ring",
+          "flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          className,
+        ].join(" ")}
       />
       {error && <span className="text-red-500">{error}</span>}
     </div>
