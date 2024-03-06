@@ -106,7 +106,7 @@ export class AuthService extends ApiService {
   }
 
   public static async getUser({
-    Cookie = null,
+    Cookie = undefined,
   }: {
     Cookie?: string;
   }): Promise<{ user: User | null }> {

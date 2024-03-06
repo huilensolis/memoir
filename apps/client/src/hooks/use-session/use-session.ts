@@ -1,17 +1,9 @@
 "use client";
 
-// import { useEffect, useState } from "react";
 import { AuthService } from "@/models/api/auth";
 import { type User } from "@/types/user";
 
 export function useSession() {
-  // const [session, setSession] = useState<string | null>(null);
-  // const [useEffectTrigger, triggerUseEffect] = useState<boolean>(false);
-  //
-  // useEffect(() => {
-  //   // get user data and set session
-  // }, [useEffectTrigger]);
-
   async function signUp({
     email,
     name,
@@ -65,7 +57,7 @@ export function useSession() {
   }
 
   async function getUser(): Promise<{ user: User | null }> {
-    const { user } = await AuthService.getUser();
+    const { user } = await AuthService.getUser({});
 
     return { user };
   }
