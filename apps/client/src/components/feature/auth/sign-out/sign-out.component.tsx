@@ -1,6 +1,6 @@
 "use client";
 
-import { PrimaryButton } from "@/components/ui/buttons/primary";
+import { Button } from "@/components/ui/button";
 import { AuthService } from "@/models/api/auth";
 import { ClientRoutingService } from "@/models/routing/client";
 import { useRouter } from "next/navigation";
@@ -24,8 +24,8 @@ export function SignOutBtn() {
   }
 
   return (
-    <PrimaryButton isLoading={loading} onClick={signOut}>
+    <Button loading={loading} onClick={signOut} className="w-full">
       Sign Out
-    </PrimaryButton>
+    </Button>
   );
 }

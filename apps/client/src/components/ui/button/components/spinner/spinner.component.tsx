@@ -1,30 +1,4 @@
-import { type ButtonHTMLAttributes, type ReactNode } from "react";
-
-interface IPrimaryButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
-  isLoading?: boolean;
-}
-
-export function PrimaryButton({
-  children,
-  isLoading = false,
-  className,
-  ...props
-}: IPrimaryButton) {
-  return (
-    <button
-      {...props}
-      className={[
-        "flex items-center justify-center px-6 py-2 w-full rounded-md bg-neutral-950 text-md text-neutral-50 font-bold disabled:bg-neutral-600 hover:bg-neutral-800 transition-all duration-75",
-        className,
-      ].join(" ")}
-    >
-      {isLoading ? <Spinner /> : children}
-    </button>
-  );
-}
-
-function Spinner() {
+export function Spinner() {
   return (
     <div role="status">
       <svg

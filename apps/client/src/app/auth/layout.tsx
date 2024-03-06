@@ -12,7 +12,7 @@ export default async function AuthLayout({
   return (
     <WithUserNotAuthenticated redirectUrl={ClientRoutingService.app.home}>
       <div className="grid xl:grid-cols-2 grid-cols-1 grid-rows-1 w-full max-w-[110rem] max-h-[60rem] h-screen">
-        <section className="flex flex-col items-center justify-center h-full w-full xl:border-r xl:border-neutral-300 py-5">
+        <section className="flex flex-col items-center justify-center h-full w-full xl:border-r xl:border-neutral-300 py-5 px-5">
           {children}
         </section>
         <section className="w-full h-full xl:flex hidden relative max-h-screen">
