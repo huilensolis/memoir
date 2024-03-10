@@ -37,7 +37,7 @@ export const UserRouter = new Elysia().group("/user", (app) =>
           });
 
           set.status = "OK";
-          return { user: safeUser };
+          return { ...safeUser };
         } catch (error) {
           set.status = "Internal Server Error";
           return {

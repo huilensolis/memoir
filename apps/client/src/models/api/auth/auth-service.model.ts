@@ -2,6 +2,7 @@ import { ApiRoutingService } from "@/models/routing/api";
 import { ApiService } from "..";
 import { API_CONFIG } from "@/config/api/api.config";
 import { type User } from "@/types/user";
+import axios from "axios";
 
 export class AuthService extends ApiService {
   constructor() {
@@ -18,12 +19,12 @@ export class AuthService extends ApiService {
     name: string;
   }): Promise<{ error: Error | null }> {
     try {
-      const { error } = await this.fetcher().post<null>({
-        url: ApiRoutingService.routing.auth.signUp,
-        body: { email, password, name },
-      });
+      const { status } = await axios.post(
+        ApiRoutingService.routing.auth.signUp,
+        { email, password, name },
+      );
 
-      if (error) {
+      if (status !== 201) {
         throw new Error(
           "there is been an error on the sign up request response",
         );
@@ -43,12 +44,12 @@ export class AuthService extends ApiService {
     password: string;
   }): Promise<{ error: Error | null }> {
     try {
-      const { error } = await this.fetcher().post<null>({
-        url: ApiRoutingService.routing.auth.signIn,
-        body: { email, password },
-      });
+      const { status } = await axios.post(
+        ApiRoutingService.routing.auth.signIn,
+        { email, password },
+      );
 
-      if (error) {
+      if (status !== 202) {
         throw new Error(
           "there is been an error on the sign up request response",
         );
@@ -62,11 +63,11 @@ export class AuthService extends ApiService {
 
   public static async signOut() {
     try {
-      const { error } = await this.fetcher().get<null>({
-        url: ApiRoutingService.routing.auth.signOut,
-      });
+      const { status } = await axios.get(
+        ApiRoutingService.routing.auth.signOut,
+      );
 
-      if (error) throw new Error("error singing out");
+      if (status !== 201) throw new Error();
     } catch (error) {
       throw new Error("error singing out");
     }
@@ -78,22 +79,19 @@ export class AuthService extends ApiService {
    * this is not necesary on the client side,
    * as the cookeis are sent by the browser
    */
-  public static async checkToken({
-    cookies = "",
-  }: {
-    cookies?: string;
-  }): Promise<{
+  public static async checkToken({ cookies }: { cookies?: string }): Promise<{
     isTokenValid: boolean;
   }> {
     try {
-      const { error } = await this.fetcher().get<null>({
-        url: ApiRoutingService.routing.auth.checkToken,
-        headers: cookies
-          ? { Cookie: `${API_CONFIG.cookieName}=${cookies}` }
-          : {},
+      const res = await fetch(ApiRoutingService.routing.auth.checkToken, {
+        headers: {
+          ...(cookies && { Cookie: `${API_CONFIG.cookieName}=${cookies}` }),
+          "Content-Type": "application/json; utf-8",
+        },
       });
 
-      if (error) {
+      if (res.status !== 202) {
+        console.log(await res.json());
         throw new Error(
           "there is been an error on the check token request request response",
         );
@@ -101,7 +99,26 @@ export class AuthService extends ApiService {
 
       return { isTokenValid: true };
     } catch (error) {
+      console.log(error);
       return { isTokenValid: false };
+    }
+  }
+
+  public static async checkEmail({
+    email,
+  }: {
+    email: string;
+  }): Promise<{ isEmailAvailable: boolean }> {
+    try {
+      const { status } = await axios.get(
+        ApiRoutingService.routing.auth.checkEmailAvailability(email),
+      );
+
+      if (status !== 200) throw new Error();
+
+      return { isEmailAvailable: true };
+    } catch (error) {
+      return { isEmailAvailable: false };
     }
   }
 
@@ -111,16 +128,12 @@ export class AuthService extends ApiService {
     Cookie?: string;
   }): Promise<{ user: User | null }> {
     try {
-      const { error, data } = await this.fetcher().get<{ user: User }>({
-        url: ApiRoutingService.routing.auth.getUser,
-        headers: Cookie ? { Cookie } : {},
-      });
+      const { data: user, status } = await axios.get<User>(
+        ApiRoutingService.routing.auth.getUser,
+        { headers: Cookie ? { Cookie } : {} },
+      );
 
-      if (error ?? !data) throw new Error("error getting user");
-
-      const { user } = data;
-
-      if (!user) throw new Error("user not found in response json");
+      if (!user || status !== 200) throw new Error("error getting user");
 
       return { user };
     } catch (error) {

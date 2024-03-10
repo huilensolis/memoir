@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Spinner } from "./components/spinner";
 import { type ButtonProps, buttonVariants } from "./button.models";
+import { Spinner } from "../spinner";
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -23,7 +23,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {loading ? <Spinner /> : children}
+        {loading ? <Spinner className="text-gray-100" /> : children}
       </button>
     );
   },

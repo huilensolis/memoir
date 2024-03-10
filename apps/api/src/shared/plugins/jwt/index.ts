@@ -11,8 +11,6 @@ export const JwtPlugin = new Elysia()
       schema: t.Object({
         user: t.Object({
           id: t.String(),
-          name: t.String(),
-          email: t.String(),
         }),
       }),
       exp: new Date().getTime() + 1000 * 60 * 60 * 24 * 14, // 14 days in the future
@@ -29,7 +27,7 @@ export const JwtPlugin = new Elysia()
             24 /* 1 day */ *
             14 /*14 days */,
       ),
-      sameSite: "strict",
+      sameSite: Environment.NODE_ENV === "production" ? "strict" : "none",
       secure: true,
       ...(Environment.NODE_ENV === "production" && {
         domain: Environment.WEB_DOMAIN,

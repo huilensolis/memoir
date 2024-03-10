@@ -80,10 +80,9 @@ export class AuthProvider {
     email: string,
   ): Promise<{ isEmailAvailable: boolean }> {
     const result = await db.select().from(Users).where(eq(Users.email, email));
-    if (!result || result.length === 0)
-      return Promise.resolve({ isEmailAvailable: true });
+    if (!result || result.length === 0) return { isEmailAvailable: true };
 
-    return Promise.resolve({ isEmailAvailable: false });
+    return { isEmailAvailable: false };
   }
 
   static async validateEmail(email: string) {
