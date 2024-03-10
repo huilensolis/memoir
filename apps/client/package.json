@@ -12,6 +12,7 @@
   "dependencies": {
     "@elysiajs/eden": "^0.8.1",
     "@radix-ui/react-accordion": "^1.1.2",
+    "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "elysia": "^0.8.14",
     "eslint-config-prettier": "^9.1.0",

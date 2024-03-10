@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TextInput } from "@/components/ui/input/text/";
 import { Label } from "@/components/ui/input/label";
@@ -10,20 +10,35 @@ import { type signUpFormModels } from "../../sign-up.models";
 import { ClientRoutingService } from "@/models/routing/client";
 import { useSession } from "@/hooks/use-session";
 import { Button } from "@/components/ui/button";
+import { useDebounce } from "@/hooks/use-debounce";
+import { Spinner } from "@/components/ui/spinner";
 
 export function SignUpForm() {
-  const [error, setError] = useState<boolean>(false);
+  const [errorSubmitting, setErrorSubmitting] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [validatingEmail, setValidatingEmail] = useState<boolean>(false);
+
+  const [emailInputValue, setEmailInputValue] = useState<string>("");
+
+  const [isEmailAvailable, setIsEmailAvailable] = useState<boolean>(false);
 
   const {
     handleSubmit,
     formState: { errors, isValid, dirtyFields, isDirty, isValidating },
     register,
-  } = useForm<signUpFormModels>({ mode: "onChange" });
+    setError,
+    getFieldState,
+  } = useForm<signUpFormModels>({ mode: "all" });
 
-  const { signUp } = useSession();
+  const { signUp, checkEmailAvailability } = useSession();
 
   const router = useRouter();
+
+  const { debouncedValue: debouncedEmailValue } = useDebounce({
+    value: emailInputValue,
+    delay: 500,
+  });
 
   async function handleSignUp(data: signUpFormModels) {
     if (!data.name || !data.password || !data.email) return;
@@ -35,22 +50,44 @@ export function SignUpForm() {
       const { error } = await signUp({ name, email, password });
 
       if (error) {
-        console.log({ error });
         throw new Error("error signing in");
       }
 
       router.push(ClientRoutingService.app.home);
     } catch (error) {
-      setError(true);
+      setErrorSubmitting(true);
     } finally {
       setLoading(false);
     }
   }
 
+  async function checkIfEmailInputIsAvailable(email: string) {
+    setValidatingEmail(true);
+
+    const { isEmailAvailable } = await checkEmailAvailability({ email });
+    setValidatingEmail(false);
+
+    if (!isEmailAvailable) {
+      setIsEmailAvailable(false);
+      setError("email", { message: "email already in use" });
+      return;
+    }
+
+    setIsEmailAvailable(true);
+  }
+
+  useEffect(() => {
+    if (debouncedEmailValue.length > 0)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      checkIfEmailInputIsAvailable(debouncedEmailValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedEmailValue]);
+
   return (
     <form
       onSubmit={handleSubmit(handleSignUp)}
       className="w-full flex flex-col gap-3"
+      autoComplete="off"
     >
       <fieldset>
         <Label htmlFor="name">Name</Label>
@@ -59,6 +96,7 @@ export function SignUpForm() {
           id="name"
           placeholder="Cesar"
           error={errors.name?.message ?? null}
+          autoFocus
           correct={!(errors.name?.message && dirtyFields.name)}
           {...register("name", {
             required: { value: true, message: "name is required" },
@@ -89,8 +127,28 @@ export function SignUpForm() {
               value: /\S+@\S+\.\S+/,
               message: "email does not match email format",
             },
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+              if (
+                (getFieldState("email").error ??
+                  !getFieldState("email").isDirty) ||
+                isValidating ||
+                loading
+              ) {
+                return;
+              }
+
+              const emailFromInput = e.target.value;
+
+              setEmailInputValue(emailFromInput);
+            },
           })}
         />
+        {validatingEmail && (
+          <div className="flex items-center gap-1">
+            <Spinner className="w-4 h-4 text-blue-500 p-0" />
+            <span>validating email</span>
+          </div>
+        )}
       </fieldset>
       <fieldset>
         <Label htmlFor="password">Password</Label>
@@ -114,14 +172,23 @@ export function SignUpForm() {
         <Button
           variant="default"
           type="submit"
-          disabled={!isValid || isValidating || loading || !isDirty}
+          disabled={
+            !isValid ||
+            isValidating ||
+            loading ||
+            !isDirty ||
+            !isEmailAvailable ||
+            validatingEmail
+          }
           loading={loading}
           className="w-full"
         >
           Sign Up
         </Button>
       </div>
-      {error && <span className="text-red-500">something went wrong</span>}
+      {errorSubmitting && (
+        <span className="text-red-500">something went wrong</span>
+      )}
     </form>
   );
 }

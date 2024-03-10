@@ -8,16 +8,18 @@
     },
     "dev": {
       "cache": true,
+      "inputs": ["src/**", "./**"],
       "dependsOn": ["setup"]
     },
     "setup": {
-      "cache": false
+      "cache": true
     },
     "clean-up": {
       "cache": false
     },
     "test": {
-      "cache": false,
+      "cache": true,
+      "inputs": ["tests/**", ".env"],
       "dependsOn": ["setup"]
     },
     "lint": {},

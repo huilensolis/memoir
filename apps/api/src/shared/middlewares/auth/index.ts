@@ -22,7 +22,7 @@ export const isAuthenticated = (app: Elysia) =>
 
         if (exp - new Date().getTime() <= 0) throw new Error("jwt expired");
 
-        if (!user) throw new Error("not user found");
+        if (!user?.id) throw new Error("no user found in token payload");
       } catch (error) {
         set.status = "Unauthorized";
         set.headers = { "Content-Type": "application/json; utf8;" };
@@ -38,7 +38,7 @@ export const isAuthenticated = (app: Elysia) =>
 
       const { user } = tokenPayload;
 
-      if (!user) throw new Error("no user found on jwt token");
+      if (!user?.id) throw new Error("no user found on jwt token");
 
       return { user: user as TUserContext };
     });

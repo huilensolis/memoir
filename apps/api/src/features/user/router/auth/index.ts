@@ -11,7 +11,7 @@ export const AuthRouter = new Elysia()
       .use(JwtPlugin)
       .use(
         rateLimit({
-          duration: 1000 * 60 * 60 * 24,
+          duration: 1000 * 60 * 60 * 24, // a day
           max: Environment.NODE_ENV === "test" ? 1000 : 10,
           generator: (req, server) => server?.requestIP(req)?.address ?? "",
         }),
@@ -33,13 +33,11 @@ export const AuthRouter = new Elysia()
               user: { name, email, password },
             });
 
-            if (!data || !data.user || error) {
+            if (!data?.user || error) {
               throw new Error();
             }
 
-            const { user } = UserAdapter.toSafeUser({ user: data.user });
-
-            const token = await jwt.sign({ user: user });
+            const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = 201;
             setCookie("access_token", token);
@@ -68,12 +66,9 @@ export const AuthRouter = new Elysia()
               credentials: { email, password },
             });
 
-            if (error || !data || !data.user)
-              throw new Error("bad credentials");
+            if (error || !data?.user) throw new Error("bad credentials");
 
-            const { user } = UserAdapter.toSafeUser({ user: data.user });
-
-            const token = await jwt.sign({ user });
+            const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = "Accepted";
             setCookie("access_token", token);
@@ -101,8 +96,49 @@ export const AuthRouter = new Elysia()
         return {};
       }),
   )
+  .group("/check-availability", (app) =>
+    app
+      .use(
+        rateLimit({
+          duration: 1000 * 60, // 1 minute
+          max: 30,
+          generator: (request, server) =>
+            server?.requestIP(request)?.address ?? "",
+        }),
+      )
+      .get(
+        "/email/:email",
+        async ({ params: { email }, set }) => {
+          try {
+            const { isEmailValid } = await AuthProvider.validateEmail(email);
+            if (!isEmailValid) throw new Error();
+          } catch (error) {
+            set.status = "Bad Request";
+            return { error: "email is malformatted" };
+          }
+
+          try {
+            const { isEmailAvailable } =
+              await AuthProvider.checkIfEmailIsAvailable(email);
+            if (!isEmailAvailable) throw new Error();
+
+            set.status = "OK";
+            return {};
+          } catch (error) {
+            set.status = "Conflict";
+            return { error: "email already in use" };
+          }
+        },
+        {
+          params: t.Object({
+            email: t.String(),
+          }),
+        },
+      ),
+  )
   .group("/session", (app) =>
     app
+      .use(JwtPlugin)
       .use(
         rateLimit({
           duration: 1000 * 60,

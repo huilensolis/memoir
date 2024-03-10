@@ -62,5 +62,10 @@ export function useSession() {
     return { user };
   }
 
-  return { signUp, signIn, signOut, getUser };
+  async function checkEmailAvailability({ email }: { email: string }) {
+    const { isEmailAvailable } = await AuthService.checkEmail({ email });
+    return { isEmailAvailable };
+  }
+
+  return { signUp, signIn, signOut, checkEmailAvailability, getUser };
 }

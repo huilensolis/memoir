@@ -13,8 +13,10 @@ export class ApiRoutingService {
         signUp: this.getPath("auth/sign-up"),
         signIn: this.getPath("auth/sign-in"),
         signOut: this.getPath("auth/sign-out"),
-        getUser: this.getPath("/user"),
+        getUser: this.getPath("user"),
         checkToken: this.getPath("session/token"),
+        checkEmailAvailability: (email: string) =>
+          this.getPath(`check-availability/email/${email}`),
       },
     };
   }

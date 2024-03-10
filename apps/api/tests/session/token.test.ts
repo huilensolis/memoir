@@ -43,7 +43,7 @@ describe("token validation endpoints", () => {
 
     const body = await res.json();
 
-    expect(res.ok).toBeFalse;
+    expect(res.ok).toBeFalse();
     expect(res.status).toBe(401);
     expect(body).toContainKey("error");
   });

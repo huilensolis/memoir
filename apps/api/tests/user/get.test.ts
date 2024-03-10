@@ -32,12 +32,9 @@ describe("get user on /user", () => {
       await res.json();
 
     expect(body).toBeObject();
-    expect(body).toContainKey("user");
-
-    const { user: userOnBody } = body;
 
     const validate = new Ajv().compile(SafeUserSchema);
-    const isResponseValid = validate(userOnBody);
+    const isResponseValid = validate(body);
 
     expect(isResponseValid).toBeTrue();
   });

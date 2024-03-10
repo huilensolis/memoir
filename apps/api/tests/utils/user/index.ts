@@ -1,4 +1,5 @@
 import { app } from "@/app";
+import { Environment } from "@/config/environment";
 
 import { NewUser } from "@/features/user/models";
 
@@ -14,18 +15,18 @@ export async function createUser(): Promise<{
 }> {
   try {
     const res = await app.handle(
-      new Request("http://localhost:3000/auth/sign-up", {
+      new Request(`${Environment.API_URL}/auth/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...correctUser }),
       }),
     );
-
     const cookie = res.headers.getSetCookie()[0];
 
-    if (!cookie)
+    if (!cookie) {
+      console.log(await res.text());
       throw new Error("no token found in response trying to create a user");
-
+    }
     return { user: correctUser, cookie };
   } catch (error) {
     console.log({ error });
