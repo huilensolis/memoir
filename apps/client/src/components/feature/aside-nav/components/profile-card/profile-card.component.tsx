@@ -40,7 +40,7 @@ export function ProfileCard() {
               <CircleUserRound />
               {loading && <Skeleton className="w-32 h-4" />}
               {!loading && user && (
-                <h4 className="font-semibold">{user.name}</h4>
+                <span className="font-semibold text-base">{user.name}</span>
               )}
             </section>
             <ChevronsUpDown />
