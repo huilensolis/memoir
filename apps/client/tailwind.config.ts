@@ -9,6 +9,13 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            fontWeight: "600",
+          },
+        },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -64,6 +64,7 @@ export function TextEditor() {
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
       }),
     ],
+    content: "<h1></h1>",
     autofocus: true,
     editable: true,
     injectCSS: false,
@@ -98,7 +99,7 @@ export function TextEditor() {
           </FloatingMenu>
           <EditorContent
             editor={editor}
-            className="w-full h-full min-h-screen prose-lg text-neutral-800"
+            className="w-full h-full min-h-screen prose text-neutral-800"
           />
         </>
       )}
