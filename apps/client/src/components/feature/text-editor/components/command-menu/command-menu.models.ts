@@ -8,114 +8,41 @@ type TCommand = {
   disabled: (editor: Editor) => boolean;
 };
 
-function deleteNodeBeforeRunningFunction(editor: Editor, callback: () => void) {
-  editor.chain().focus().deleteNode("paragraph").run();
-  callback();
-}
-
 export const BLOCK_COMMANDS: TCommand[] = [
   {
     icon: Heading1,
     text: "Heading 1",
     method: (editor) => {
-      deleteNodeBeforeRunningFunction(editor, () => {
-        editor.commands.insertContent({
-          type: "heading",
-          attrs: {
-            level: 1,
-          },
-          content: [
-            {
-              type: "text",
-              text: "title",
-            },
-          ],
-        });
-        editor.chain().focus().run();
-      });
+      editor.chain().focus().deleteNode("paragraph").run();
+
+      editor.chain().focus().enter().run();
+
+      editor.commands.toggleHeading({ level: 1 });
     },
-    disabled: (editor) =>
-      editor.can().insertContent({
-        type: "heading",
-        attrs: {
-          level: 1,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
-          },
-        ],
-      }),
+    disabled: (editor) => editor.can().toggleHeading({ level: 1 }),
   },
   {
     icon: Heading2,
     text: "Heading 2",
     method: (editor) => {
-      deleteNodeBeforeRunningFunction(editor, () => {
-        editor.commands.insertContent({
-          type: "heading",
-          attrs: {
-            level: 2,
-          },
-          content: [
-            {
-              type: "text",
-              text: "title",
-            },
-          ],
-        });
+      editor.chain().focus().deleteNode("paragraph").run();
 
-        editor.chain().focus().run();
-      });
+      editor.chain().focus().enter().run();
+
+      editor.commands.toggleHeading({ level: 2 });
     },
-    disabled: (editor) =>
-      editor.can().insertContent({
-        type: "heading",
-        attrs: {
-          level: 2,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
-          },
-        ],
-      }),
+    disabled: (editor) => editor.can().toggleHeading({ level: 2 }),
   },
   {
     icon: Heading3,
     text: "Heading 3",
     method: (editor) => {
-      deleteNodeBeforeRunningFunction(editor, () => {
-        editor.commands.insertContent({
-          type: "heading",
-          attrs: {
-            level: 3,
-          },
-          content: [
-            {
-              type: "text",
-              text: "title",
-            },
-          ],
-        });
+      editor.chain().focus().deleteNode("paragraph").run();
 
-        editor.chain().focus().run();
-      });
+      editor.chain().focus().enter().run();
+
+      editor.commands.toggleHeading({ level: 3 });
     },
-    disabled: (editor) =>
-      editor.can().insertContent({
-        type: "heading",
-        attrs: {
-          level: 3,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
-          },
-        ],
-      }),
+    disabled: (editor) => editor.can().toggleHeading({ level: 3 }),
   },
 ];

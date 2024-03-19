@@ -60,7 +60,7 @@ export function TextEditor() {
           if (node.type.name === "heading") return "Title";
           return "what's on your mind";
         },
-        emptyEditorClass:
+        emptyNodeClass:
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
       }),
     ],
