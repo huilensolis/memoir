@@ -20,7 +20,7 @@ export function TextEditor() {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: "outline-none py-4",
+        class: "outline-none",
       },
     },
     extensions: [
@@ -86,18 +86,6 @@ export function TextEditor() {
                   setCommandMenuSearchValue(currentLineInput.split("/")[1]);
                   return true;
                 }
-                // if (currentLineInput.includes("/")) {
-                //   const stringNextToSlash = currentLineInput.split("/")[1];
-                //
-                //   if (stringNextToSlash.startsWith(" ")) return false; // we check it has not spaces after the slash
-                //
-                //   if (stringNextToSlash.split(" ").length > 1) return false;
-                //
-                //   setCommandMenuSearchValue(stringNextToSlash);
-                //
-                //   return true;
-                // }
-
                 return false;
               } catch (error) {
                 return false;
@@ -110,7 +98,7 @@ export function TextEditor() {
           </FloatingMenu>
           <EditorContent
             editor={editor}
-            className="w-full h-full min-h-screen"
+            className="w-full h-full min-h-screen prose-lg text-neutral-800"
           />
         </>
       )}
