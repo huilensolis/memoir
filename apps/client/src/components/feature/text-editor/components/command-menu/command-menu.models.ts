@@ -8,25 +8,31 @@ type TCommand = {
   disabled: (editor: Editor) => boolean;
 };
 
+function deleteNodeBeforeRunningFunction(editor: Editor, callback: () => void) {
+  editor.chain().focus().deleteNode("paragraph").run();
+  callback();
+}
+
 export const BLOCK_COMMANDS: TCommand[] = [
   {
     icon: Heading1,
     text: "Heading 1",
     method: (editor) => {
-      editor.commands.insertContent({
-        type: "heading",
-        attrs: {
-          level: 1,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
+      deleteNodeBeforeRunningFunction(editor, () => {
+        editor.commands.insertContent({
+          type: "heading",
+          attrs: {
+            level: 1,
           },
-        ],
+          content: [
+            {
+              type: "text",
+              text: "title",
+            },
+          ],
+        });
+        editor.chain().focus().run();
       });
-
-      editor.chain().focus().run();
     },
     disabled: (editor) =>
       editor.can().insertContent({
@@ -46,20 +52,22 @@ export const BLOCK_COMMANDS: TCommand[] = [
     icon: Heading2,
     text: "Heading 2",
     method: (editor) => {
-      editor.commands.insertContent({
-        type: "heading",
-        attrs: {
-          level: 2,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
+      deleteNodeBeforeRunningFunction(editor, () => {
+        editor.commands.insertContent({
+          type: "heading",
+          attrs: {
+            level: 2,
           },
-        ],
-      });
+          content: [
+            {
+              type: "text",
+              text: "title",
+            },
+          ],
+        });
 
-      editor.chain().focus().run();
+        editor.chain().focus().run();
+      });
     },
     disabled: (editor) =>
       editor.can().insertContent({
@@ -79,20 +87,22 @@ export const BLOCK_COMMANDS: TCommand[] = [
     icon: Heading3,
     text: "Heading 3",
     method: (editor) => {
-      editor.commands.insertContent({
-        type: "heading",
-        attrs: {
-          level: 3,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
+      deleteNodeBeforeRunningFunction(editor, () => {
+        editor.commands.insertContent({
+          type: "heading",
+          attrs: {
+            level: 3,
           },
-        ],
-      });
+          content: [
+            {
+              type: "text",
+              text: "title",
+            },
+          ],
+        });
 
-      editor.chain().focus().run();
+        editor.chain().focus().run();
+      });
     },
     disabled: (editor) =>
       editor.can().insertContent({

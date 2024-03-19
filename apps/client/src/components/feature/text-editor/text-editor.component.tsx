@@ -82,9 +82,21 @@ export function TextEditor() {
                 const currentLineInput = (view as any).trackWrites
                   .data as string; // line input
                 if (currentLineInput.startsWith("/")) {
+                  console.log("heree");
                   setCommandMenuSearchValue(currentLineInput.split("/")[1]);
                   return true;
                 }
+                // if (currentLineInput.includes("/")) {
+                //   const stringNextToSlash = currentLineInput.split("/")[1];
+                //
+                //   if (stringNextToSlash.startsWith(" ")) return false; // we check it has not spaces after the slash
+                //
+                //   if (stringNextToSlash.split(" ").length > 1) return false;
+                //
+                //   setCommandMenuSearchValue(stringNextToSlash);
+                //
+                //   return true;
+                // }
 
                 return false;
               } catch (error) {
