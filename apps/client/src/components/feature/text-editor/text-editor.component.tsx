@@ -11,8 +11,12 @@ import Typography from "@tiptap/extension-typography";
 import Placeholder from "@tiptap/extension-placeholder";
 
 import { Toolbar } from "./components/toolbar";
+import { CommandMenu } from "./components/command-menu/command-menu.component";
+import { useState } from "react";
 
 export function TextEditor() {
+  const [commandMenusearchValue, setCommandMenuSearchValue] = useState("");
+
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -54,7 +58,7 @@ export function TextEditor() {
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === "heading") return "Title";
-          return "";
+          return "what's on your mind";
         },
         emptyEditorClass:
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
@@ -69,11 +73,28 @@ export function TextEditor() {
     <div>
       {editor && (
         <>
-          <BubbleMenu editor={editor} updateDelay={300}>
+          <BubbleMenu editor={editor} updateDelay={300} className="w-full">
             <Toolbar editor={editor} />
           </BubbleMenu>
-          <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
-            <Toolbar editor={editor} />
+          <FloatingMenu
+            shouldShow={({ view }) => {
+              try {
+                const currentLineInput = (view as any).trackWrites
+                  .data as string; // line input
+                if (currentLineInput.startsWith("/")) {
+                  setCommandMenuSearchValue(currentLineInput.split("/")[1]);
+                  return true;
+                }
+
+                return false;
+              } catch (error) {
+                return false;
+              }
+            }}
+            editor={editor}
+            tippyOptions={{ duration: 100 }}
+          >
+            <CommandMenu editor={editor} searchValue={commandMenusearchValue} />
           </FloatingMenu>
           <EditorContent
             editor={editor}
