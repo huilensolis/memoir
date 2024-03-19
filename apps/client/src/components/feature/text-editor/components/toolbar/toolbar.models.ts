@@ -41,18 +41,7 @@ export const OPTIONS: TOption[] = [
   {
     icon: Heading1,
     method: (editor) => {
-      editor.commands.insertContent({
-        type: "heading",
-        attrs: {
-          level: 1,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
-          },
-        ],
-      });
+      editor.commands.toggleHeading({ level: 1 });
 
       editor.chain().focus().run();
     },
@@ -60,18 +49,7 @@ export const OPTIONS: TOption[] = [
   {
     icon: Heading2,
     method: (editor) => {
-      editor.commands.insertContent({
-        type: "heading",
-        attrs: {
-          level: 2,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
-          },
-        ],
-      });
+      editor.commands.toggleHeading({ level: 2 });
 
       editor.chain().focus().run();
     },
@@ -79,18 +57,7 @@ export const OPTIONS: TOption[] = [
   {
     icon: Heading3,
     method: (editor) => {
-      editor.commands.insertContent({
-        type: "heading",
-        attrs: {
-          level: 3,
-        },
-        content: [
-          {
-            type: "text",
-            text: "title",
-          },
-        ],
-      });
+      editor.commands.toggleHeading({ level: 3 });
 
       editor.chain().focus().run();
     },
