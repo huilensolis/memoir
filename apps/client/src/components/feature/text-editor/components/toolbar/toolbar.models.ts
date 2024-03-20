@@ -13,6 +13,7 @@ import {
 type TOption = {
   icon: LucideIcon;
   method: (editor: Editor) => void;
+  isActive: (editor: Editor) => boolean;
 };
 
 export const OPTIONS: TOption[] = [
@@ -21,45 +22,46 @@ export const OPTIONS: TOption[] = [
     method: (editor) => {
       editor.chain().focus().toggleBold().run();
     },
+    isActive: (editor) => editor.isActive("bold"),
   },
   {
     icon: Italic,
     method: (editor) => {
       editor.chain().focus().toggleItalic().run();
     },
+    isActive: (editor) => editor.isActive("italic"),
   },
   {
     icon: Strikethrough,
     method: (editor) => {
       editor.chain().focus().toggleStrike().run();
     },
+    isActive: (editor) => editor.isActive("strike"),
   },
   {
     icon: Quote,
     method: (editor) => {},
+    isActive: (editor) => false,
   },
   {
     icon: Heading1,
     method: (editor) => {
       editor.commands.toggleHeading({ level: 1 });
-
-      editor.chain().focus().run();
     },
+    isActive: (editor) => editor.isActive("heading", { level: 1 }),
   },
   {
     icon: Heading2,
     method: (editor) => {
       editor.commands.toggleHeading({ level: 2 });
-
-      editor.chain().focus().run();
     },
+    isActive: (editor) => editor.isActive("heading", { level: 2 }),
   },
   {
     icon: Heading3,
     method: (editor) => {
       editor.commands.toggleHeading({ level: 3 });
-
-      editor.chain().focus().run();
     },
+    isActive: (editor) => editor.isActive("heading", { level: 3 }),
   },
 ];

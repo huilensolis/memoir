@@ -10,16 +10,14 @@ type TProps = {
 export function Toolbar({ editor }: TProps) {
   return (
     <Box className="flex items-center justify-center w-full rounded-sm overflow-hidden">
-      <ul className="flex items-center justify-center w-full">
+      <ul className="flex flex-wrap items-center justify-center w-full">
         {OPTIONS.map((option, i) => (
-          <li
-            key={i}
-            className="flex items-center justify-center h-full w-full"
-          >
+          <li key={i} className="flex items-center justify-center h-full">
             <ToolBarOption
               onClick={() => {
                 option.method(editor);
               }}
+              isActive={option.isActive(editor)}
             >
               <option.icon />
             </ToolBarOption>

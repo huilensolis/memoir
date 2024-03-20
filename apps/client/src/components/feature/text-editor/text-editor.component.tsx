@@ -20,7 +20,7 @@ export function TextEditor() {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: "outline-none",
+        class: "outline-none prose text-neutral-800",
       },
     },
     extensions: [
@@ -65,9 +65,11 @@ export function TextEditor() {
       }),
     ],
     content: "<h1></h1>",
-    autofocus: true,
+    autofocus: "start",
     editable: true,
-    injectCSS: false,
+    parseOptions: {
+      preserveWhitespace: "full",
+    },
   });
 
   return (
@@ -99,7 +101,7 @@ export function TextEditor() {
           </FloatingMenu>
           <EditorContent
             editor={editor}
-            className="w-full h-full min-h-screen prose text-neutral-800"
+            className="w-full h-full min-h-screen"
           />
         </>
       )}

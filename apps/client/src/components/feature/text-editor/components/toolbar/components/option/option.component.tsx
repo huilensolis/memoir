@@ -18,8 +18,8 @@ export function ToolBarOption({
       disabled={disabled}
       aria-disabled={disabled}
       className={[
-        "flex items-center justify-center w-full px-2 py-1.5 bg-white text-sm outline-none hover:bg-accent disabled:pointer-events-none disabled:opacity-50",
-        isActive && "bg-accent text-accent-foreground",
+        "flex items-center justify-center w-full px-3 py-2 text-sm outline-none hover:bg-accent disabled:pointer-events-none disabled:opacity-50",
+        isActive ? "bg-accent text-accent-foreground" : "bg-white",
         className,
       ].join(" ")}
     >
