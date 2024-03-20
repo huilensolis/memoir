@@ -98,12 +98,19 @@ export function CommandMenu({
     }
   }
 
+  function handleEnter() {
+    BLOCK_COMMANDS[indexOfCurrentOption].method(editor);
+  }
+
   function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key === "ArrowUp") {
       handleUp();
     }
     if (e.key === "ArrowDown") {
       handleDown();
+    }
+    if (e.key === "Enter") {
+      handleEnter();
     }
   }
   return (
