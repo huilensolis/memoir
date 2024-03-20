@@ -92,7 +92,6 @@ export function TextEditor() {
                 const currentLineInput = (view as any).trackWrites
                   .data as string; // line input
                 if (currentLineInput.startsWith("/")) {
-                  console.log("heree");
                   setCommandMenuSearchValue(currentLineInput.split("/")[1]);
                   return true;
                 }

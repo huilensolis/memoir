@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
 import { Box } from "../box";
@@ -21,9 +20,7 @@ const Command = React.forwardRef<
 ));
 Command.displayName = CommandPrimitive.displayName;
 
-interface CommandDialogProps extends DialogProps {}
-
-const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
+const CommandDialog = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box className="overflow-hidden p-0 shadow-lg">
       <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
@@ -109,39 +106,32 @@ const CommandSeparator = React.forwardRef<
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
-const CommandItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
->(({ className, ...props }, ref) => {
-  return (
-    <CommandPrimitive.Item
-      ref={ref}
-      className={[
-        "relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent hover:bg-accent aria-selected:text-accent-foreground aria-disabled:pointer-events-none aria-disabled:opacity-50",
-        className,
-      ].join(" ")}
-      {...props}
-    />
-  );
-});
+type TCommandItem = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: React.ReactNode;
+  isActive?: boolean;
+};
 
-CommandItem.displayName = CommandPrimitive.Item.displayName;
-
-const CommandShortcut = ({
+const CommandItem = ({
   className,
+  isActive = false,
+  disabled,
   ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
+}: TCommandItem) => {
   return (
-    <span
+    <button
       className={[
-        "ml-auto text-xs tracking-widest text-muted-foreground",
+        "relative flex select-none items-center hover:bg-accent rounded-sm px-2 py-1.5 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50",
+        isActive && "bg-accent text-accent-foreground",
         className,
       ].join(" ")}
+      disabled={disabled}
+      aria-disabled={disabled}
       {...props}
     />
   );
 };
-CommandShortcut.displayName = "CommandShortcut";
+
+CommandItem.displayName = CommandPrimitive.Item.displayName;
 
 export {
   Command,
@@ -151,6 +141,5 @@ export {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandShortcut,
   CommandSeparator,
 };

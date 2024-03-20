@@ -5,7 +5,7 @@ type TCommand = {
   icon: LucideIcon;
   text: string;
   method: (editor: Editor) => void;
-  disabled: (editor: Editor) => boolean;
+  isDisabled: (editor: Editor) => boolean;
 };
 
 export const BLOCK_COMMANDS: TCommand[] = [
@@ -19,7 +19,7 @@ export const BLOCK_COMMANDS: TCommand[] = [
 
       editor.commands.toggleHeading({ level: 1 });
     },
-    disabled: (editor) => editor.can().toggleHeading({ level: 1 }),
+    isDisabled: (editor) => !editor.can().toggleHeading({ level: 1 }),
   },
   {
     icon: Heading2,
@@ -31,7 +31,7 @@ export const BLOCK_COMMANDS: TCommand[] = [
 
       editor.commands.toggleHeading({ level: 2 });
     },
-    disabled: (editor) => editor.can().toggleHeading({ level: 2 }),
+    isDisabled: (editor) => !editor.can().toggleHeading({ level: 2 }),
   },
   {
     icon: Heading3,
@@ -43,6 +43,6 @@ export const BLOCK_COMMANDS: TCommand[] = [
 
       editor.commands.toggleHeading({ level: 3 });
     },
-    disabled: (editor) => editor.can().toggleHeading({ level: 3 }),
+    isDisabled: (editor) => !editor.can().toggleHeading({ level: 3 }),
   },
 ];
