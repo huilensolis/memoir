@@ -117,9 +117,7 @@ export function CommandMenu({
       />
       <CommandList>
         <CommandSeparator />
-        <CommandGroup heading="Blocks">
-          {JSON.stringify({ indexOfCurrentOption })}
-
+        <CommandGroup heading="Blocks" autoFocus>
           {BLOCK_COMMANDS.map((command, i) => (
             <CommandItem
               className="w-full"

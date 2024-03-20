@@ -1,5 +1,11 @@
 import { type Editor } from "@tiptap/react";
-import { Heading1, Heading2, Heading3, type LucideIcon } from "lucide-react";
+import {
+  Heading1,
+  Heading2,
+  Heading3,
+  Quote,
+  type LucideIcon,
+} from "lucide-react";
 
 type TCommand = {
   icon: LucideIcon;
@@ -32,6 +38,12 @@ export const BLOCK_COMMANDS: TCommand[] = [
       editor.commands.toggleHeading({ level: 2 });
     },
     isDisabled: (editor) => !editor.can().toggleHeading({ level: 2 }),
+  },
+  {
+    icon: Quote,
+    text: "Quote",
+    method: (editor) => {},
+    isDisabled: (editor) => true,
   },
   {
     icon: Heading3,
