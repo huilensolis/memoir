@@ -76,7 +76,6 @@ export function TextEditor() {
     parseOptions: {
       preserveWhitespace: "full",
     },
-    content: `<h1>It’ll always have a heading …`,
   });
 
   return (
