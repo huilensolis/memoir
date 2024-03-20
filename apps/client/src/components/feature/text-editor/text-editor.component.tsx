@@ -1,5 +1,6 @@
 "use client";
 
+import Document from "@tiptap/extension-document";
 import {
   useEditor,
   EditorContent,
@@ -14,6 +15,10 @@ import { Toolbar } from "./components/toolbar";
 import { CommandMenu } from "./components/command-menu/command-menu.component";
 import { useState } from "react";
 
+const CustomDocument = Document.extend({
+  content: "heading block*",
+});
+
 export function TextEditor() {
   const [commandMenusearchValue, setCommandMenuSearchValue] = useState("");
 
@@ -24,7 +29,9 @@ export function TextEditor() {
       },
     },
     extensions: [
+      CustomDocument,
       StarterKit.configure({
+        document: false,
         heading: {
           levels: [1, 2, 3],
           HTMLAttributes: {
@@ -64,12 +71,12 @@ export function TextEditor() {
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
       }),
     ],
-    content: "<h1></h1>",
     autofocus: "start",
     editable: true,
     parseOptions: {
       preserveWhitespace: "full",
     },
+    content: `<h1>It’ll always have a heading …`,
   });
 
   return (
