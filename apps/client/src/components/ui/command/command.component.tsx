@@ -106,30 +106,26 @@ const CommandSeparator = React.forwardRef<
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
-type TCommandItem = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  children: React.ReactNode;
+interface TCommandItem
+  extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item> {
   isActive?: boolean;
-};
+}
 
-const CommandItem = ({
-  className,
-  isActive = false,
-  disabled,
-  ...props
-}: TCommandItem) => {
-  return (
-    <button
-      className={[
-        "relative flex select-none items-center hover:bg-accent rounded-sm px-2 py-1.5 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50",
-        isActive && "bg-accent text-accent-foreground",
-        className,
-      ].join(" ")}
-      disabled={disabled}
-      aria-disabled={disabled}
-      {...props}
-    />
-  );
-};
+const CommandItem = React.forwardRef<
+  React.ElementRef<typeof CommandPrimitive.Item>,
+  TCommandItem
+>(({ className, disabled, isActive = false, ...props }, ref) => (
+  <CommandPrimitive.Item
+    className={[
+      "relative flex select-none items-center hover:bg-accent rounded-sm px-2 py-1.5 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50",
+      isActive && "bg-accent text-accent-foreground",
+      className,
+    ].join(" ")}
+    disabled={disabled}
+    aria-disabled={disabled}
+    {...props}
+  />
+));
 
 CommandItem.displayName = CommandPrimitive.Item.displayName;
 

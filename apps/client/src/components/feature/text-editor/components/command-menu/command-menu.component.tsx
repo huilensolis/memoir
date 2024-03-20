@@ -127,6 +127,7 @@ export function CommandMenu({
               onClick={() => {
                 command.method(editor);
               }}
+              value={command.text}
             >
               <command.icon className="mr-2 h-4 w-4" />
               <span>{command.text}</span>
