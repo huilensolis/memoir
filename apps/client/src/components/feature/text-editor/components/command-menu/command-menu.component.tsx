@@ -9,8 +9,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { type Editor } from "@tiptap/react";
-import { BLOCK_COMMANDS } from "./command-menu.models";
-import { useState, type KeyboardEvent } from "react";
+import { BLOCK_COMMANDS } from "../../stores/command-menu/command-menu.models";
+import { useCommandMenuStore } from "../../stores/command-menu";
 
 export function CommandMenu({
   editor,
@@ -19,105 +19,12 @@ export function CommandMenu({
   editor: Editor;
   searchValue: string;
 }) {
-  const [indexOfCurrentOption, setIndexOfCurrentOption] = useState(0);
+  const indexOfCurrentOption = useCommandMenuStore(
+    (state) => state.indexOfCurrentOption,
+  );
 
-  function handleUp() {
-    function findIndexOfNextEnabledOption(indexOfCurrentOption: number) {
-      let returnIndexOfNextOption: number | null = null;
-
-      const aboveCommands = BLOCK_COMMANDS.slice(0, indexOfCurrentOption);
-      for (let i = aboveCommands.length - 1; i <= aboveCommands.length; i--) {
-        const indexOfNextOption = i;
-
-        const nextOption = aboveCommands[indexOfNextOption];
-
-        const isNexOptionDisabled = nextOption.isDisabled(editor);
-
-        if (!isNexOptionDisabled) {
-          returnIndexOfNextOption = i;
-          break;
-        }
-      }
-      return returnIndexOfNextOption;
-    }
-
-    if (indexOfCurrentOption === 0) {
-      const nextOption = findIndexOfNextEnabledOption(BLOCK_COMMANDS.length);
-
-      if (nextOption !== null) {
-        setIndexOfCurrentOption(nextOption);
-      }
-
-      return;
-    }
-
-    const nextOption = findIndexOfNextEnabledOption(indexOfCurrentOption);
-
-    if (nextOption !== null) {
-      setIndexOfCurrentOption(nextOption);
-    }
-  }
-
-  function handleDown() {
-    function findIndexOfNextEnabledOption(indexOfCurrentOption: number) {
-      let returnIndexOfNextOption: number | null = null;
-
-      for (let i = indexOfCurrentOption; i < BLOCK_COMMANDS.length; i++) {
-        const indexOfNextOption = i;
-
-        const nextOption = BLOCK_COMMANDS[indexOfNextOption];
-
-        const isNexOptionDisabled = nextOption.isDisabled(editor);
-
-        if (!isNexOptionDisabled) {
-          returnIndexOfNextOption = i;
-          break;
-        }
-      }
-      return returnIndexOfNextOption;
-    }
-
-    if (indexOfCurrentOption === BLOCK_COMMANDS.length - 1) {
-      const nextOption = findIndexOfNextEnabledOption(0);
-
-      if (nextOption !== null) {
-        setIndexOfCurrentOption(nextOption);
-      }
-      return;
-    }
-
-    const nextOption = findIndexOfNextEnabledOption(indexOfCurrentOption + 1);
-
-    if (nextOption !== null) {
-      setIndexOfCurrentOption(nextOption);
-    } else {
-      const nextOption = findIndexOfNextEnabledOption(0);
-      if (nextOption !== null) {
-        setIndexOfCurrentOption(nextOption);
-      }
-    }
-  }
-
-  function handleEnter() {
-    BLOCK_COMMANDS[indexOfCurrentOption].method(editor);
-  }
-
-  function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-    if (e.key === "ArrowUp") {
-      handleUp();
-    }
-    if (e.key === "ArrowDown") {
-      handleDown();
-    }
-    if (e.key === "Enter") {
-      handleEnter();
-    }
-  }
   return (
-    <Command
-      className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800"
-      onKeyDown={handleKeyDown}
-    >
+    <Command className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800">
       <CommandInput
         placeholder="Type a command or search..."
         value={searchValue}

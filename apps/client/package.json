@@ -15,6 +15,7 @@
     "@tiptap/extension-bubble-menu": "^2.2.4",
     "@tiptap/extension-document": "^2.2.4",
     "@tiptap/extension-floating-menu": "^2.2.4",
+    "@tiptap/extension-hard-break": "^2.2.4",
     "@tiptap/extension-placeholder": "^2.2.4",
     "@tiptap/extension-typography": "^2.2.4",
     "@tiptap/pm": "^2.2.4",
@@ -32,7 +33,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tippy.js": "^6.3.7",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",
