@@ -23,9 +23,10 @@ export const BLOCK_COMMANDS: TCommand[] = [
         .chain()
         .focus()
         .deleteNode("paragraph")
-        .enter()
-        .toggleHeading({ level: 1 })
+        .deleteNode("paragraph")
         .run();
+
+      editor.chain().enter().toggleHeading({ level: 1 }).run();
     },
     isDisabled: (editor) => !editor.can().toggleHeading({ level: 1 }),
   },
@@ -33,11 +34,14 @@ export const BLOCK_COMMANDS: TCommand[] = [
     icon: Heading2,
     text: "Heading 2",
     method: (editor) => {
-      editor.chain().focus().deleteNode("paragraph").run();
+      editor
+        .chain()
+        .focus()
+        .deleteNode("paragraph")
+        .deleteNode("paragraph")
+        .run();
 
-      editor.chain().focus().enter().run();
-
-      editor.commands.toggleHeading({ level: 2 });
+      editor.chain().enter().toggleHeading({ level: 2 }).run();
     },
     isDisabled: (editor) => !editor.can().toggleHeading({ level: 2 }),
   },
@@ -51,11 +55,14 @@ export const BLOCK_COMMANDS: TCommand[] = [
     icon: Heading3,
     text: "Heading 3",
     method: (editor) => {
-      editor.chain().focus().deleteNode("paragraph").run();
+      editor
+        .chain()
+        .focus()
+        .deleteNode("paragraph")
+        .deleteNode("paragraph")
+        .run();
 
-      editor.chain().focus().enter().run();
-
-      editor.commands.toggleHeading({ level: 3 });
+      editor.chain().enter().toggleHeading({ level: 3 }).run();
     },
     isDisabled: (editor) => !editor.can().toggleHeading({ level: 3 }),
   },

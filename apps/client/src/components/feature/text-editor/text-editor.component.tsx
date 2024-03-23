@@ -6,6 +6,8 @@ import {
   EditorContent,
   BubbleMenu,
   FloatingMenu,
+  type Editor,
+  Extension,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
@@ -15,6 +17,7 @@ import { Toolbar } from "./components/toolbar";
 import { useState } from "react";
 import { useCommandMenuStore } from "./stores/command-menu";
 import { CommandMenu } from "./components/command-menu";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
 
 const CustomDocument = Document.extend({
   content: "heading block*",
@@ -32,6 +35,29 @@ export function TextEditor() {
   const handleDown = useCommandMenuStore((store) => store.handleDown);
   const handleSelect = useCommandMenuStore((store) => store.handleSelect);
 
+  const PreventDefualtBehaviorOfEnter = Extension.create({
+    name: "preventDefaultEnter",
+
+    addProseMirrorPlugins() {
+      return [
+        new Plugin({
+          key: new PluginKey("preventDefaultEnterPLugin"),
+          props: {
+            handleKeyDown(view, event) {
+              if (event.key === "Enter") {
+                console.log("running enter");
+                console.log(isCommandMenuVisible);
+                if (isCommandMenuVisible) {
+                  return true;
+                }
+                return false;
+              }
+            },
+          },
+        }),
+      ];
+    },
+  });
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -40,6 +66,7 @@ export function TextEditor() {
     },
     extensions: [
       CustomDocument,
+      PreventDefualtBehaviorOfEnter,
       StarterKit.configure({
         document: false,
         heading: {
@@ -136,8 +163,10 @@ export function TextEditor() {
                 setCommandMenuIsVisible(false);
                 return false;
               } catch (error) {
-                setCommandMenuIsVisible(false);
-                return false;
+                // DO NOT REMOVE. This is necesary to delay it and do not run before a command;
+                setTimeout(() => {
+                  setCommandMenuIsVisible(false);
+                }, 0);
               }
             }}
             editor={editor}
