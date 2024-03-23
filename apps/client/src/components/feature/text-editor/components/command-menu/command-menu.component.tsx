@@ -38,13 +38,17 @@ export function CommandMenu({
               disabled={command.isDisabled(editor)}
               key={command.text}
               isActive={i === indexOfCurrentOption}
-              onClick={() => {
-                command.method(editor);
-              }}
               value={command.text}
             >
-              <command.icon className="mr-2 h-4 w-4" />
-              <span>{command.text}</span>
+              <button
+                className="w-full flex items-center"
+                onClick={() => {
+                  command.method(editor);
+                }}
+              >
+                <command.icon className="mr-2 h-4 w-4" />
+                <span>{command.text}</span>
+              </button>
             </CommandItem>
           ))}
         </CommandGroup>
