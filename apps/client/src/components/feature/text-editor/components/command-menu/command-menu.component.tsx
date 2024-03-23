@@ -9,7 +9,6 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { type Editor } from "@tiptap/react";
-import { BLOCK_COMMANDS } from "../../stores/command-menu/command-menu.models";
 import { useCommandMenuStore } from "../../stores/command-menu";
 
 export function CommandMenu({
@@ -22,6 +21,7 @@ export function CommandMenu({
   const indexOfCurrentOption = useCommandMenuStore(
     (state) => state.indexOfCurrentOption,
   );
+  const commands = useCommandMenuStore((state) => state.commands);
 
   return (
     <Command className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800">
@@ -32,10 +32,9 @@ export function CommandMenu({
       <CommandList>
         <CommandSeparator />
         <CommandGroup heading="Blocks" autoFocus>
-          {BLOCK_COMMANDS.map((command, i) => (
+          {commands.map((command, i) => (
             <CommandItem
               className="w-full"
-              disabled={command.isDisabled(editor)}
               key={command.text}
               isActive={i === indexOfCurrentOption}
               value={command.text}
@@ -43,7 +42,7 @@ export function CommandMenu({
               <button
                 className="w-full flex items-center"
                 onClick={() => {
-                  command.method(editor);
+                  command.command(editor);
                 }}
               >
                 <command.icon className="mr-2 h-4 w-4" />

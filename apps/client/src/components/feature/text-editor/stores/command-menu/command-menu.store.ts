@@ -1,117 +1,60 @@
 import { create } from "zustand";
-import { BLOCK_COMMANDS } from "./command-menu.models";
+import { BLOCK_COMMANDS, type TCommandItem } from "./command-menu.models";
 import { type Editor } from "@tiptap/react";
 
 type TCommandMenuStore = {
-  isVisible: boolean;
-  setIsVisible: (value: boolean) => void;
-  indexOfCurrentOption: number | null;
+  isMenuVisible: boolean;
+  setIsMenuVisible: (value: boolean) => void;
+  commands: TCommandItem[];
 
+  indexOfCurrentOption: number;
   setIndexOfCurrentOption: (newIndex: number) => void;
-  handleUp: (editor: Editor) => void;
-  handleDown: (editor: Editor) => void;
+
+  filterByTitle: (title: string) => void;
+  handleUp: () => void;
+  handleDown: () => void;
   handleSelect: (editor: Editor) => void;
 };
 
 export const useCommandMenuStore = create<TCommandMenuStore>((set, get) => ({
-  isVisible: false,
-  setIsVisible(value) {
-    set(() => ({ isVisible: value }));
+  isMenuVisible: false,
+  setIsMenuVisible(value) {
+    set(() => ({ isMenuVisible: value }));
   },
-  indexOfCurrentOption: 0, //  TODO: implement init function to search for the first enabled option in case index 0 is disabled
+  commands: [...BLOCK_COMMANDS],
+  filterByTitle(title) {},
+  indexOfCurrentOption: 0,
   setIndexOfCurrentOption(newIndex) {
     set((_state: TCommandMenuStore) => ({
       indexOfCurrentOption: newIndex,
     }));
   },
-  handleUp(editor) {
+  handleUp() {
+    console.log("running handle up");
     const indexOfCurrentOption = get().indexOfCurrentOption;
-
-    if (indexOfCurrentOption === null) return;
-
-    function findIndexOfNextEnabledOption(indexOfCurrentOption: number) {
-      let returnIndexOfNextOption: number | null = null;
-
-      const aboveCommands = BLOCK_COMMANDS.slice(0, indexOfCurrentOption);
-      for (let i = aboveCommands.length - 1; i <= aboveCommands.length; i--) {
-        const indexOfNextOption = i;
-
-        const nextOption = aboveCommands[indexOfNextOption];
-
-        const isNexOptionDisabled = nextOption.isDisabled(editor);
-
-        if (!isNexOptionDisabled) {
-          returnIndexOfNextOption = i;
-          break;
-        }
-      }
-      return returnIndexOfNextOption;
-    }
 
     if (indexOfCurrentOption === 0) {
-      const nextOption = findIndexOfNextEnabledOption(BLOCK_COMMANDS.length);
-
-      if (nextOption !== null) {
-        get().setIndexOfCurrentOption(nextOption);
-      }
-
+      // if current option is the first one
+      get().setIndexOfCurrentOption(get().commands.length - 1);
       return;
     }
 
-    const nextOption = findIndexOfNextEnabledOption(indexOfCurrentOption);
-
-    if (nextOption !== null) {
-      get().setIndexOfCurrentOption(nextOption);
-    }
+    get().setIndexOfCurrentOption(indexOfCurrentOption - 1);
   },
-  handleDown(editor) {
+  handleDown() {
     const indexOfCurrentOption = get().indexOfCurrentOption;
 
-    if (indexOfCurrentOption === null) return;
-
-    function findIndexOfNextEnabledOption(indexOfCurrentOption: number) {
-      let returnIndexOfNextOption: number | null = null;
-
-      for (let i = indexOfCurrentOption; i < BLOCK_COMMANDS.length; i++) {
-        const indexOfNextOption = i;
-
-        const nextOption = BLOCK_COMMANDS[indexOfNextOption];
-
-        const isNexOptionDisabled = nextOption.isDisabled(editor);
-
-        if (!isNexOptionDisabled) {
-          returnIndexOfNextOption = i;
-          break;
-        }
-      }
-      return returnIndexOfNextOption;
-    }
-
-    if (indexOfCurrentOption === BLOCK_COMMANDS.length - 1) {
-      const nextOption = findIndexOfNextEnabledOption(0);
-
-      if (nextOption !== null) {
-        get().setIndexOfCurrentOption(nextOption);
-      }
+    if (indexOfCurrentOption === get().commands.length - 1) {
+      // if current option is last one
+      get().setIndexOfCurrentOption(0);
       return;
     }
 
-    const nextOption = findIndexOfNextEnabledOption(indexOfCurrentOption + 1);
-
-    if (nextOption !== null) {
-      get().setIndexOfCurrentOption(nextOption);
-    } else {
-      const nextOption = findIndexOfNextEnabledOption(0);
-      if (nextOption !== null) {
-        get().setIndexOfCurrentOption(nextOption);
-      }
-    }
+    get().setIndexOfCurrentOption(indexOfCurrentOption + 1);
   },
   handleSelect(editor) {
     const indexOfCurrentOption = get().indexOfCurrentOption;
 
-    if (indexOfCurrentOption === null) return;
-
-    BLOCK_COMMANDS[indexOfCurrentOption].method(editor);
+    BLOCK_COMMANDS[indexOfCurrentOption].command(editor);
   },
 }));

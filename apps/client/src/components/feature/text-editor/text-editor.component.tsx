@@ -6,7 +6,6 @@ import {
   EditorContent,
   BubbleMenu,
   FloatingMenu,
-  type Editor,
   Extension,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -26,9 +25,11 @@ const CustomDocument = Document.extend({
 export function TextEditor() {
   const [commandMenusearchValue, setCommandMenuSearchValue] = useState("");
 
-  const isCommandMenuVisible = useCommandMenuStore((store) => store.isVisible);
+  const isCommandMenuVisible = useCommandMenuStore(
+    (store) => store.isMenuVisible,
+  );
   const setCommandMenuIsVisible = useCommandMenuStore(
-    (store) => store.setIsVisible,
+    (store) => store.setIsMenuVisible,
   );
 
   const handleUp = useCommandMenuStore((store) => store.handleUp);
@@ -45,8 +46,6 @@ export function TextEditor() {
           props: {
             handleKeyDown(view, event) {
               if (event.key === "Enter") {
-                console.log("running enter");
-                console.log(isCommandMenuVisible);
                 if (isCommandMenuVisible) {
                   return true;
                 }
@@ -117,15 +116,15 @@ export function TextEditor() {
 
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === "ArrowUp") {
-      if (editor && isCommandMenuVisible) {
+      if (isCommandMenuVisible) {
         e.preventDefault();
-        handleUp(editor);
+        handleUp();
       }
     }
     if (e.key === "ArrowDown") {
-      if (editor && isCommandMenuVisible) {
+      if (isCommandMenuVisible) {
         e.preventDefault();
-        handleDown(editor);
+        handleDown();
       }
     }
     if (e.key === "Enter") {
@@ -143,7 +142,7 @@ export function TextEditor() {
             <Toolbar editor={editor} />
           </BubbleMenu>
           <FloatingMenu
-            shouldShow={({ view }): boolean => {
+            shouldShow={({ view }): any => {
               try {
                 if ((view as any).trackWrites.data === undefined)
                   throw new Error("track data is undefined");
@@ -174,6 +173,7 @@ export function TextEditor() {
           >
             <CommandMenu editor={editor} searchValue={commandMenusearchValue} />
           </FloatingMenu>
+          {JSON.stringify({ isCommandMenuVisible })}
           <EditorContent
             editor={editor}
             className="w-full h-full min-h-screen"
