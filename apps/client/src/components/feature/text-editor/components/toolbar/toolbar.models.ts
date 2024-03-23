@@ -6,8 +6,8 @@ import {
   Heading3,
   Italic,
   type LucideIcon,
-  Quote,
   Strikethrough,
+  CaseSensitive,
 } from "lucide-react";
 
 type TOption = {
@@ -38,11 +38,7 @@ export const OPTIONS: TOption[] = [
     },
     isActive: (editor) => editor.isActive("strike"),
   },
-  {
-    icon: Quote,
-    method: (editor) => {},
-    isActive: (editor) => false,
-  },
+
   {
     icon: Heading1,
     method: (editor) => {
@@ -63,5 +59,12 @@ export const OPTIONS: TOption[] = [
       editor.commands.toggleHeading({ level: 3 });
     },
     isActive: (editor) => editor.isActive("heading", { level: 3 }),
+  },
+  {
+    icon: CaseSensitive,
+    method: (editor) => {
+      editor.commands.setParagraph();
+    },
+    isActive: (editor) => editor.isActive("paragraph"),
   },
 ];

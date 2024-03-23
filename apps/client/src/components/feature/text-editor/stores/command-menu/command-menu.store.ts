@@ -37,7 +37,7 @@ export const useCommandMenuStore = create<TCommandMenuStore>((set, get) => ({
   },
   indexOfCurrentOption: 0,
   setIndexOfCurrentOption(newIndex) {
-    set((_state: TCommandMenuStore) => ({
+    set(() => ({
       indexOfCurrentOption: newIndex,
     }));
   },

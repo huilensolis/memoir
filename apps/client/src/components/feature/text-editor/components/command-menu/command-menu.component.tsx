@@ -21,6 +21,13 @@ export function CommandMenu({
   const indexOfCurrentOption = useCommandMenuStore(
     (state) => state.indexOfCurrentOption,
   );
+
+  const setIndexOfCurrentOption = useCommandMenuStore(
+    (state) => state.setIndexOfCurrentOption,
+  );
+
+  const handleSelect = useCommandMenuStore((state) => state.handleSelect);
+
   const commands = useCommandMenuStore((state) => state.commands);
 
   return (
@@ -42,7 +49,8 @@ export function CommandMenu({
               <button
                 className="w-full flex items-center"
                 onClick={() => {
-                  command.command(editor);
+                  setIndexOfCurrentOption(i);
+                  handleSelect(editor);
                 }}
               >
                 <command.icon className="mr-2 h-4 w-4" />

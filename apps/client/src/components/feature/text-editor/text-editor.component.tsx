@@ -37,6 +37,8 @@ export function TextEditor() {
 
   useEffect(() => {
     filterCommandMenuOptions(commandMenusearchValue);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commandMenusearchValue]);
 
   const handleUp = useCommandMenuStore((store) => store.handleUp);
@@ -171,7 +173,7 @@ export function TextEditor() {
                 setCommandMenuIsVisible(false);
                 return false;
               } catch (error) {
-                // DO NOT REMOVE. This is necesary to delay it and do not run before a command;
+                // DO NOT REMOVE. This is necesary to delay it and do not run before a command option;
                 setTimeout(() => {
                   setCommandMenuIsVisible(false);
                 }, 0);

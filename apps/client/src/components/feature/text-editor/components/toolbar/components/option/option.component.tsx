@@ -7,7 +7,7 @@ type TProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function ToolBarOption({
   children,
-  isActive,
+  isActive = false,
   disabled,
   className,
   ...props
