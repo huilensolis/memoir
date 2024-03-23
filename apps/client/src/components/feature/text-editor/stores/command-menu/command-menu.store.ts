@@ -22,7 +22,19 @@ export const useCommandMenuStore = create<TCommandMenuStore>((set, get) => ({
     set(() => ({ isMenuVisible: value }));
   },
   commands: [...BLOCK_COMMANDS],
-  filterByTitle(title) {},
+  filterByTitle(title) {
+    const filteredCommands = BLOCK_COMMANDS.filter((command) =>
+      command.text
+        .trim()
+        .split(" ")
+        .join("")
+        .toLowerCase()
+        .startsWith(title.trim().split(" ").join("").toLowerCase()),
+    );
+
+    set(() => ({ commands: filteredCommands }));
+    get().setIndexOfCurrentOption(0); // reset current index
+  },
   indexOfCurrentOption: 0,
   setIndexOfCurrentOption(newIndex) {
     set((_state: TCommandMenuStore) => ({
@@ -30,7 +42,6 @@ export const useCommandMenuStore = create<TCommandMenuStore>((set, get) => ({
     }));
   },
   handleUp() {
-    console.log("running handle up");
     const indexOfCurrentOption = get().indexOfCurrentOption;
 
     if (indexOfCurrentOption === 0) {
@@ -55,6 +66,10 @@ export const useCommandMenuStore = create<TCommandMenuStore>((set, get) => ({
   handleSelect(editor) {
     const indexOfCurrentOption = get().indexOfCurrentOption;
 
-    BLOCK_COMMANDS[indexOfCurrentOption].command(editor);
+    const selectedCommand = get().commands[indexOfCurrentOption];
+
+    if (!selectedCommand) return;
+
+    selectedCommand.command(editor);
   },
 }));

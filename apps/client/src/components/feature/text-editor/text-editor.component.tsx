@@ -13,7 +13,7 @@ import Typography from "@tiptap/extension-typography";
 import Placeholder from "@tiptap/extension-placeholder";
 
 import { Toolbar } from "./components/toolbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCommandMenuStore } from "./stores/command-menu";
 import { CommandMenu } from "./components/command-menu";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
@@ -31,6 +31,13 @@ export function TextEditor() {
   const setCommandMenuIsVisible = useCommandMenuStore(
     (store) => store.setIsMenuVisible,
   );
+  const filterCommandMenuOptions = useCommandMenuStore(
+    (store) => store.filterByTitle,
+  );
+
+  useEffect(() => {
+    filterCommandMenuOptions(commandMenusearchValue);
+  }, [commandMenusearchValue]);
 
   const handleUp = useCommandMenuStore((store) => store.handleUp);
   const handleDown = useCommandMenuStore((store) => store.handleDown);
@@ -150,8 +157,10 @@ export function TextEditor() {
                 const currentLineInput = (view as any).trackWrites
                   .data as string; // line input
 
-                if (currentLineInput.startsWith("/")) {
-                  console.log("setting it to true");
+                if (
+                  currentLineInput.startsWith("/") &&
+                  currentLineInput.trimEnd() === currentLineInput
+                ) {
                   setCommandMenuIsVisible(true);
 
                   setCommandMenuSearchValue(currentLineInput.split("/")[1]);
@@ -173,7 +182,6 @@ export function TextEditor() {
           >
             <CommandMenu editor={editor} searchValue={commandMenusearchValue} />
           </FloatingMenu>
-          {JSON.stringify({ isCommandMenuVisible })}
           <EditorContent
             editor={editor}
             className="w-full h-full min-h-screen"
