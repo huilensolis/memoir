@@ -23,3 +23,14 @@ jobs:
         run: bun add -D drizzle-kit
       - name: Install npm dependencies
         run: bun i
+      - name: Create .env file
+        run: |
+          touch .env
+          echo PORT=3000 >> .env
+          echo JWT_SECRET="secret" >> .env
+          echo POSTGRES_DATABASE="memoir_db" >> .env
+          echo POSTGRES_USER="memoir_user" >> .env
+          echo POSTGRES_PASSWORD="memoir_password" >> .env
+          echo NODE_ENV="test" >> .env
+          echo WEB_DOMAIN="localhost:3001" >> .env
+          echo API_URL="http://localhost:3000" >> .env
