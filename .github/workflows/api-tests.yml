@@ -15,17 +15,12 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
-      - name: Checkout to API folder
-        run: cd apps/api/
-      - name: check working directory
-        run: pwd
-      - name: check files in API folder
-        run: ls
       - uses: KengoTODA/actions-setup-docker-compose@v1
         with:
           version: "v2.24.1" # the full version of `docker-compose` command
       - name: Install npm dependencies
         run: bun i
+        working-directory: apps/api/
       - name: Create .env file
         run: |
           touch .env
@@ -37,7 +32,10 @@ jobs:
           echo NODE_ENV="test" >> .env
           echo WEB_DOMAIN="localhost:3001" >> .env
           echo API_URL="http://localhost:3000" >> .env
+        working-directory: apps/api/
       - name: Run set up environment script
         run: bun run setup
+        working-directory: apps/api/
       - name: Run tests
         run: bun run test
+        working-directory: apps/api/
