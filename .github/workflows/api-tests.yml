@@ -1,11 +1,14 @@
 name: Run Api Tests
 run-name: ${{ github.actor }} is testing out ${{ github.event.pull_request.title }}
 
-on: [pull_request]
+on:
+  pull_request:
+    branches: [main]
+  paths:
+    - "apps/api/**"
 
 jobs:
   test:
-    branches: [main]
     environment: preview
     runs-on: ubuntu-latest
     steps:
