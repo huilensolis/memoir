@@ -15,10 +15,12 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
-      - name: Checkout to api folder
+      - name: Checkout to API folder
         run: cd apps/api/
-      - name: Install docker
-        run: docker --version
+      - name: Install Docker Compose plugin
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose-plugin
       - name: Install drizzle kit
         run: bun add -D drizzle-kit
       - name: Install npm dependencies
