@@ -17,6 +17,8 @@ jobs:
           bun-version: latest # or "latest", "canary", <sha>
       - name: Checkout to API folder
         run: cd apps/api/
+      - name: check working directory
+        run: pwd
       - uses: KengoTODA/actions-setup-docker-compose@v1
         with:
           version: "v2.24.1" # the full version of `docker-compose` command
