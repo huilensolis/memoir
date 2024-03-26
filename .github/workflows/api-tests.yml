@@ -19,6 +19,8 @@ jobs:
         run: cd apps/api/
       - name: check working directory
         run: pwd
+      - name: check files in API folder
+        run: ls
       - uses: KengoTODA/actions-setup-docker-compose@v1
         with:
           version: "v2.24.1" # the full version of `docker-compose` command
