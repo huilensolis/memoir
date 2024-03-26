@@ -1,4 +1,5 @@
 # Memoir
+[Memoir.webm](https://github.com/Huilensolis/memoir/assets/113150193/93f9292a-3d88-446c-9f0c-f0d5113a8a75)
 
 Memoir is a web application that empowers users to cultivate a daily journaling habit effortlessly. With an intuitive interface, it provides a private and organized space for users to capture their thoughts, reflections, and experiences. Memoir fosters self-reflection and personal growth through simple yet powerful features, making it the ideal platform for those on a journey of daily introspection.
 
