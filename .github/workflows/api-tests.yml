@@ -36,3 +36,7 @@ jobs:
           echo NODE_ENV="test" >> .env
           echo WEB_DOMAIN="localhost:3001" >> .env
           echo API_URL="http://localhost:3000" >> .env
+      - name: Run set up environment script
+        run: bun run setup
+      - name: Run tests
+        run: bun run test
