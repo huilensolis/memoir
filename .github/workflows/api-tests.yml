@@ -3,7 +3,8 @@ run-name: ${{ github.actor }} is testing out ${{ github.event.pull_request.title
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   test:
