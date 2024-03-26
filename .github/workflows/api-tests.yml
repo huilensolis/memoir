@@ -9,11 +9,9 @@ jobs:
     environment: preview
     runs-on: ubuntu-latest
     steps:
-      - name: Intall and checkout to repo
       - uses: actions/checkout@v4
-      - name: Install bun
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
       - name: Install docker
-      - run: docker --version
+        run: docker --version
