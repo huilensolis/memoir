@@ -16,10 +16,10 @@ jobs:
         with:
           bun-version: latest # or "latest", "canary", <sha>
       - name: Checkout to api folder
-      - run: cd apps/api/
+        run: cd apps/api/
       - name: Install docker
         run: docker --version
       - name: Install drizzle kit
-      - run: bun add -D drizzle-kit
+        run: bun add -D drizzle-kit
       - name: Install npm dependencies
-      - run: bun i
+        run: bun i
