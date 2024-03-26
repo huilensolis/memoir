@@ -25,7 +25,7 @@ jobs:
       - name: test cwd
         run: pwd
       - name: Install npm dependencies
-        run: bun i
+        run: pwd && bun i
       - name: Create .env file
         run: |
           touch .env
