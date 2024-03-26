@@ -18,9 +18,9 @@ jobs:
       - name: Checkout to API folder
         run: cd apps/api/
       - name: Install Docker Compose plugin
-        run: |
-          sudo apt-get update
-          sudo apt-get install docker-compose-plugin
+      - uses: KengoTODA/actions-setup-docker-compose@v1
+        with:
+          version: "v2.24.1" # the full version of `docker-compose` command
       - name: Install drizzle kit
         run: bun add -D drizzle-kit
       - name: Install npm dependencies
