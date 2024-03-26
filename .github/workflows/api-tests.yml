@@ -9,22 +9,23 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./apps/api
     environment: Preview
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
-      - name: Checkout to API folder
-        run: cd apps/api/
-      - name: Install Docker Compose plugin
-        run: |
-          sudo apt-get update
-          sudo apt-get install docker-compose-plugin
-      - name: Install drizzle kit
-        run: bun add -D drizzle-kit
+      - uses: KengoTODA/actions-setup-docker-compose@v1
+        with:
+          version: "v2.24.1" # the full version of `docker-compose` command
+      - name: test cwd
+        run: pwd
       - name: Install npm dependencies
-        run: bun i
+        run: pwd && bun i
       - name: Create .env file
         run: |
           touch .env
@@ -36,3 +37,7 @@ jobs:
           echo NODE_ENV="test" >> .env
           echo WEB_DOMAIN="localhost:3001" >> .env
           echo API_URL="http://localhost:3000" >> .env
+      - name: Run set up environment script
+        run: bun run setup
+      - name: Run tests
+        run: bun run test
