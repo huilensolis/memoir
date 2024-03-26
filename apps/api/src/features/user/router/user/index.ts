@@ -48,9 +48,7 @@ export const UserRouter = new Elysia().group("/user", (app) =>
       },
       {
         response: {
-          200: t.Object({
-            user: SafeUserSchema,
-          }),
+          200: SafeUserSchema,
           500: t.Object({ error: t.String() }),
         },
       },
@@ -87,8 +85,8 @@ export const UserRouter = new Elysia().group("/user", (app) =>
       async ({ body: { email, name, password }, user, set }) => {
         try {
           const { data, error: errorGettingUserByEmail } =
-            await UserProvider.getByEmail({
-              userEmail: user.email,
+            await UserProvider.getById({
+              userId: user.id,
             });
 
           if (!data || !data.user || errorGettingUserByEmail)
