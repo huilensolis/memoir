@@ -1,0 +1,19 @@
+name: Run Api Tests
+run-name: ${{ github.actor }} is testing out ${{ github.event.pull_request.title }}
+
+on: [pull_request]
+
+jobs:
+  test:
+    branches: [main]
+    environment: preview
+    runs-on: ubuntu-latest
+    steps:
+      - name: Intall and checkout to repo
+      - uses: actions/checkout@v4
+      - name: Install bun
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest # or "latest", "canary", <sha>
+      - name: Install docker
+      - run: docker --version
