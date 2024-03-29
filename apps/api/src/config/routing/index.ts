@@ -1,41 +1,29 @@
-import Elysia from "elysia";
+import Elysia, { error } from "elysia";
 import { AuthRouter, UserRouter } from "@/features/user/router";
-import { JwtPlugin } from "@/shared/plugins";
 
 const Routes = new Elysia();
+
 Routes.onAfterHandle(({ set }) => {
   set.headers["Content-Type"] = "application/json; charset=utf8";
 });
-Routes.onError(({ code, error, path, set }) => {
-  console.log({ path, error, code });
 
-  if (code === "UNKNOWN") {
-    set.status = "Unauthorized";
-    return {
-      error:
-        "there is been an error, you may be unauthorized, or there may be another error",
-    };
+Routes.onError(({ code, error: e }) => {
+  switch (code) {
+    case "PARSE":
+      return error("Bad Request", { error: "error parsing body" });
+    case "NOT_FOUND":
+      return error("Not Implemented", { error: "Route not found :(" });
+    case "UNKNOWN":
+      return error("Internal Server Error", {
+        error: "there has been an unknown internal server error",
+      });
+    case "VALIDATION":
+      return error("Bad Request", { error: e.validator });
+    default:
+      return error("Internal Server Error", {});
   }
-
-  if (code === "NOT_FOUND") {
-    set.status = "Not Found";
-    return { error: "Route not found :(" };
-  }
-
-  if (code === "VALIDATION") {
-    set.status = "Bad Request";
-    return new Response(JSON.stringify({ error: error.validator }));
-  }
-
-  set.status = "Internal Server Error";
-  return new Response(
-    JSON.stringify({
-      error: error.message,
-    }),
-  );
 });
 
-Routes.use(JwtPlugin);
 Routes.use(AuthRouter);
 Routes.use(UserRouter);
 

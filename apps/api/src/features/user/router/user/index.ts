@@ -1,4 +1,4 @@
-import Elysia, { t } from "elysia";
+import Elysia, { error, t } from "elysia";
 import { isAuthenticated } from "@/shared/middlewares/auth";
 import { UserProvider } from "../../provider/user";
 import { UserAdapter } from "../../adapters";
@@ -38,18 +38,14 @@ export const UserRouter = new Elysia().group("/user", (app) =>
 
           set.status = "OK";
           return { ...safeUser };
-        } catch (error) {
-          set.status = "Internal Server Error";
-          return {
-            error:
-              "the user may not been found, or may have an inactive / deleted account",
-          };
+        } catch (e) {
+          return error("Internal Server Error", {});
         }
       },
       {
         response: {
           200: SafeUserSchema,
-          500: t.Object({ error: t.String() }),
+          500: t.Object({}),
         },
       },
     )
@@ -65,18 +61,14 @@ export const UserRouter = new Elysia().group("/user", (app) =>
 
           set.status = "Created";
           return {};
-        } catch (error) {
-          set.status = "Internal Server Error";
-          return {
-            error:
-              "thre user may not have been found or the delete operation failed",
-          };
+        } catch (e) {
+          return error("Internal Server Error", {});
         }
       },
       {
         response: {
           201: t.Object({}),
-          500: t.Object({ error: t.String() }),
+          500: t.Object({}),
         },
       },
     )
@@ -107,17 +99,15 @@ export const UserRouter = new Elysia().group("/user", (app) =>
 
           set.status = "Created";
           return {};
-        } catch (error) {
-          console.log(error);
-          set.status = "Internal Server Error";
-          return { error: "error updating user" };
+        } catch (e) {
+          return error("Internal Server Error", {});
         }
       },
       {
         body: UserSchema,
         response: {
           201: t.Object({}),
-          500: t.Object({ error: t.String() }),
+          500: t.Object({}),
         },
       },
     ),
