@@ -1,14 +1,14 @@
-import Elysia, { t } from "elysia";
-import { JwtPlugin } from "@/shared/plugins";
+import Elysia, { error, t } from "elysia";
 import { UserAdapter } from "../../adapters";
 import { AuthProvider } from "../../provider/auth";
 import { rateLimit } from "elysia-rate-limit";
 import { Environment } from "@/config/environment";
+import { AuthPlugin } from "@/shared/plugins/auth";
 
 export const AuthRouter = new Elysia()
   .group("/auth", (app) =>
     app
-      .use(JwtPlugin)
+      .use(AuthPlugin)
       .use(
         rateLimit({
           duration: 1000 * 60 * 60 * 24, // a day
@@ -18,7 +18,7 @@ export const AuthRouter = new Elysia()
       )
       .post(
         "/sign-up",
-        async ({ body, set, jwt, setCookie }) => {
+        async ({ body, set, jwt, cookie: { access_token } }) => {
           try {
             const { name, email, password } = body;
 
@@ -40,12 +40,10 @@ export const AuthRouter = new Elysia()
             const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = 201;
-            setCookie("access_token", token);
+            access_token.set({ value: token });
             return {};
-          } catch (error) {
-            set.status = "Unauthorized";
-            console.log({ error });
-            return { error: "something went wrong" };
+          } catch (e) {
+            return error("Unauthorized", {});
           }
         },
         {
@@ -58,7 +56,7 @@ export const AuthRouter = new Elysia()
       )
       .post(
         "/sign-in",
-        async ({ body, jwt, set, setCookie }) => {
+        async ({ body, jwt, set, cookie: { access_token } }) => {
           const { email, password } = body;
 
           try {
@@ -71,14 +69,10 @@ export const AuthRouter = new Elysia()
             const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = "Accepted";
-            setCookie("access_token", token);
+            access_token.set({ value: token });
             return {};
-          } catch (error) {
-            set.status = "Unauthorized";
-            return {
-              error:
-                "it looks like youre using bad credentials, or the account doesnt exist, or the server had an error",
-            };
+          } catch (e) {
+            return error("Unauthorized", {});
           }
         },
         {
@@ -88,10 +82,8 @@ export const AuthRouter = new Elysia()
           }),
         },
       )
-      .get("/sign-out", ({ setCookie, set }) => {
-        setCookie("access_token", "null", {
-          expires: new Date(new Date().getTime() - 1),
-        });
+      .get("/sign-out", ({ cookie: { access_token }, set }) => {
+        access_token.remove();
         set.status = 201;
         return {};
       }),
@@ -112,9 +104,8 @@ export const AuthRouter = new Elysia()
           try {
             const { isEmailValid } = await AuthProvider.validateEmail(email);
             if (!isEmailValid) throw new Error();
-          } catch (error) {
-            set.status = "Bad Request";
-            return { error: "email is malformatted" };
+          } catch (e) {
+            return error("Bad Request", {});
           }
 
           try {
@@ -124,9 +115,8 @@ export const AuthRouter = new Elysia()
 
             set.status = "OK";
             return {};
-          } catch (error) {
-            set.status = "Conflict";
-            return { error: "email already in use" };
+          } catch (e) {
+            return error("Conflict", {});
           }
         },
         {
@@ -138,7 +128,7 @@ export const AuthRouter = new Elysia()
   )
   .group("/session", (app) =>
     app
-      .use(JwtPlugin)
+      .use(AuthPlugin)
       .use(
         rateLimit({
           duration: 1000 * 60,
@@ -150,37 +140,37 @@ export const AuthRouter = new Elysia()
       .get("/token", async ({ cookie: { access_token }, set, jwt }) => {
         try {
           if (!access_token) {
-            set.status = "Bad Request";
-            return { error: "we could not find the token on the cookies" };
+            return error("Bad Request", {
+              error: "we could not find the token on the cookies",
+            });
           }
 
-          const tokenPayload = await jwt.verify(access_token);
+          const tokenPayload = await jwt.verify(access_token.value);
 
           if (!tokenPayload) {
-            set.status = "Unauthorized";
-            return { error: "token signature is not valid" };
+            return error("Unauthorized", {
+              error: "token signature is not valid",
+            });
           }
 
           const { exp } = tokenPayload;
 
           if (!exp) {
-            set.status = "Bad Request";
-            return {
+            return error("Bad Request", {
               error: "we could not find the expiration date on token",
-            };
+            });
           }
 
           if (exp - new Date().getTime() <= 0) {
-            set.status = "Unauthorized";
-            return { error: "token expired" };
+            return error("Unauthorized", { error: "token expired" });
           }
 
           set.status = "Accepted";
           return {};
-        } catch (error) {
-          console.log(error);
-          set.status = "Unauthorized";
-          return { error: "token expired or unauthorized" };
+        } catch (e) {
+          return error("Unauthorized", {
+            error: "token expired or unauthorized",
+          });
         }
       }),
   );

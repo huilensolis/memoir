@@ -29,15 +29,14 @@
     "rimraf": "^5.0.1"
   },
   "dependencies": {
-    "@elysiajs/cookie": "^0.8.0",
-    "@elysiajs/cors": "^0.8.0",
-    "@elysiajs/cron": "^0.8.0",
-    "@elysiajs/jwt": "^0.8.0",
+    "@elysiajs/cors": "^1.0.2",
+    "@elysiajs/cron": "^1.0.3",
+    "@elysiajs/jwt": "^1.0.2",
     "@elysiajs/swagger": "^0.8.3",
     "drizzle-orm": "^0.29.3",
-    "elysia": "^0.8.0",
+    "elysia": "^1.0.9",
     "elysia-helmet": "^1.0.2",
-    "elysia-rate-limit": "^2.0.1",
+    "elysia-rate-limit": "^3.0.0",
     "email-validator": "^2.0.4",
     "envalid": "^8.0.0",
     "pg": "^8.11.3"
