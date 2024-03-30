@@ -12,7 +12,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./apps/api
+        working-directory: apps/api
     environment: Preview
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./apps/api
+        working-directory: apps/api
     needs: formatting
     steps:
       - name: Lint
