@@ -31,5 +31,7 @@ jobs:
         working-directory: apps/api
     needs: formatting
     steps:
+      - name: output directory
+        run: pwd ls
       - name: Lint
         run: bun run lint
