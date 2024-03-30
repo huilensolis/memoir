@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "bun:test";
 
 import { app } from "@/app";
-import { createUser } from "../utils/user";
+import { createUser } from "../../utils/user";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
 import { endpointPath } from "./index";
@@ -9,11 +9,9 @@ import { endpointPath } from "./index";
 beforeAll(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
 
-describe("delete user on /user", () => {
-  it("should delete correctly", async () => {
-    const { user, cookie } = await createUser();
-
-    if (!user || !cookie) throw new Error("user could not be created");
+describe("Delete user on path /user", () => {
+  describe("Delete user successfully", async () => {
+    const { cookie } = await createUser({});
 
     const res = await app.handle(
       new Request(`${endpointPath}/`, {
@@ -23,12 +21,14 @@ describe("delete user on /user", () => {
       }),
     );
 
-    expect(res.ok).toBeTrue();
-    expect(res.status).toBe(201);
+    it("Should return 201 code status", async () => {
+      expect(res.status).toBe(201);
+    });
 
-    const body = await res.json();
+    it("Should return empty body obejct", async () => {
+      const body = await res.json();
 
-    expect(body).toBeObject();
-    expect(body).toBeEmptyObject();
+      expect(body).toBeEmptyObject();
+    });
   });
 });

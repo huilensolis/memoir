@@ -33,6 +33,7 @@
     "@elysiajs/cron": "^1.0.3",
     "@elysiajs/jwt": "^1.0.2",
     "@elysiajs/swagger": "^0.8.3",
+    "@sinclair/typebox": "^0.32.20",
     "drizzle-orm": "^0.29.3",
     "elysia": "^1.0.9",
     "elysia-helmet": "^1.0.2",
