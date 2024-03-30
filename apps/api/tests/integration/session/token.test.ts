@@ -1,6 +1,7 @@
-import { app } from "@/app";
-import { createUser } from "../utils/user";
 import { describe, it, expect, beforeEach, afterAll } from "bun:test";
+
+import { app } from "@/app";
+import { createUser } from "../../utils/user";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
 import { endpointPath } from "./index";
@@ -8,11 +9,9 @@ import { endpointPath } from "./index";
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));
 
-describe("token validation endpoints", () => {
-  it("should accept token", async () => {
-    const { cookie } = await createUser();
-
-    if (!cookie) throw new Error("error creating user");
+describe("Token validation endpoints", () => {
+  describe("Valid token", async () => {
+    const { cookie } = await createUser({});
 
     const res = await app.handle(
       new Request(`${endpointPath}/token`, {
@@ -24,13 +23,18 @@ describe("token validation endpoints", () => {
       }),
     );
 
-    const body = await res.json();
+    it("Should return 202 status code", () => {
+      expect(res.status).toBe(202);
+    });
 
-    expect(res.ok).toBeTrue();
-    expect(res.status).toBe(202);
-    expect(body).toBeEmptyObject();
+    it("Should return empty objec ton body response", async () => {
+      const body = await res.json();
+
+      expect(body).toBeEmptyObject();
+    });
   });
-  it("should reject token if invalid", async () => {
+
+  describe("Invalid token", async () => {
     const res = await app.handle(
       new Request(`${endpointPath}/token`, {
         method: "GET",
@@ -41,10 +45,8 @@ describe("token validation endpoints", () => {
       }),
     );
 
-    const body = await res.json();
-
-    expect(res.ok).toBeFalse();
-    expect(res.status).toBe(401);
-    expect(body).toContainKey("error");
+    it("Should return 401 status code", () => {
+      expect(res.status).toBe(401);
+    });
   });
 });

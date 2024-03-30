@@ -2,34 +2,42 @@ import { app } from "@/app";
 import { Environment } from "@/config/environment";
 
 import { NewUser } from "@/features/user/models";
+import { getRandomString } from "../random-values";
 
-export const correctUser = {
-  name: "Huilen Solis",
-  email: "huilensolis@skiff.com",
-  password: Array(16).fill("h").join(""), // we send a password of 16 characteres
+type TProps = {
+  customEmail?: string;
 };
 
-export async function createUser(): Promise<{
-  user: NewUser | null;
-  cookie: string | null;
-}> {
+type TReturn = {
+  user: NewUser;
+  cookie: string;
+};
+
+export async function createUser({
+  customEmail = undefined,
+}: TProps): Promise<TReturn> {
   try {
+    const newUser: NewUser = {
+      name: getRandomString({ length: 8 }),
+      email: customEmail ?? `${getRandomString({ length: 8 })}@gmail.com`,
+      password: getRandomString({ length: 16 }), // we send a password of 16 characteres
+    };
+
     const res = await app.handle(
       new Request(`${Environment.API_URL}/auth/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...correctUser }),
+        body: JSON.stringify({ ...newUser }),
       }),
     );
     const cookie = res.headers.getSetCookie()[0];
 
     if (!cookie) {
-      console.log(await res.text());
       throw new Error("no token found in response trying to create a user");
     }
-    return { user: correctUser, cookie };
+    return { user: newUser, cookie };
   } catch (error) {
     console.log({ error });
-    return { user: null, cookie: null };
+    throw new Error("error creating user");
   }
 }
