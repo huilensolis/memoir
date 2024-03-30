@@ -1,0 +1,35 @@
+name: Api Formatting and Linter check
+run-name: Run Linter and Formatter on ${{ github.event.pull_request.title }} by ${{ github.event.sender.login }}
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./apps/api
+    environment: Preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest # or "latest", "canary", <sha>
+      - name: Install dependencies
+        run: bun install
+      - name: Format
+        run: bun run format
+  linting:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./apps/api
+    needs: formatting
+    steps:
+      - name: Lint
+        run: bun run lint
