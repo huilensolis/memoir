@@ -30,8 +30,13 @@ jobs:
       run:
         shell: bash
         working-directory: apps/api
+    environment: Preview
     steps:
-      - name: output directory
-        run: pwd ls
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest # or "latest", "canary", <sha>
+      - name: Install dependencies
+        run: bun install
       - name: Lint
         run: bun run lint
