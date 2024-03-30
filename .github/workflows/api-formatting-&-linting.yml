@@ -24,12 +24,12 @@ jobs:
       - name: Format
         run: bun run format
   linting:
+    needs: formatting
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
         working-directory: apps/api
-    needs: formatting
     steps:
       - name: output directory
         run: pwd ls
