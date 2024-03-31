@@ -6,7 +6,12 @@ import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users
 import { helmet } from "elysia-helmet";
 
 const app = new Elysia();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://developer.mozilla.org",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  }),
+);
 app.use(swagger());
 app.use(helmet());
 

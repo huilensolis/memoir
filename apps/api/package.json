@@ -23,7 +23,6 @@
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
     "@types/pg": "^8.10.9",
-    "ajv": "^8.12.0",
     "bun-types": "^1.0.24",
     "drizzle-kit": "^0.20.13",
     "rimraf": "^5.0.1"
