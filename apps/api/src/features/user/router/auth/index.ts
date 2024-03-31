@@ -40,7 +40,7 @@ export const AuthRouter = new Elysia()
             const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = 201;
-            access_token.set({ value: token });
+            access_token.set({ value: token, path: "/" });
             return {};
           } catch (e) {
             return error("Unauthorized", {});
@@ -69,7 +69,7 @@ export const AuthRouter = new Elysia()
             const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = "Accepted";
-            access_token.set({ value: token });
+            access_token.set({ value: token, path: "/" });
             return {};
           } catch (e) {
             return error("Unauthorized", {});
