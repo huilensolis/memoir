@@ -1,5 +1,6 @@
 import Elysia, { error } from "elysia";
 import { AuthRouter, UserRouter } from "@/features/user/router";
+import { JournalEntryRoutes } from "@/features/joruanl-entry/router/routes";
 
 const Routes = new Elysia();
 
@@ -26,5 +27,6 @@ Routes.onError(({ code, error: e }) => {
 
 Routes.use(AuthRouter);
 Routes.use(UserRouter);
+Routes.use(JournalEntryRoutes);
 
 export { Routes };

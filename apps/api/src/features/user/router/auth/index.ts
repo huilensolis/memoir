@@ -1,6 +1,5 @@
 import Elysia, { error, t } from "elysia";
-import { UserAdapter } from "../../adapters";
-import { AuthProvider } from "../../provider/auth";
+import { AuthProvider } from "../../providers/auth";
 import { rateLimit } from "elysia-rate-limit";
 import { Environment } from "@/config/environment";
 import { AuthPlugin } from "@/shared/plugins/auth";

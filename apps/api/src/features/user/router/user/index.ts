@@ -1,6 +1,6 @@
 import Elysia, { error, t } from "elysia";
 import { isAuthenticated } from "@/shared/middlewares/auth";
-import { UserProvider } from "../../provider/user";
+import { UserProvider } from "../../providers/user";
 import { UserAdapter } from "../../adapters";
 import { SafeUserSchema, UserSchema } from "../models/";
 import { cleanKeysWithEmptyValue } from "@/shared/utils/objects/clean-keys";
