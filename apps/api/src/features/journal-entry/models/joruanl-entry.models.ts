@@ -1,4 +1,8 @@
 import { t } from "elysia";
+import { JournalEntries } from "../schema";
+
+export type ReadJournalEntry = typeof JournalEntries.$inferSelect;
+export type NewJournalEntry = typeof JournalEntries.$inferInsert;
 
 enum EMood {
   happy = "happy",
@@ -7,13 +11,13 @@ enum EMood {
   angry = "angry",
 }
 
-export const JournalEntryInsertScheme = t.Object({
-  title: t.String({ maxLength: 80 }),
+export const JournalEntryInsertSchema = t.Object({
+  title: t.Optional(t.String({ maxLength: 80 }), true),
   createdAt: t.Date(),
   updatedAt: t.Date(),
   content: t.Object({}),
   mood: t.Enum(EMood),
-  wordCount: t.Number(),
+  wordCount: t.Optional(t.Number(), true),
 });
 
 export const JournalEntryReadSchema = t.Object({
@@ -24,5 +28,7 @@ export const JournalEntryReadSchema = t.Object({
   updatedAt: t.Date(),
   content: t.Object({}),
   mood: t.Enum(EMood),
-  wordCount: t.Number(),
+  wordCount: t.Optional(t.Number(), true),
+  private: t.Boolean(),
+  end_date: t.Nullable(t.Date()),
 });
