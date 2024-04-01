@@ -1,5 +1,5 @@
-import { describe } from "bun:test";
+import { describe, test } from "bun:test";
 
-describe("Test PATCH method on journal entries endpoints", () => {
+test.todo("Test PATCH method on journal entries endpoints", () => {
   describe("", async () => {});
 });

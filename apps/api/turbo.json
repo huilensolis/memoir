@@ -12,7 +12,7 @@
       "dependsOn": ["setup"]
     },
     "setup": {
-      "cache": false
+      "cache": true
     },
     "clean-up": {
       "cache": false

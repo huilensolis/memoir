@@ -1,6 +1,6 @@
 import { describe, it, test } from "bun:test";
 
-describe("Test GET method on journal entries endpoints", () => {
+test.todo("Test GET method on journal entries endpoints", () => {
   describe("GET private user journal entries", () => {
     describe("GET Journal entry list of user", async () => {});
     describe("GET journal entry lists by title", async () => {});

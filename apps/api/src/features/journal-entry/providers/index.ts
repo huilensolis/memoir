@@ -1,15 +1,20 @@
 import { db } from "@/config/database";
 import { JournalEntries } from "../schema";
 import { and, eq, ilike } from "drizzle-orm";
-import { ReadJournalEntry } from "../models/joruanl-entry.models";
+import {
+  JournalEntryInsert,
+  JournalEntryReadSchema,
+  NewJournalEntry,
+  ReadJournalEntry,
+} from "../models/joruanl-entry.models";
 
 export class JournalEntryProvider {
-  async getPrivateEntryById({
+  static async getPrivateEntryById({
     entryId,
     userId,
   }: {
-    entryId: number;
-    userId: number;
+    entryId: string;
+    userId: string;
   }): Promise<ReadJournalEntry | undefined> {
     const [journalEntry] = await db
       .select()
@@ -21,10 +26,10 @@ export class JournalEntryProvider {
     return journalEntry;
   }
 
-  async getPublicEntryById({
+  static async getPublicEntryById({
     entryId,
   }: {
-    entryId: number;
+    entryId: string;
   }): Promise<ReadJournalEntry | undefined> {
     const [journalEntry] = await db
       .select()
@@ -34,7 +39,9 @@ export class JournalEntryProvider {
     return journalEntry;
   }
 
-  async getEntriesListByUserId(userId: number): Promise<ReadJournalEntry[]> {
+  static async getEntriesListByUserId(
+    userId: string,
+  ): Promise<ReadJournalEntry[]> {
     const entries = await db
       .select()
       .from(JournalEntries)
@@ -43,12 +50,12 @@ export class JournalEntryProvider {
     return entries;
   }
 
-  async getPrivateEntryListByTitle({
+  static async getPrivateEntryListByTitle({
     title,
     userId,
   }: {
     title: string;
-    userId: number;
+    userId: string;
   }): Promise<ReadJournalEntry[]> {
     const journalEntries = await db
       .select()
@@ -61,5 +68,33 @@ export class JournalEntryProvider {
       );
 
     return journalEntries;
+  }
+
+  static async createEntry({
+    entry,
+    userId,
+  }: {
+    entry: JournalEntryInsert;
+    userId: ReadJournalEntry["userId"];
+  }): Promise<{
+    error: null | string;
+  }> {
+    const newEntry: NewJournalEntry = {
+      ...entry,
+      content: entry.content
+        ? JSON.stringify(entry.content)
+        : JSON.stringify({}),
+      userId,
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString(),
+    };
+
+    try {
+      await db.insert(JournalEntries).values(newEntry);
+
+      return { error: null };
+    } catch (error) {
+      return { error: "error creating journal entry" };
+    }
   }
 }

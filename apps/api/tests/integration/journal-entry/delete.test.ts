@@ -1,6 +1,6 @@
-import { describe, it } from "bun:test";
+import { describe, it, test } from "bun:test";
 
-describe("Test DELETE method on journal entries endpoints", () => {
+test.todo("Test DELETE method on journal entries endpoints", () => {
   describe("Delete own journal entry succesfully", async () => {
     it("Should return status 201", () => {});
 

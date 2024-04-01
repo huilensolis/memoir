@@ -14,10 +14,6 @@ Routes.onError(({ code, error: e }) => {
       return error("Bad Request", { error: "error parsing body" });
     case "NOT_FOUND":
       return error("Not Implemented", { error: "Route not found :(" });
-    case "UNKNOWN":
-      return error("Internal Server Error", {
-        error: "there has been an unknown internal server error",
-      });
     case "VALIDATION":
       return error("Bad Request", { error: e.validator });
     default:

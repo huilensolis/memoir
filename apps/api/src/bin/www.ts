@@ -1,11 +1,11 @@
+import { app } from "@/app";
 import { Environment } from "@/config/environment";
-import { app } from "../app";
 
 (() => {
-  const port = Environment.PORT;
-  app.listen(port);
+  const PORT = Environment.PORT;
+  app.listen(PORT);
 
-  console.log(`app running on port ${port}`);
+  console.log(`app running on port ${PORT}`);
 
   if (Environment.NODE_ENV) {
     console.log(`running in ${Environment.NODE_ENV} mode`);
