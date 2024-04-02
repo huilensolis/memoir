@@ -14,7 +14,7 @@
     "check": "bunx @biomejs/biome check --apply .",
     "start": "NODE_ENV=production bun ./dist/www.js",
     "generate-migration": "drizzle-kit generate:pg",
-    "migrate": "bun ./migration.ts",
+    "migrate": "bun scripts/migration.ts",
     "test": "bun test --timeout 10000"
   },
   "keywords": [],

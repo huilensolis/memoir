@@ -10,22 +10,25 @@ export const JournalEntryRoutes = new Elysia().group(
       "/",
       async ({ user, body, set }) => {
         try {
-          await JournalEntryProvider.createEntry({
-            entry: body,
-            userId: user.id,
-          });
+          const { data: newEntry, error } =
+            await JournalEntryProvider.createEntry({
+              entry: body,
+              userId: user.id,
+            });
+
+          if (error || !newEntry)
+            throw new Error(error ?? "error creating entry");
 
           set.status = "Created";
-          return {};
+          return { id: newEntry.id };
         } catch (e) {
-          console.log({ e });
-          console.log("error hete asjdfkasdj ifajosdjfoasdjhofhasdhfasohd");
+          console.log("error", e);
           return error("Internal Server Error", {});
         }
       },
       {
         body: JournalEntryInsertSchema,
-        response: { 201: t.Object({}), 500: t.Object({}) },
+        response: { 201: t.Object({ id: t.String() }), 500: t.Object({}) },
       },
     ),
   // .get("/", () => {}, { response: { 200: JournalEntryReadSchema } }),

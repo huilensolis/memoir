@@ -2,23 +2,23 @@ import { Users } from "@/features/user/schema";
 import {
   pgTable,
   integer,
-  date,
-  text,
   varchar,
   boolean,
   uuid,
+  timestamp,
+  json,
 } from "drizzle-orm/pg-core";
 
 export const JournalEntries = pgTable("journal_entry", {
   id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
+  user_id: uuid("user_id")
     .references(() => Users.id)
     .notNull(),
   title: varchar("title", { length: 80 }).default("Untintled"),
-  createdAt: date("date").notNull(),
-  updatedAt: date("date").notNull(),
-  wordCount: integer("word_count").default(0),
-  content: text("content").default(JSON.stringify({})),
+  created_at: timestamp("created_at").defaultNow(),
+  updated_at: timestamp("updated_at", { mode: "date" }).defaultNow(),
+  word_count: integer("word_count").default(0),
+  content: json("content"),
   private: boolean("private").default(false),
-  end_date: date("end_date"),
+  end_date: timestamp("end_date"),
 });

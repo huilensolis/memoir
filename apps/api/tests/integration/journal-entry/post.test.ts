@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { endpointPath } from ".";
 import { app } from "@/app";
 import { createUser } from "@/tests/utils/user";
@@ -16,8 +16,8 @@ describe("Test POST method on journal entries endpoints", () => {
         },
         body: JSON.stringify({
           title: "test",
-          content: JSON.stringify({}),
-          wordCount: 291,
+          content: {},
+          word_count: 291,
         }),
       }),
     );
@@ -26,10 +26,17 @@ describe("Test POST method on journal entries endpoints", () => {
       expect(res.status).toBe(201);
     });
 
-    it("should return empty object on body response", async () => {
-      const body = await res.json();
+    describe("return body", async () => {
+      const body: { id: string } = await res.json();
 
-      expect(body).toBeEmptyObject();
+      it("should return object on body response", () => {
+        expect(body).toBeObject();
+      });
+
+      it("should return new entry id on body response", () => {
+        expect(body).toContainKey("id");
+        expect(body.id).toBeString();
+      });
     });
   });
 
@@ -46,7 +53,7 @@ describe("Test POST method on journal entries endpoints", () => {
         body: JSON.stringify({
           title: 1233,
           content: "asdfas",
-          wordCount: "asdf",
+          word_count: "asdf",
         }),
       }),
     );

@@ -3,10 +3,10 @@ import { JournalEntries } from "../schema";
 import { and, eq, ilike } from "drizzle-orm";
 import {
   JournalEntryInsert,
-  JournalEntryReadSchema,
   NewJournalEntry,
   ReadJournalEntry,
 } from "../models/joruanl-entry.models";
+import { TReturnHanler } from "@/shared/models/promises";
 
 export class JournalEntryProvider {
   static async getPrivateEntryById({
@@ -20,7 +20,7 @@ export class JournalEntryProvider {
       .select()
       .from(JournalEntries)
       .where(
-        and(eq(JournalEntries.id, entryId), eq(JournalEntries.userId, userId)),
+        and(eq(JournalEntries.id, entryId), eq(JournalEntries.user_id, userId)),
       );
 
     return journalEntry;
@@ -45,7 +45,7 @@ export class JournalEntryProvider {
     const entries = await db
       .select()
       .from(JournalEntries)
-      .where(eq(JournalEntries.userId, userId));
+      .where(eq(JournalEntries.user_id, userId));
 
     return entries;
   }
@@ -63,7 +63,7 @@ export class JournalEntryProvider {
       .where(
         and(
           ilike(JournalEntries.title, title),
-          eq(JournalEntries.userId, userId),
+          eq(JournalEntries.user_id, userId),
         ),
       );
 
@@ -75,26 +75,28 @@ export class JournalEntryProvider {
     userId,
   }: {
     entry: JournalEntryInsert;
-    userId: ReadJournalEntry["userId"];
-  }): Promise<{
-    error: null | string;
-  }> {
-    const newEntry: NewJournalEntry = {
+    userId: ReadJournalEntry["user_id"];
+  }): Promise<TReturnHanler<NewJournalEntry, string>> {
+    const newEntryValues: NewJournalEntry = {
+      content: {},
       ...entry,
-      content: entry.content
-        ? JSON.stringify(entry.content)
-        : JSON.stringify({}),
-      userId,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
+      user_id: userId,
     };
 
-    try {
-      await db.insert(JournalEntries).values(newEntry);
+    console.log({ newEntryValues });
 
-      return { error: null };
+    try {
+      const [newEntry] = await db
+        .insert(JournalEntries)
+        .values(newEntryValues)
+        .returning();
+
+      if (!newEntry) throw new Error("Failed to create journal entry");
+
+      return { error: null, data: newEntry };
     } catch (error) {
-      return { error: "error creating journal entry" };
+      console.log({ error });
+      return { error: "error creating new entry", data: null };
     }
   }
 }

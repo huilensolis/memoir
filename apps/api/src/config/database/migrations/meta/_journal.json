@@ -1,20 +1,13 @@
 {
-	"version": "5",
-	"dialect": "pg",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1705859311720,
-			"tag": "0000_sloppy_whirlwind",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "5",
-			"when": 1708444364007,
-			"tag": "0001_tired_molecule_man",
-			"breakpoints": true
-		}
-	]
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1712089411273,
+      "tag": "0000_spooky_virginia_dare",
+      "breakpoints": true
+    }
+  ]
 }
