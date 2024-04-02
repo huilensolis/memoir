@@ -1,23 +1,11 @@
 # how to set up the api server, docker and its database.
 
-## first of all, install bun and docker compose
+## first of all, install bun and docker, with docker compose plugin
 
-## start postgresql database
-
-```bash
-docker compose up -d
-```
-
-## generate migration
+## start postgresql database in docker container
 
 ```bash
-bun run generate-migrations
-```
-
-## run migrations
-
-```bash
-bun run migrate
+bun run setup
 ```
 
 ## start development server
