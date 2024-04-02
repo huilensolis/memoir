@@ -22,7 +22,6 @@ export const JournalEntryRoutes = new Elysia().group(
           set.status = "Created";
           return { id: newEntry.id };
         } catch (e) {
-          console.log("error", e);
           return error("Internal Server Error", {});
         }
       },

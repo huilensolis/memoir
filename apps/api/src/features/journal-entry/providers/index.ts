@@ -83,8 +83,6 @@ export class JournalEntryProvider {
       user_id: userId,
     };
 
-    console.log({ newEntryValues });
-
     try {
       const [newEntry] = await db
         .insert(JournalEntries)
@@ -95,7 +93,6 @@ export class JournalEntryProvider {
 
       return { error: null, data: newEntry };
     } catch (error) {
-      console.log({ error });
       return { error: "error creating new entry", data: null };
     }
   }
