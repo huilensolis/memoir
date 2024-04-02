@@ -1,12 +1,16 @@
 import { isAuthenticated } from "@/shared/middlewares/auth";
 import Elysia, { error, t } from "elysia";
-import { JournalEntryInsertSchema } from "../models/joruanl-entry.models";
+import {
+  JournalEntryInsertSchema,
+  JournalEntrySafeSchema,
+} from "../models/joruanl-entry.models";
 import { JournalEntryProvider } from "../providers";
+import { JournalEntryAdapter } from "../adapters";
 
-export const JournalEntryRoutes = new Elysia().group(
-  "/journal",
-  (app) =>
-    app.use(isAuthenticated).post(
+export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
+  app
+    .use(isAuthenticated)
+    .post(
       "/",
       async ({ user, body, set }) => {
         try {
@@ -29,6 +33,30 @@ export const JournalEntryRoutes = new Elysia().group(
         body: JournalEntryInsertSchema,
         response: { 201: t.Object({ id: t.String() }), 500: t.Object({}) },
       },
+    )
+    .get(
+      "/",
+      async ({ user, set }) => {
+        try {
+          const unsafeUserJournalEntries =
+            await JournalEntryProvider.getEntriesListByUserId(user.id);
+
+          if (typeof unsafeUserJournalEntries.length === "undefined")
+            throw new Error("could not found user journal entries");
+
+          const safeJournalEntries = unsafeUserJournalEntries.map((entry) => {
+            const { safeEntry } = JournalEntryAdapter.toSafeEntry(entry);
+            return safeEntry;
+          });
+
+          set.status = "OK";
+          return safeJournalEntries;
+        } catch (e) {
+          return error("Internal Server Error", {});
+        }
+      },
+      {
+        response: { 200: JournalEntrySafeSchema, 500: t.Object({}) },
+      },
     ),
-  // .get("/", () => {}, { response: { 200: JournalEntryReadSchema } }),
 );

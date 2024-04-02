@@ -15,10 +15,10 @@ export const JournalEntries = pgTable("journal_entry", {
     .references(() => Users.id)
     .notNull(),
   title: varchar("title", { length: 80 }).default("Untintled"),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at", { mode: "date" }).defaultNow(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
   word_count: integer("word_count").default(0),
-  content: json("content"),
-  private: boolean("private").default(false),
+  content: json("content").default({}).$type<Record<string, unknown>>(),
+  is_private: boolean("is_private").default(false),
   end_date: timestamp("end_date"),
 });

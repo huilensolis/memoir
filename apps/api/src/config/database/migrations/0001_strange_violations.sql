@@ -1,0 +1,1 @@
+ALTER TABLE "journal_entry" RENAME COLUMN "private" TO "is_private";
