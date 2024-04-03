@@ -4,6 +4,7 @@ import swagger from "@elysiajs/swagger";
 import { Routes } from "./config/routing";
 import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users";
 import { helmet } from "elysia-helmet";
+import { Environment } from "./config/environment";
 
 const app = new Elysia();
 app.use(
@@ -12,8 +13,12 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),
 );
-app.use(swagger());
-app.use(helmet());
+app.use(swagger({ path: "/docs", autoDarkMode: true }));
+app.use(
+  helmet({
+    contentSecurityPolicy: Environment.NODE_ENV === "production" ? true : false,
+  }),
+);
 
 app.use(Routes);
 app.use(pluginCronCleanInactiveUsers);

@@ -14,7 +14,7 @@
     "check": "bunx @biomejs/biome check --apply .",
     "start": "NODE_ENV=production bun ./dist/www.js",
     "generate-migration": "drizzle-kit generate:pg",
-    "migrate": "bun ./migration.ts",
+    "migrate": "bun scripts/migration.ts",
     "test": "bun test --timeout 10000"
   },
   "keywords": [],
@@ -31,7 +31,7 @@
     "@elysiajs/cors": "^1.0.2",
     "@elysiajs/cron": "^1.0.3",
     "@elysiajs/jwt": "^1.0.2",
-    "@elysiajs/swagger": "^0.8.3",
+    "@elysiajs/swagger": "^1.0.3",
     "@sinclair/typebox": "^0.32.20",
     "drizzle-orm": "^0.29.3",
     "elysia": "^1.0.9",

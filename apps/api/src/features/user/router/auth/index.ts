@@ -1,8 +1,8 @@
 import Elysia, { error, t } from "elysia";
-import { AuthProvider } from "../../provider/auth";
 import { rateLimit } from "elysia-rate-limit";
 import { Environment } from "@/config/environment";
 import { AuthPlugin } from "@/shared/plugins/auth";
+import { AuthProvider } from "../../providers/auth";
 
 export const AuthRouter = new Elysia()
   .group("/auth", (app) =>

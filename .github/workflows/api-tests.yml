@@ -22,8 +22,6 @@ jobs:
       - uses: KengoTODA/actions-setup-docker-compose@v1
         with:
           version: "v2.24.1" # the full version of `docker-compose` command
-      - name: test cwd
-        run: pwd
       - name: Install npm dependencies
         run: pwd && bun i
       - name: Create .env file

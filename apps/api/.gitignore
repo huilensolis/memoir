@@ -4,6 +4,8 @@
 # we ignore the dist directory
 dist
 
+# we ignore migrations
+src/database/migrations/
 ### Node ###
 # Logs
 logs
