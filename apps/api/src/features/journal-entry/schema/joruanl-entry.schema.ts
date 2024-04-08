@@ -12,7 +12,7 @@ import {
 export const JournalEntries = pgTable("journal_entry", {
   id: uuid("id").primaryKey().defaultRandom(),
   user_id: uuid("user_id")
-    .references(() => Users.id)
+    .references(() => Users.id, { onDelete: "cascade", onUpdate: "cascade" })
     .notNull(),
   title: varchar("title", { length: 80 }).default("Untintled"),
   created_at: timestamp("created_at").defaultNow().notNull(),

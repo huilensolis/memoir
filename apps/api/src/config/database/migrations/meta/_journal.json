@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1712175016141,
+      "tag": "0000_spotty_talon",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712619045954,
+      "tag": "0001_colorful_next_avengers",
+      "breakpoints": true
+    }
+  ]
+}
