@@ -36,7 +36,7 @@
     "drizzle-orm": "^0.29.3",
     "elysia": "^1.0.9",
     "elysia-helmet": "^1.0.2",
-    "elysia-rate-limit": "^3.0.0",
+    "elysia-rate-limit": "^3.1.4",
     "email-validator": "^2.0.4",
     "envalid": "^8.0.0",
     "pg": "^8.11.3"

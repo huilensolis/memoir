@@ -9,6 +9,7 @@ Routes.onAfterHandle(({ set }) => {
 });
 
 Routes.onError(({ code, error: e }) => {
+  console.log({ e });
   switch (code) {
     case "PARSE":
       return error("Bad Request", { error: "error parsing body" });
@@ -17,7 +18,6 @@ Routes.onError(({ code, error: e }) => {
     case "VALIDATION":
       return error("Bad Request", { error: e.validator });
     default:
-      console.log(e);
       return error("Internal Server Error", {});
   }
 });

@@ -7,12 +7,12 @@ import { helmet } from "elysia-helmet";
 import { Environment } from "./config/environment";
 
 const app = new Elysia();
-app.use(
-  cors({
-    origin: "https://developer.mozilla.org",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  }),
-);
+// app.use(
+//   cors({
+//     origin: "google.com",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   }),
+// );
 app.use(swagger({ path: "/docs", autoDarkMode: true }));
 app.use(
   helmet({
