@@ -9,7 +9,6 @@ Routes.onAfterHandle(({ set }) => {
 });
 
 Routes.onError(({ code, error: e }) => {
-  console.log({ e });
   switch (code) {
     case "PARSE":
       return error("Bad Request", { error: "error parsing body" });
