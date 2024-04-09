@@ -1,12 +1,12 @@
 import { db } from "@/config/database";
 import { JournalEntries } from "../schema";
 import { and, eq, ilike } from "drizzle-orm";
-import {
-  JournalEntryInsert,
-  NewJournalEntry,
-  ReadJournalEntry,
-} from "../models/joruanl-entry.models";
 import { TReturnHanler } from "@/shared/models/promises";
+import {
+  TJournalEntryInsert,
+  TNewJournalEntry,
+  TReadJournalEntry,
+} from "../models/joruanl-entry.models";
 
 export class JournalEntryProvider {
   static async getPrivateEntryById({
@@ -15,7 +15,7 @@ export class JournalEntryProvider {
   }: {
     entryId: string;
     userId: string;
-  }): Promise<ReadJournalEntry | undefined> {
+  }): Promise<TReadJournalEntry | undefined> {
     const [journalEntry] = await db
       .select()
       .from(JournalEntries)
@@ -30,7 +30,7 @@ export class JournalEntryProvider {
     entryId,
   }: {
     entryId: string;
-  }): Promise<ReadJournalEntry | undefined> {
+  }): Promise<TReadJournalEntry | undefined> {
     const [journalEntry] = await db
       .select()
       .from(JournalEntries)
@@ -41,7 +41,7 @@ export class JournalEntryProvider {
 
   static async getEntriesListByUserId(
     userId: string,
-  ): Promise<ReadJournalEntry[]> {
+  ): Promise<TReadJournalEntry[]> {
     const entries = await db
       .select()
       .from(JournalEntries)
@@ -56,7 +56,7 @@ export class JournalEntryProvider {
   }: {
     title: string;
     userId: string;
-  }): Promise<ReadJournalEntry[]> {
+  }): Promise<TReadJournalEntry[]> {
     const journalEntries = await db
       .select()
       .from(JournalEntries)
@@ -74,10 +74,10 @@ export class JournalEntryProvider {
     entry,
     userId,
   }: {
-    entry: JournalEntryInsert;
-    userId: ReadJournalEntry["user_id"];
-  }): Promise<TReturnHanler<NewJournalEntry, string>> {
-    const newEntryValues: NewJournalEntry = {
+    entry: TJournalEntryInsert;
+    userId: TReadJournalEntry["user_id"];
+  }): Promise<TReturnHanler<TReadJournalEntry, string>> {
+    const newEntryValues: TNewJournalEntry = {
       content: {},
       ...entry,
       user_id: userId,
@@ -94,6 +94,29 @@ export class JournalEntryProvider {
       return { error: null, data: newEntry };
     } catch (error) {
       return { error: "error creating new entry", data: null };
+    }
+  }
+
+  static async deleteEntry({
+    entryId,
+    userId,
+  }: {
+    entryId: string;
+    userId: string;
+  }): Promise<{ error: string | null }> {
+    try {
+      await db
+        .update(JournalEntries)
+        .set({ end_date: new Date() })
+        .where(
+          and(
+            eq(JournalEntries.id, entryId),
+            eq(JournalEntries.user_id, userId),
+          ),
+        );
+      return { error: null };
+    } catch (error) {
+      return { error: "unknown" };
     }
   }
 }

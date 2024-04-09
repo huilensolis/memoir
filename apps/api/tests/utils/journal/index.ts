@@ -5,9 +5,9 @@ import { endpointPath } from "@/tests/integration/journal-entry";
 export async function createNewEntry(
   entry: TJournalEntryInsert,
   cookie: string,
-) {
+): Promise<{ journalEntryId: string | null }> {
   try {
-    await app.handle(
+    const res = await app.handle(
       new Request(`${endpointPath}/`, {
         method: "POST",
         headers: {
@@ -17,9 +17,12 @@ export async function createNewEntry(
         body: JSON.stringify(entry),
       }),
     );
-    return Promise.resolve();
+
+    const body: { id: string } = await res.json();
+
+    return { journalEntryId: body.id };
   } catch (error) {
     console.log(error);
-    return Promise.reject(error);
+    return { journalEntryId: null };
   }
 }
