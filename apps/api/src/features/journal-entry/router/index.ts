@@ -58,5 +58,24 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
       {
         response: { 200: JournalEntrySafeSchema, 500: t.Object({}) },
       },
+    )
+    .delete(
+      "/:id",
+      async ({ params: { id: entryId }, set, user }) => {
+        try {
+          const { error } = await JournalEntryProvider.deleteEntry({
+            entryId,
+            userId: user.id,
+          });
+
+          if (error) throw new Error(error);
+
+          set.status = "Created";
+          return {};
+        } catch (e) {
+          return error("Internal Server Error", {});
+        }
+      },
+      { params: t.Object({ id: t.String() }) },
     ),
 );

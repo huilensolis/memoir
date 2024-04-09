@@ -1,10 +1,39 @@
-import { describe, it, test } from "bun:test";
+import { app } from "@/app";
+import { describe, expect, it } from "bun:test";
+import { endpointPath } from ".";
+import { createUser } from "@/tests/utils/user";
+import { createNewEntry } from "@/tests/utils/journal";
 
-test.todo("Test DELETE method on journal entries endpoints", () => {
+describe("Test DELETE method on journal entries endpoints", () => {
   describe("Delete own journal entry succesfully", async () => {
-    it("Should return status 201", () => {});
+    const { cookie } = await createUser({});
 
-    it("Should return empty object on body response", async () => {});
+    const { journalEntryId } = await createNewEntry(
+      { title: "test", content: {}, word_count: 0 },
+      cookie,
+    );
+
+    if (!journalEntryId) throw new Error("Journal entry not created");
+
+    const res = await app.handle(
+      new Request(`${endpointPath}/${journalEntryId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          cookie: cookie,
+        },
+      }),
+    );
+
+    it("Should return status 201", () => {
+      expect(res.status).toBe(201);
+    });
+
+    it("Should return empty object on body response", async () => {
+      const body = await res.json();
+
+      expect(body).toBeEmptyObject();
+    });
   });
 
   describe("Delete journal entry not ownd by user", async () => {
