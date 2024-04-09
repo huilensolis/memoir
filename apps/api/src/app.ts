@@ -5,6 +5,7 @@ import { Routes } from "./config/routing";
 import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users";
 import { helmet } from "elysia-helmet";
 import { Environment } from "./config/environment";
+import { pluginCronCleanDeletedJournalEntries } from "./shared/plugins/cron/remove-entries";
 
 const app = new Elysia();
 // app.use(
@@ -22,5 +23,6 @@ app.use(
 
 app.use(Routes);
 app.use(pluginCronCleanInactiveUsers);
+app.use(pluginCronCleanDeletedJournalEntries);
 
 export { app };
