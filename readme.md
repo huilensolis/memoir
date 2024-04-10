@@ -1,6 +1,7 @@
 # Memoir
 > [!WARNING]
 > Backend API has not been deployed yet. Frontend deployment will not work as expected.
+
 [Memoir.webm](https://github.com/Huilensolis/memoir/assets/113150193/93f9292a-3d88-446c-9f0c-f0d5113a8a75)
 
 Memoir is a web editor for journaling and documenting your reflections.
