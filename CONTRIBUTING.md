@@ -1,6 +1,6 @@
 # Contributing
 
-## getting started
+## Getting started
 
 ### Clone the repo
 In this case, we pull the original repository, following a case in which you have permissions over this repository. If it's not the case, create a fork and use the same command from the example below, and replace the repository URL with your fork URL.
