@@ -1,5 +1,42 @@
-import { describe, test } from "bun:test";
+import { app } from "@/app";
+import { createUser } from "@/tests/lib/user";
+import { describe, expect, it } from "bun:test";
+import { endpointPath } from ".";
+import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { createNewEntry } from "@/tests/lib/journal";
 
-test.todo("Test PATCH method on journal entries endpoints", () => {
-  describe("", async () => {});
+describe("Test PATCH method on journal entries endpoints", () => {
+  describe("Succesfull request", async () => {
+    const { cookie } = await createUser({});
+
+    const { journalEntryId } = await createNewEntry(
+      { title: "untitled", content: [], word_count: 0 },
+      cookie,
+    );
+
+    const res = await app.handle(
+      new Request(`${endpointPath}/${journalEntryId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          cookie: cookie,
+        },
+        body: JSON.stringify({
+          title: "test",
+          content: EXAMPLE_DOCUMENT_CONTENT,
+          word_count: 291,
+        }),
+      }),
+    );
+
+    it("Should return status code 201", () => {
+      expect(res.status).toBe(201);
+    });
+
+    it("Should return empty object on body", async () => {
+      const body = await res.json();
+
+      expect(body).toBeEmptyObject();
+    });
+  });
 });

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "bun:test";
 
 import { app } from "@/app";
-import { createUser } from "../../utils/user";
+import { createUser } from "../../lib/user";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
 import { endpointPath } from "./index";

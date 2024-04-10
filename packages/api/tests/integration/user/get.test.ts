@@ -6,7 +6,7 @@ import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
 import { endpointPath } from "./index";
 import { SafeUserSchema } from "@/features/user/router/models/";
-import { createUser } from "../../utils/user";
+import { createUser } from "../../lib/user";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));

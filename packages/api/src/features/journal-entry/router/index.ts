@@ -77,5 +77,31 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
         }
       },
       { params: t.Object({ id: t.String() }) },
+    )
+    .patch(
+      "/:id",
+      async ({ params: { id }, set, body }) => {
+        try {
+          const { error } = await JournalEntryProvider.updateEntry({
+            entryId: id,
+            values: body,
+          });
+
+          if (error) throw new Error(error);
+
+          set.status = "Created";
+          return {};
+        } catch (e) {
+          return error("Internal Server Error", {});
+        }
+      },
+      {
+        params: t.Object({ id: t.String() }),
+        body: JournalEntryInsertSchema,
+        response: {
+          201: t.Object({}),
+          500: t.Object({}),
+        },
+      },
     ),
 );

@@ -119,4 +119,23 @@ export class JournalEntryProvider {
       return { error: "unknown" };
     }
   }
+
+  static async updateEntry({
+    values,
+    entryId,
+  }: {
+    entryId: TReadJournalEntry["id"];
+    values: TJournalEntryInsert;
+  }): Promise<{ error: string | null }> {
+    try {
+      await db
+        .update(JournalEntries)
+        .set(values)
+        .where(eq(JournalEntries.id, entryId));
+
+      return { error: null };
+    } catch (error) {
+      return { error: "error updating entry" };
+    }
+  }
 }
