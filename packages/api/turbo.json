@@ -3,8 +3,7 @@
   "pipeline": {
     "build": {
       "outputs": ["./dist/**"],
-      "cache": true,
-      "dependsOn": ["setup"]
+      "cache": true
     },
     "dev": {
       "cache": true,
