@@ -4,13 +4,28 @@
 
 ### clone the repo
 
+in this case we pull the original repository, following a case in which you have permissions over this repository. If its not the case, create a fork and use the same command from the example bellow, but replacing the repository URL with your fork URL.
+
 ```bash
 git clone https://github.com/Huilensolis/memoir --depth=1
 ```
 
-### create a .env file inside `/apps/client` and `/apps/api`, and fill it, following the examples provided in `/apps/client/env.example` and `/apps/api/env.example`
+### set up environment variables
 
-### install turbo repo
+- create a .env.local file inside `/packages/client`, and write the variables. The list of necessary variables are listed in `packages/client/env.example`
+
+```bash
+cd packages/client # move to the client folder
+touch .env.local # create a .env.local file
+
+cp .env.example .env.local # copy the content of env.example file to .env.local file
+```
+
+- fill the env variables
+
+### install turborepo globally
+
+in this repository we use bun as the package manager, but for installing turborepo, we are going to need npm, yarn or pnpm.
 
 pnpm:
 
@@ -32,39 +47,48 @@ yarn global add turbo
 
 ### install packages
 
-```bash
-pnpm i
-```
-
-#### before starting the api server, you must have installed bun.
+for this step, we are going to have bun installed
 
 ```bash
 curl -fsSL https://bun.sh/install | bash
 ```
 
-### start the development server (for both: the client and api)
+now, placed in the project's root folder, install all dependencies
 
-The command turbo <command> works as a npm script executer. It executes the scripts decalred on both the api and client package.json.
+```bash
+bun i
+```
+
+### using turborepo for running npm scripts
+
+The command `turbo` works as a npm script executer. It executes the scripts declared on both the api and client package.json.
 For more information, see https://turbo.build/repo/docs
+
+#### run development server
 
 ```bash
 turbo dev
 ```
 
-### run linting
+#### run linting
 
 ```bash
 turbo lint
 ```
 
-### run build
+#### run build
 
 ```bash
 turbo build
 ```
 
-### run tests
+#### run tests
 
 ```bash
 turbo test
 ```
+
+## About linting and formatting
+
+we use `eslint` and `prettier` on the client package, while we use `biome` on the api package
+if your IDE does not support some of the linters/formatters, don't worry about it, we have a CD/CI github workflow to format the code on each PRs!
