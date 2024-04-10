@@ -1,0 +1,15 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "outputs": [".next/**"],
+      "cache": true
+    },
+    "dev": {
+      "cache": false,
+      "inputs": ["src/**"]
+    },
+    "lint": {},
+    "start": {}
+  }
+}
