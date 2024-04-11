@@ -92,7 +92,7 @@ export const AuthRouter = new Elysia()
       .use(
         rateLimit({
           duration: 1000 * 60, // 1 minute
-          max: 30,
+          max: Environment.NODE_ENV === "test" ? 1000 : 20,
           generator: (request, server) =>
             server?.requestIP(request)?.address ?? "",
         }),
