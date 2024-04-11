@@ -1,5 +1,5 @@
 import { db } from "@/config/database";
-import { JournalEntries } from "@/features/journal-entry/schema";
+import { JournalEntry } from "@/features/journal-entry/schema";
 import cron from "@elysiajs/cron";
 import { eq, isNotNull } from "drizzle-orm";
 import Elysia from "elysia";
@@ -12,8 +12,8 @@ export const pluginCronCleanDeletedJournalEntries = (app: Elysia) =>
       async run(store) {
         const deletedJournalEntries = await db
           .select()
-          .from(JournalEntries)
-          .where(isNotNull(JournalEntries.end_date));
+          .from(JournalEntry)
+          .where(isNotNull(JournalEntry.end_date));
         if (!deletedJournalEntries.length || deletedJournalEntries.length === 0)
           return;
 
@@ -26,8 +26,8 @@ export const pluginCronCleanDeletedJournalEntries = (app: Elysia) =>
           ) {
             try {
               await db
-                .delete(JournalEntries)
-                .where(eq(JournalEntries.id, deletedEntry.id));
+                .delete(JournalEntry)
+                .where(eq(JournalEntry.id, deletedEntry.id));
             } catch (error) {
               console.log(
                 "could not delete journal entry with id:",

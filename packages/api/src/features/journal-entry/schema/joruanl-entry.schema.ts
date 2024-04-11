@@ -9,7 +9,7 @@ import {
   json,
 } from "drizzle-orm/pg-core";
 
-export const JournalEntries = pgTable("journal_entry", {
+export const JournalEntry = pgTable("journal_entry", {
   id: uuid("id").primaryKey().defaultRandom(),
   user_id: uuid("user_id")
     .references(() => Users.id, { onDelete: "cascade", onUpdate: "cascade" })
