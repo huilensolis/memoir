@@ -9,6 +9,7 @@ import {
   TJournalEntrySafe,
 } from "@/features/journal-entry/models/joruanl-entry.models";
 import { createNewEntry } from "@/tests/lib/journal";
+import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
 
 describe("Test GET method on journal entries endpoints", () => {
   describe("GET private user journal entries", () => {
@@ -16,17 +17,29 @@ describe("Test GET method on journal entries endpoints", () => {
       const { cookie } = await createUser({});
 
       await createNewEntry(
-        { word_count: 0, title: "test entry 1", content: [] },
+        {
+          word_count: 0,
+          title: "test entry 1",
+          content: EXAMPLE_DOCUMENT_CONTENT,
+        },
         cookie,
       );
 
       await createNewEntry(
-        { word_count: 0, title: "test entry 2", content: [] },
+        {
+          word_count: 0,
+          title: "test entry 2",
+          content: EXAMPLE_DOCUMENT_CONTENT,
+        },
         cookie,
       );
 
       await createNewEntry(
-        { word_count: 0, title: "test entry 3", content: [] },
+        {
+          word_count: 0,
+          title: "test entry 3",
+          content: EXAMPLE_DOCUMENT_CONTENT,
+        },
         cookie,
       );
 

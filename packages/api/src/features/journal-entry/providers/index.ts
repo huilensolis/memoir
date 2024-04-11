@@ -75,7 +75,7 @@ export class JournalEntryProvider {
     userId: TReadJournalEntry["user_id"];
   }): Promise<TReturnHanler<TReadJournalEntry, string>> {
     const newEntryValues: TNewJournalEntry = {
-      content: {},
+      content: [],
       ...entry,
       user_id: userId,
     };
@@ -119,13 +119,13 @@ export class JournalEntryProvider {
     entryId,
   }: {
     entryId: TReadJournalEntry["id"];
-    values: TJournalEntryInsert;
+    values: TInsertJournalEntry;
   }): Promise<{ error: string | null }> {
     try {
       await db
-        .update(JournalEntries)
+        .update(JournalEntry)
         .set(values)
-        .where(eq(JournalEntries.id, entryId));
+        .where(eq(JournalEntry.id, entryId));
 
       return { error: null };
     } catch (error) {

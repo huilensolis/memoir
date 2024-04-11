@@ -6,7 +6,7 @@ export type TNewJournalEntry = typeof JournalEntry.$inferInsert;
 
 export const JournalEntryInsertSchema = t.Object({
   title: t.Optional(t.String({ maxLength: 80 }), true),
-  content: t.Optional(t.Array(t.Object({})), true),
+  content: t.Optional(t.Array(t.Record(t.String(), t.Unknown())), true),
   word_count: t.Optional(t.Number(), true),
 });
 
@@ -14,12 +14,12 @@ export type TInsertJournalEntry = Static<typeof JournalEntryInsertSchema>;
 
 export const JournalEntrySafeSchema = t.Object({
   id: t.String(),
-  title: t.Nullable(t.String({ maxLength: 80 })),
-  content: t.Nullable(t.Array(t.Object({}))),
-  word_count: t.Nullable(t.Number()),
-  created_at: t.Date(),
-  updated_at: t.Date(),
-  end_date: t.Nullable(t.Date()),
+  title: t.String({ maxLength: 80 }),
+  content: t.Nullable(t.Array(t.Record(t.String(), t.Unknown()))),
+  word_count: t.Number(),
+  created_at: t.String(),
+  updated_at: t.String(),
+  end_date: t.Nullable(t.String()),
 });
 
 export type TJournalEntrySafe = Static<typeof JournalEntrySafeSchema>;
