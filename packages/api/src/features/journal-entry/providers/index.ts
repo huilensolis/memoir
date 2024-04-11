@@ -1,9 +1,9 @@
 import { db } from "@/config/database";
-import { JournalEntries } from "../schema";
+import { JournalEntry } from "../schema";
 import { and, eq, ilike } from "drizzle-orm";
 import { TReturnHanler } from "@/shared/models/promises";
 import {
-  TJournalEntryInsert,
+  TInsertJournalEntry,
   TNewJournalEntry,
   TReadJournalEntry,
 } from "../models/joruanl-entry.models";
@@ -18,9 +18,9 @@ export class JournalEntryProvider {
   }): Promise<TReadJournalEntry | undefined> {
     const [journalEntry] = await db
       .select()
-      .from(JournalEntries)
+      .from(JournalEntry)
       .where(
-        and(eq(JournalEntries.id, entryId), eq(JournalEntries.user_id, userId)),
+        and(eq(JournalEntry.id, entryId), eq(JournalEntry.user_id, userId)),
       );
 
     return journalEntry;
@@ -33,8 +33,8 @@ export class JournalEntryProvider {
   }): Promise<TReadJournalEntry | undefined> {
     const [journalEntry] = await db
       .select()
-      .from(JournalEntries)
-      .where(eq(JournalEntries.id, entryId));
+      .from(JournalEntry)
+      .where(eq(JournalEntry.id, entryId));
 
     return journalEntry;
   }
@@ -44,8 +44,8 @@ export class JournalEntryProvider {
   ): Promise<TReadJournalEntry[]> {
     const entries = await db
       .select()
-      .from(JournalEntries)
-      .where(eq(JournalEntries.user_id, userId));
+      .from(JournalEntry)
+      .where(eq(JournalEntry.user_id, userId));
 
     return entries;
   }
@@ -59,12 +59,9 @@ export class JournalEntryProvider {
   }): Promise<TReadJournalEntry[]> {
     const journalEntries = await db
       .select()
-      .from(JournalEntries)
+      .from(JournalEntry)
       .where(
-        and(
-          ilike(JournalEntries.title, title),
-          eq(JournalEntries.user_id, userId),
-        ),
+        and(ilike(JournalEntry.title, title), eq(JournalEntry.user_id, userId)),
       );
 
     return journalEntries;
@@ -74,7 +71,7 @@ export class JournalEntryProvider {
     entry,
     userId,
   }: {
-    entry: TJournalEntryInsert;
+    entry: TInsertJournalEntry;
     userId: TReadJournalEntry["user_id"];
   }): Promise<TReturnHanler<TReadJournalEntry, string>> {
     const newEntryValues: TNewJournalEntry = {
@@ -85,7 +82,7 @@ export class JournalEntryProvider {
 
     try {
       const [newEntry] = await db
-        .insert(JournalEntries)
+        .insert(JournalEntry)
         .values(newEntryValues)
         .returning();
 
@@ -106,13 +103,10 @@ export class JournalEntryProvider {
   }): Promise<{ error: string | null }> {
     try {
       await db
-        .update(JournalEntries)
+        .update(JournalEntry)
         .set({ end_date: new Date() })
         .where(
-          and(
-            eq(JournalEntries.id, entryId),
-            eq(JournalEntries.user_id, userId),
-          ),
+          and(eq(JournalEntry.id, entryId), eq(JournalEntry.user_id, userId)),
         );
       return { error: null };
     } catch (error) {
