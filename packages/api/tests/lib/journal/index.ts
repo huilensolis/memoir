@@ -1,9 +1,9 @@
 import { app } from "@/app";
-import { TJournalEntryInsert } from "@/features/journal-entry/models/joruanl-entry.models";
+import { TInsertJournalEntry } from "@/features/journal-entry/models/joruanl-entry.models";
 import { endpointPath } from "@/tests/integration/journal-entry";
 
 export async function createNewEntry(
-  entry: TJournalEntryInsert,
+  entry: TInsertJournalEntry,
   cookie: string,
 ): Promise<{ journalEntryId: string | null }> {
   try {

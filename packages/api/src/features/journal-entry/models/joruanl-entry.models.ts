@@ -1,8 +1,8 @@
 import { Static, t } from "elysia";
-import { JournalEntries } from "../schema";
+import { JournalEntry } from "../schema";
 
-export type TReadJournalEntry = typeof JournalEntries.$inferSelect;
-export type TNewJournalEntry = typeof JournalEntries.$inferInsert;
+export type TReadJournalEntry = typeof JournalEntry.$inferSelect;
+export type TNewJournalEntry = typeof JournalEntry.$inferInsert;
 
 export const JournalEntryInsertSchema = t.Object({
   title: t.Optional(t.String({ maxLength: 80 }), true),
@@ -10,7 +10,7 @@ export const JournalEntryInsertSchema = t.Object({
   word_count: t.Optional(t.Number(), true),
 });
 
-export type TJournalEntryInsert = Static<typeof JournalEntryInsertSchema>;
+export type TInsertJournalEntry = Static<typeof JournalEntryInsertSchema>;
 
 export const JournalEntrySafeSchema = t.Object({
   id: t.String(),

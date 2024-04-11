@@ -82,6 +82,12 @@ turbo build
 turbo test
 ```
 
+## Api docs
+Once you have started the development server of the API, you can see the docs on this endpoint. Adapt the endpoint to your case
+```bash
+localhost:3001/docs
+```
+
 ## About linting and formatting
 We use `eslint` and `prettier` on the client package, while we use `biome` on the api package.
 To include linting within your IDE, you can add the following extensions:
