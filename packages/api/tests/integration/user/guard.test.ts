@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test";
 
 import { app } from "@/app";
 import { endpointPath } from "./index";
-import { getRandomString } from "@/tests/utils/random-values";
+import { getRandomString } from "@/tests/lib/random-values";
 
 describe("All user endpoints are protected against unauthenticated requests", () => {
   describe("Should not be able to perform GET if no cookie sent in headers", async () => {

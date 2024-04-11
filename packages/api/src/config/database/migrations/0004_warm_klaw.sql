@@ -1,0 +1,1 @@
+ALTER TABLE "journal_entry" ALTER COLUMN "content" SET DEFAULT '[]'::json;
