@@ -15,7 +15,7 @@ export default async function AuthLayout({
         <section className="flex flex-col items-center justify-center h-full w-full py-5 px-5">
           {children}
         </section>
-        <section className="w-full h-full xl:flex xl:items-center xl:justify-center hidden relative max-h-screen bg-neutral-900">
+        <section className="w-full h-full xl:flex xl:items-center xl:justify-center hidden relative max-h-screen bg-neutral-950">
           <h2 className="text-balance text-neutral-200 font-bold text-5xl max-w-2xl w-full">
             Build a journaling habit and document your dreams, reflections,
             experiences, mood and memories.
