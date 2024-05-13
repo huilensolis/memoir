@@ -12,6 +12,7 @@ import { useSession } from "@/hooks/use-session";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Spinner } from "@/components/ui/spinner";
+import { BadgeCheck } from "lucide-react";
 
 export function SignUpForm() {
   const [errorSubmitting, setErrorSubmitting] = useState<boolean>(false);
@@ -29,7 +30,7 @@ export function SignUpForm() {
     register,
     setError,
     getFieldState,
-  } = useForm<signUpFormModels>({ mode: "all" });
+  } = useForm<signUpFormModels>({ mode: "onChange" });
 
   const { signUp, checkEmailAvailability } = useSession();
 
@@ -77,9 +78,14 @@ export function SignUpForm() {
   }
 
   useEffect(() => {
-    if (debouncedEmailValue.length > 0)
+    if (
+      debouncedEmailValue.length > 0 &&
+      getFieldState("email").isDirty &&
+      !getFieldState("email").error?.message
+    ) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       checkIfEmailInputIsAvailable(debouncedEmailValue);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedEmailValue]);
 
@@ -129,8 +135,8 @@ export function SignUpForm() {
             },
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
               if (
-                (getFieldState("email").error ??
-                  !getFieldState("email").isDirty) ||
+                getFieldState("email").error?.message ||
+                !getFieldState("email").isDirty ||
                 isValidating ||
                 loading
               ) {
@@ -143,12 +149,20 @@ export function SignUpForm() {
             },
           })}
         />
-        {validatingEmail && (
-          <div className="flex items-center gap-1">
-            <Spinner className="w-4 h-4 text-blue-500 p-0" />
-            <span>validating email</span>
-          </div>
-        )}
+        <div className="flex items-center gap-1">
+          {validatingEmail && (
+            <>
+              <Spinner className="w-4 h-4 text-neutral-950 p-0" />
+              <span>validating email</span>
+            </>
+          )}
+          {getFieldState("email").isDirty && isEmailAvailable && (
+            <>
+              <BadgeCheck className="w-4 h-4 text-neutral-950" />
+              <span>Email is available</span>
+            </>
+          )}
+        </div>
       </fieldset>
       <fieldset>
         <Label htmlFor="password">Password</Label>
