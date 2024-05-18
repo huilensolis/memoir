@@ -1,4 +1,4 @@
-import {
+import type {
   TJournalEntrySafe,
   TReadJournalEntry,
 } from "../models/joruanl-entry.models";

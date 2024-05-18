@@ -74,7 +74,36 @@ describe("Test GET method on journal entries endpoints", () => {
       });
     });
     describe("GET journal entry lists by title", async () => {});
-    describe("GET journal entry by entryId", async () => {});
+    describe("GET journal entry by entryId", async () => {
+      const { cookie } = await createUser({});
+
+      const { journalEntryId } = await createNewEntry(
+        { title: "Untitled", content: [{}], word_count: 8 },
+        cookie,
+      );
+
+      const res = await app.handle(
+        new Request(`${endpointPath}/${journalEntryId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            cookie: cookie,
+          },
+        }),
+      );
+
+      it("should return 200 status code", () => {
+        expect(res.status).toBe(200);
+      });
+
+      it("should return journal entry on body", async () => {
+        const body = await res.json();
+
+        const isBodyAValidEntry = Value.Check(JournalEntrySafeSchema, body);
+
+        expect(isBodyAValidEntry).toBeTrue();
+      });
+    });
   });
 
   test.todo("GET public journal entries", () => {

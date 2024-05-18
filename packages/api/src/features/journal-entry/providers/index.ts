@@ -1,8 +1,8 @@
 import { db } from "@/config/database";
 import { JournalEntry } from "../schema";
 import { and, eq, ilike } from "drizzle-orm";
-import { TReturnHanler } from "@/shared/models/promises";
-import {
+import type { TReturnHanler } from "@/shared/models/promises";
+import type {
   TInsertJournalEntry,
   TNewJournalEntry,
   TReadJournalEntry,
