@@ -6,7 +6,7 @@ import { describe, expect, it, test } from "bun:test";
 import { endpointPath } from ".";
 import {
   JournalEntrySafeSchema,
-  TJournalEntrySafe,
+  type TJournalEntrySafe,
 } from "@/features/journal-entry/models/joruanl-entry.models";
 import { createNewEntry } from "@/tests/utils/journal";
 

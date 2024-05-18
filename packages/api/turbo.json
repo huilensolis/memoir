@@ -11,7 +11,7 @@
       "dependsOn": ["setup"]
     },
     "setup": {
-      "cache": true
+      "cache": false
     },
     "clean-up": {
       "cache": false
