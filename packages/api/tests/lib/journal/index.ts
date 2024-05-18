@@ -1,5 +1,5 @@
 import { app } from "@/app";
-import { TInsertJournalEntry } from "@/features/journal-entry/models/joruanl-entry.models";
+import type { TInsertJournalEntry } from "@/features/journal-entry/models/joruanl-entry.models";
 import { endpointPath } from "@/tests/integration/journal-entry";
 
 export async function createNewEntry(

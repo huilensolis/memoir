@@ -4,7 +4,7 @@ import { app } from "@/app";
 import { endpointPath } from "./index";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
-import { NewUser } from "@/features/user/models";
+import type { NewUser } from "@/features/user/models";
 import { getRandomString } from "../../lib/random-values";
 
 beforeEach(async () => await db.delete(Users));
