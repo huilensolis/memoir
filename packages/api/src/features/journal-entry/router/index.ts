@@ -56,7 +56,32 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
         }
       },
       {
-        response: { 200: JournalEntrySafeSchema, 500: t.Object({}) },
+        response: {
+          200: t.Array(JournalEntrySafeSchema),
+          500: t.Object({}),
+        },
+      },
+    )
+    .get(
+      "/:id",
+      async ({ user, error, set, params }) => {
+        const journalEntry = await JournalEntryProvider.getPrivateEntryById({
+          entryId: params.id,
+          userId: user.id,
+        });
+
+        if (!journalEntry) {
+          return error("Not Found", {});
+        }
+
+        const { safeEntry } = JournalEntryAdapter.toSafeEntry(journalEntry);
+
+        set.status = "OK";
+        return safeEntry;
+      },
+      {
+        params: t.Object({ id: t.String() }),
+        response: { 200: JournalEntrySafeSchema, 404: t.Object({}) },
       },
     )
     .delete(
