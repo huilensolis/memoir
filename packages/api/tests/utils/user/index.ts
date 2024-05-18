@@ -1,7 +1,7 @@
 import { app } from "@/app";
 import { Environment } from "@/config/environment";
 
-import { NewUser } from "@/features/user/models";
+import type { NewUser } from "@/features/user/models";
 import { getRandomString } from "../random-values";
 
 type TProps = {
