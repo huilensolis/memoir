@@ -20,15 +20,16 @@ async function awaitForDocker() {
   });
 
   for (let i = 0; i <= 10; i++) {
-    await Bun.sleep(5000);
     try {
       await pool.connect();
       console.log("connected succesfully to database!");
-      return;
+
+      break;
     } catch (error) {
       console.log("database connection is not ready yet, retrying in 5s");
       console.log(`attempt ${i} of 10`);
 
+      await Bun.sleep(5000);
       if (i >= 10) throw new Error(JSON.stringify(error));
     }
   }

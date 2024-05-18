@@ -4,7 +4,7 @@ import { app } from "@/app";
 import { db } from "@/config/database";
 import { Users } from "@/features/user/schema";
 import { endpointPath } from "./index";
-import { createUser } from "../../utils/user";
+import { createUser } from "../../lib/user";
 
 beforeEach(async () => await db.delete(Users));
 afterAll(async () => await db.delete(Users));

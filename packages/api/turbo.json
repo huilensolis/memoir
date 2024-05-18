@@ -7,8 +7,7 @@
     },
     "dev": {
       "cache": true,
-      "inputs": ["src/**", "./**"],
-      "dependsOn": ["setup"]
+      "inputs": ["src/**", "./**"]
     },
     "setup": {
       "cache": false

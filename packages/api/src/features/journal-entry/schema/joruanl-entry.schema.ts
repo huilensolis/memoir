@@ -18,7 +18,7 @@ export const JournalEntry = pgTable("journal_entry", {
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
   word_count: integer("word_count").default(0),
-  content: json("content").default({}).$type<Record<string, unknown>>(),
+  content: json("content").default([]).$type<Record<string, unknown>[]>(),
   is_private: boolean("is_private").default(false),
   end_date: timestamp("end_date"),
 });

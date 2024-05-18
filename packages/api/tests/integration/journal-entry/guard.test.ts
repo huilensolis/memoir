@@ -1,9 +1,9 @@
 import { describe, expect, it, test } from "bun:test";
 
 import { app } from "@/app";
-import { createUser } from "@/tests/utils/user";
+import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
-import { createNewEntry } from "@/tests/utils/journal";
+import { createNewEntry } from "@/tests/lib/journal";
 
 describe("Journal Entry guard", () => {
   describe("Unauthenticated user should not be able to perform requests to endpoint", () => {
@@ -17,7 +17,7 @@ describe("Journal Entry guard", () => {
           },
           body: JSON.stringify({
             title: "test",
-            content: {},
+            content: [{}],
             word_count: 291,
           }),
         }),
@@ -38,7 +38,7 @@ describe("Journal Entry guard", () => {
       const { cookie } = await createUser({});
 
       await createNewEntry(
-        { word_count: 0, title: "test entry 3", content: {} },
+        { word_count: 0, title: "test entry 3", content: [{}] },
         cookie,
       );
 
@@ -65,7 +65,7 @@ describe("Journal Entry guard", () => {
       const { cookie } = await createUser({});
 
       const { journalEntryId } = await createNewEntry(
-        { title: "test", content: {}, word_count: 0 },
+        { title: "test", content: [{}], word_count: 0 },
         cookie,
       );
 
@@ -100,7 +100,7 @@ describe("Journal Entry guard", () => {
           },
           body: JSON.stringify({
             title: "test",
-            content: {},
+            content: [{}],
             word_count: 291,
           }),
         }),

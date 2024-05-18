@@ -1,15 +1,15 @@
 import { app } from "@/app";
 import { describe, expect, it } from "bun:test";
 import { endpointPath } from ".";
-import { createUser } from "@/tests/utils/user";
-import { createNewEntry } from "@/tests/utils/journal";
+import { createUser } from "@/tests/lib/user";
+import { createNewEntry } from "@/tests/lib/journal";
 
 describe("Test DELETE method on journal entries endpoints", () => {
   describe("Delete own journal entry succesfully", async () => {
     const { cookie } = await createUser({});
 
     const { journalEntryId } = await createNewEntry(
-      { title: "test", content: {}, word_count: 0 },
+      { title: "test", content: [], word_count: 0 },
       cookie,
     );
 

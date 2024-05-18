@@ -75,7 +75,7 @@ export class JournalEntryProvider {
     userId: TReadJournalEntry["user_id"];
   }): Promise<TReturnHanler<TReadJournalEntry, string>> {
     const newEntryValues: TNewJournalEntry = {
-      content: {},
+      content: [],
       ...entry,
       user_id: userId,
     };
@@ -111,6 +111,25 @@ export class JournalEntryProvider {
       return { error: null };
     } catch (error) {
       return { error: "unknown" };
+    }
+  }
+
+  static async updateEntry({
+    values,
+    entryId,
+  }: {
+    entryId: TReadJournalEntry["id"];
+    values: TInsertJournalEntry;
+  }): Promise<{ error: string | null }> {
+    try {
+      await db
+        .update(JournalEntry)
+        .set(values)
+        .where(eq(JournalEntry.id, entryId));
+
+      return { error: null };
+    } catch (error) {
+      return { error: "error updating entry" };
     }
   }
 }
