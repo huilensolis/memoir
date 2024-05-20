@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import { endpointPath } from ".";
 import { app } from "@/app";
 import { createUser } from "@/tests/lib/user";
+import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
 
 describe("Test POST method on journal entries endpoints", () => {
   describe("Journal Entry created succesfully", async () => {
@@ -16,7 +17,7 @@ describe("Test POST method on journal entries endpoints", () => {
         },
         body: JSON.stringify({
           title: "test",
-          content: [],
+          content: EXAMPLE_DOCUMENT_CONTENT,
           word_count: 291,
         }),
       }),

@@ -10,7 +10,7 @@ describe("Test PATCH method on journal entries endpoints", () => {
     const { cookie } = await createUser({});
 
     const { journalEntryId } = await createNewEntry(
-      { title: "untitled", content: [], word_count: 0 },
+      { title: "untitled", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
       cookie,
     );
 
