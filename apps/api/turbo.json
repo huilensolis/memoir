@@ -8,10 +8,11 @@
     "dev": {
       "dependsOn": ["setup"],
       "cache": true,
-      "inputs": ["src/**", "./**"]
+      "inputs": ["./src", "!./tests/**"]
     },
     "setup": {
-      "cache": false
+      "cache": false,
+      "inputs": ["scripts/**", "compose.yaml", "drizzle.config.ts", ".env"]
     },
     "clean-up": {
       "cache": false

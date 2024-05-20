@@ -12,7 +12,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: packages/api
+        working-directory: apps/api
     environment: Preview
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: packages/api
+        working-directory: apps/api
     environment: Preview
     steps:
       - uses: actions/checkout@v4
