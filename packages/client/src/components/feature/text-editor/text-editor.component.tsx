@@ -19,10 +19,10 @@ import { CommandMenu } from "./components/command-menu";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 
 const CustomDocument = Document.extend({
-  content: "heading block*",
+  content: "heading{1} paragraph*",
 });
 
-export function TextEditor() {
+export function TextEditor({ content }: { content?: any }) {
   const [commandMenusearchValue, setCommandMenuSearchValue] = useState("");
 
   const isCommandMenuVisible = useCommandMenuStore(
@@ -118,6 +118,7 @@ export function TextEditor() {
     ],
     autofocus: "start",
     editable: true,
+    ...(content && { content }),
     parseOptions: {
       preserveWhitespace: "full",
     },

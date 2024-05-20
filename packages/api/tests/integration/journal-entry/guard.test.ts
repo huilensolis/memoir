@@ -4,6 +4,7 @@ import { app } from "@/app";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
 import { createNewEntry } from "@/tests/lib/journal";
+import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
 
 describe("Journal Entry guard", () => {
   describe("Unauthenticated user should not be able to perform requests to endpoint", () => {
@@ -17,7 +18,7 @@ describe("Journal Entry guard", () => {
           },
           body: JSON.stringify({
             title: "test",
-            content: [{}],
+            content: EXAMPLE_DOCUMENT_CONTENT,
             word_count: 291,
           }),
         }),
@@ -38,7 +39,11 @@ describe("Journal Entry guard", () => {
       const { cookie } = await createUser({});
 
       await createNewEntry(
-        { word_count: 0, title: "test entry 3", content: [{}] },
+        {
+          word_count: 0,
+          title: "test entry 3",
+          content: EXAMPLE_DOCUMENT_CONTENT,
+        },
         cookie,
       );
 
@@ -65,7 +70,7 @@ describe("Journal Entry guard", () => {
       const { cookie } = await createUser({});
 
       const { journalEntryId } = await createNewEntry(
-        { title: "test", content: [{}], word_count: 0 },
+        { title: "test", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
         cookie,
       );
 
@@ -100,7 +105,7 @@ describe("Journal Entry guard", () => {
           },
           body: JSON.stringify({
             title: "test",
-            content: [{}],
+            content: EXAMPLE_DOCUMENT_CONTENT,
             word_count: 291,
           }),
         }),

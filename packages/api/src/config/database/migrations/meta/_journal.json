@@ -43,6 +43,13 @@
       "when": 1716053616787,
       "tag": "0005_gray_wallow",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1716172493022,
+      "tag": "0006_mute_iron_monger",
+      "breakpoints": true
     }
   ]
 }

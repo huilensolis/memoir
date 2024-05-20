@@ -21,7 +21,7 @@ export function AsideNavLinks() {
     {
       title: "New Entry",
       icon: PenTool,
-      href: "new entry",
+      href: ClientRoutingService.app.entries.create,
     },
     {
       title: "Search Entry",

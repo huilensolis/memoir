@@ -78,7 +78,7 @@ describe("Test GET method on journal entries endpoints", () => {
       const { cookie } = await createUser({});
 
       const { journalEntryId } = await createNewEntry(
-        { title: "Untitled", content: [{}], word_count: 8 },
+        { title: "Untitled", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 8 },
         cookie,
       );
 
