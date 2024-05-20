@@ -18,6 +18,10 @@ export class ApiRoutingService {
         checkEmailAvailability: (email: string) =>
           this.getPath(`check-availability/email/${email}`),
       },
+      entry: {
+        createEntry: this.getPath("journal"),
+        readEntryById: (entryId: string) => this.getPath(`journal/${entryId}`),
+      },
     };
   }
 }

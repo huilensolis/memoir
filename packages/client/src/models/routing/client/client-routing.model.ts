@@ -6,8 +6,14 @@ export class ClientRoutingService {
   }
 
   public static get app() {
+    const entries = {
+      readById: (entryId: string) => `/app/entry/${entryId}`,
+      create: "/app/entry/new",
+    };
+
     return {
       home: "/app",
+      entries,
     };
   }
 }
