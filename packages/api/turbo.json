@@ -6,6 +6,7 @@
       "cache": true
     },
     "dev": {
+      "dependsOn": ["setup"],
       "cache": true,
       "inputs": ["src/**", "./**"]
     },
