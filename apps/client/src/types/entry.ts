@@ -1,7 +1,9 @@
+import type { JSONContent } from "@tiptap/react";
+
 export type Entry = {
   id: string;
   title: string;
-  content: Record<string, any>;
+  content: JSONContent;
   word_count: number;
   created_at: string;
   updated_at: string;

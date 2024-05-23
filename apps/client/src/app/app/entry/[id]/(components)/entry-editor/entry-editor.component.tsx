@@ -13,14 +13,15 @@ export function EntryEditor({
   initialContent,
   entry,
 }: {
-  initialContent: Record<string, any>;
+  initialContent: Entry["content"];
   entry: Entry;
 }) {
   // we dont use this state to send the content to the editor, but rather to handle the transactions saving.
   // the editor starts from an initial content, and then manages the changed content by itself
-  const [throttlingContent, setThrottlingContent] = useState(initialContent);
+  const [throttlingContent, setThrottlingContent] =
+    useState<Entry["content"]>(initialContent);
 
-  const { debouncedValue: debouncedContent } = useDebounce({
+  const { debouncedValue: debouncedContent } = useDebounce<Entry["content"]>({
     value: throttlingContent,
     delay: 2000,
   });
@@ -29,13 +30,7 @@ export function EntryEditor({
   const setEntryState = useEntryStore((state) => state.setState);
   const entryState = useEntryStore((state) => state.state);
 
-  function handleTransaction({
-    editor,
-    transaction,
-  }: {
-    editor: Editor;
-    transaction: Transaction;
-  }) {
+  function handleTransaction({ editor }: { editor: Editor }) {
     if (entryState !== "waiting") {
       setEntryState("waiting");
     }
@@ -50,9 +45,22 @@ export function EntryEditor({
   useEffect(() => {
     async function saveDocumentNewData({ signal }: { signal: AbortSignal }) {
       setEntryState("saving");
-      const { title } = entry;
+
+      function getEntryTitle(): string {
+        if (
+          debouncedContent.content &&
+          debouncedContent.content[0] &&
+          debouncedContent.content[0].content &&
+          debouncedContent.content[0].content[0].text
+        ) {
+          return debouncedContent.content[0].content[0].text.trim();
+        }
+
+        return entry.title;
+      }
+
       const updatedEntry: NewEntry = {
-        title,
+        title: getEntryTitle(),
         content: debouncedContent,
         word_count: 0,
       };
