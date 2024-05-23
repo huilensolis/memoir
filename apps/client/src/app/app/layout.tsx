@@ -7,7 +7,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     <div className="flex flex-col w-full">
       <BannerMessage />
       <div className="flex items-start justify-start w-full">
-        <AsideNav />
+        <div className="max-w-80 w-full h-full sticky top-0 left-0">
+          <AsideNav />
+        </div>
         <main className="w-full flex items-center justify-center">
           {children}
         </main>

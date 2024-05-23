@@ -20,7 +20,7 @@ import { CommandMenu } from "./components/command-menu";
 import { Plugin, PluginKey, Transaction } from "@tiptap/pm/state";
 
 const CustomDocument = Document.extend({
-  content: "heading{1} paragraph*",
+  content: "heading{1} block+",
 });
 
 export function TextEditor({
@@ -81,7 +81,7 @@ export function TextEditor({
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: "outline-none prose text-neutral-800",
+        class: "outline-none",
       },
     },
     extensions: [
@@ -90,7 +90,7 @@ export function TextEditor({
       StarterKit.configure({
         document: false,
         heading: {
-          levels: [1, 2, 3],
+          levels: [1, 2, 3, 4],
           HTMLAttributes: {
             class: "font-bold",
           },
@@ -122,7 +122,7 @@ export function TextEditor({
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === "heading") return "Title";
-          return "what's on your mind";
+          return "Write something or type '/' to open a command menu...";
         },
         emptyNodeClass:
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
@@ -204,7 +204,7 @@ export function TextEditor({
           </FloatingMenu>
           <EditorContent
             editor={editor}
-            className="w-full h-full min-h-screen"
+            className="w-full h-full min-h-screen prose prose-neutral dark:prose-invert prose-lg"
             onKeyDown={handleKeyDown}
           />
         </>

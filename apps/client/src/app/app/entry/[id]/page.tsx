@@ -20,11 +20,13 @@ export default async function EntryPage({
   if (!entry || error) return <p>404 - not found</p>;
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-start py-10 gap-10">
-      <div className="w-full max-w-2xl">
-        <EntryHeader />
+    <div className="h-full w-full flex flex-col items-center justify-start gap-5">
+      <div className="w-full sticky top-0 left-0 z-10 flex items-center justify-center p-3 bg-zinc-100 border-b border-gray-200">
+        <div className="max-w-2xl w-full">
+          <EntryHeader />
+        </div>
       </div>
-      <main className="h-full w-full max-w-2xl">
+      <main className="h-full w-full max-w-2xl py-10">
         <EntryEditor initialContent={entry.content} entry={entry} />
       </main>
     </div>
