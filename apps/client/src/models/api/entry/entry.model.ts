@@ -1,7 +1,6 @@
 import axios from "axios";
 import { ApiService } from "../api.model";
 import { ApiRoutingService } from "@/models/routing/api";
-import { API_CONFIG } from "@/config/api/api.config";
 import { Entry, NewEntry } from "@/types/entry";
 
 export class EntryService extends ApiService {
@@ -95,6 +94,37 @@ export class EntryService extends ApiService {
       return { entry: data, error: null };
     } catch (error) {
       return { entry: null, error: JSON.stringify(error) };
+    }
+  }
+
+  public static async updateEntryById({
+    entryId,
+    entry,
+    signal,
+  }: {
+    entryId: string;
+    entry: NewEntry;
+    signal?: AbortSignal;
+  }): Promise<{ error: string | null }> {
+    try {
+      const { status } = await axios.patch(
+        ApiRoutingService.routing.entry.updateEntryById(entryId),
+        entry,
+        { signal },
+      );
+
+      if (status !== 201)
+        throw new Error(
+          "api was expected to return status code of 201 but returned:" +
+            " " +
+            status +
+            " " +
+            "while trying to update entry",
+        );
+
+      return { error: null };
+    } catch (error) {
+      return { error: JSON.stringify(error) };
     }
   }
 }
