@@ -42,7 +42,12 @@ export const OPTIONS: TOption[] = [
   {
     icon: Heading1,
     method: (editor) => {
-      editor.commands.toggleHeading({ level: 1 });
+      editor
+        .chain()
+        .focus()
+        .selectParentNode()
+        .toggleHeading({ level: 1 })
+        .run();
     },
     isActive: (editor) => editor.isActive("heading", { level: 1 }),
   },

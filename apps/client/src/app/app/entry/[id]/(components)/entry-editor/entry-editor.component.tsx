@@ -78,8 +78,6 @@ export function EntryEditor({
   }, [debouncedContent]);
 
   return (
-    <>
-      <TextEditor content={initialContent} onTransaction={handleTransaction} />
-    </>
+    <TextEditor content={initialContent} onTransaction={handleTransaction} />
   );
 }
