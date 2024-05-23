@@ -7,6 +7,7 @@ import {
   BubbleMenu,
   FloatingMenu,
   Extension,
+  type Editor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
@@ -16,13 +17,25 @@ import { Toolbar } from "./components/toolbar";
 import { useEffect, useState } from "react";
 import { useCommandMenuStore } from "./stores/command-menu";
 import { CommandMenu } from "./components/command-menu";
-import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { Plugin, PluginKey, Transaction } from "@tiptap/pm/state";
 
 const CustomDocument = Document.extend({
   content: "heading{1} paragraph*",
 });
 
-export function TextEditor({ content }: { content?: any }) {
+export function TextEditor({
+  content,
+  onTransaction,
+}: {
+  content?: any;
+  onTransaction?: ({
+    editor,
+    transaction,
+  }: {
+    editor: Editor;
+    transaction: Transaction;
+  }) => void;
+}) {
   const [commandMenusearchValue, setCommandMenuSearchValue] = useState("");
 
   const isCommandMenuVisible = useCommandMenuStore(
@@ -47,7 +60,6 @@ export function TextEditor({ content }: { content?: any }) {
 
   const PreventDefualtBehaviorOfEnter = Extension.create({
     name: "preventDefaultEnter",
-
     addProseMirrorPlugins() {
       return [
         new Plugin({
@@ -121,6 +133,11 @@ export function TextEditor({ content }: { content?: any }) {
     ...(content && { content }),
     parseOptions: {
       preserveWhitespace: "full",
+    },
+    onTransaction: ({ transaction }) => {
+      if (onTransaction && editor) {
+        onTransaction({ editor, transaction });
+      }
     },
   });
 

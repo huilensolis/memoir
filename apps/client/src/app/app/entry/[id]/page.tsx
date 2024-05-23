@@ -1,6 +1,7 @@
-import { TextEditor } from "@/components/feature/text-editor";
 import { EntryService } from "@/models/api/entry";
 import { getCookie } from "@/utils/getCookies";
+import { EntryEditor } from "./(components)/entry-editor/entry-editor.component";
+import { EntryHeader } from "./(components)/entry-header/entry-header.component";
 
 export default async function EntryPage({
   params: { id },
@@ -19,9 +20,12 @@ export default async function EntryPage({
   if (!entry || error) return <p>404 - not found</p>;
 
   return (
-    <div className="h-full w-full flex justify-center items-start">
-      <main className="h-full w-full max-w-2xl py-10">
-        <TextEditor content={entry.content} />
+    <div className="h-full w-full flex flex-col items-center justify-start py-10 gap-10">
+      <div className="w-full max-w-2xl">
+        <EntryHeader />
+      </div>
+      <main className="h-full w-full max-w-2xl">
+        <EntryEditor initialContent={entry.content} entry={entry} />
       </main>
     </div>
   );
