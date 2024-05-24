@@ -23,6 +23,7 @@ export class ApiRoutingService {
         readEntryById: (entryId: string) => this.getPath(`journal/${entryId}`),
         updateEntryById: (entryId: string) =>
           this.getPath(`journal/${entryId}`),
+        getEntryList: this.getPath("journal/"),
       },
     };
   }

@@ -24,11 +24,6 @@ export function AsideNavLinks() {
       href: ClientRoutingService.app.entries.create,
     },
     {
-      title: "Search Entry",
-      icon: Search,
-      href: "search",
-    },
-    {
       title: "Settings",
       icon: Settings,
       href: "settings",

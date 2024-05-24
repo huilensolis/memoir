@@ -97,6 +97,28 @@ export class EntryService extends ApiService {
     }
   }
 
+  public static async getUserEntyList({
+    signal,
+  }: {
+    signal?: AbortSignal;
+  }): Promise<{ entryList: Entry[] | null; error: string | null }> {
+    try {
+      const { status, data } = await axios.get<Entry[]>(
+        ApiRoutingService.routing.entry.getEntryList,
+        { ...(signal && { signal }) },
+      );
+
+      if (status !== 200)
+        throw new Error(
+          `api was expected to return 200 status code, but returned ${status}`,
+        );
+
+      return { error: null, entryList: data };
+    } catch (error) {
+      return { error: JSON.stringify(error), entryList: null };
+    }
+  }
+
   public static async updateEntryById({
     entryId,
     entry,
