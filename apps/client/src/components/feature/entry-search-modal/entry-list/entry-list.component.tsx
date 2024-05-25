@@ -8,8 +8,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EntryItemSkeleton } from "./entry-item-skeleton";
 import { EntryService } from "@/models/api/entry";
+import { useSearchEntryModalStore } from "@/app/app/(stores)/search-entry-command-modal";
 
 export function EntryList() {
+  const toggleModal = useSearchEntryModalStore((state) => state.toggleModal);
+
   const [loading, setLoading] = useState(true);
 
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -69,6 +72,7 @@ export function EntryList() {
             <Link
               href={ClientRoutingService.app.entries.readById(entry.id)}
               className="w-full flex items-center gap-2 text-base"
+              onClick={toggleModal}
             >
               <File className="mr-2 h-4 w-4" />
               <span>{entry.title}</span>
