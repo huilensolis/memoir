@@ -22,8 +22,16 @@ export function EntrySearchModalProvider() {
   return (
     <>
       {createPortal(
-        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-50 overflow-y-hidden">
-          <Command className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800 max-w-2xl max-h-96">
+        <div
+          className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-50 overflow-y-hidden"
+          onClick={toggleModal}
+        >
+          <Command
+            className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800 max-w-2xl max-h-96"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <div className="w-full flex items-center justify-between">
               <CommandInput
                 placeholder="Type an entry title to search for matches..."
