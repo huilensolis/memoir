@@ -30,9 +30,12 @@ export function EntrySearchModalProvider() {
 
     document.addEventListener("keyup", toggleModalWhenPressingEsKey);
 
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
+
     return () => {
       if (!showModal) return;
       document.removeEventListener("keyup", toggleModalWhenPressingEsKey);
+      document.getElementsByTagName("body")[0].style.overflowY = "auto";
     };
   }, [showModal]);
 
