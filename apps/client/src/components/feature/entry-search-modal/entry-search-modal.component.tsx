@@ -37,6 +37,8 @@ export function EntrySearchModalProvider() {
       document.removeEventListener("keyup", toggleModalWhenPressingEsKey);
       document.getElementsByTagName("body")[0].style.overflowY = "auto";
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal]);
 
   if (!showModal) return null;

@@ -2,12 +2,11 @@
 
 import { TextEditor } from "@/components/feature/text-editor";
 import { useDebounce } from "@/hooks/use-debounce";
-import { Transaction } from "@tiptap/pm/state";
-import { Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
 import { useEffect, useState } from "react";
 import { useEntryStore } from "../../(store)/entry-store";
 import { EntryService } from "@/models/api/entry";
-import { Entry, NewEntry } from "@/types/entry";
+import type { Entry, NewEntry } from "@/types/entry";
 
 export function EntryEditor({
   initialContent,
@@ -40,6 +39,8 @@ export function EntryEditor({
 
   useEffect(() => {
     setEntryId(entry.id);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -76,6 +77,7 @@ export function EntryEditor({
     const ctrl = new AbortController();
 
     if (entryState !== "up to date") {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       saveDocumentNewData({ signal: ctrl.signal });
     }
 
@@ -83,6 +85,8 @@ export function EntryEditor({
       ctrl.abort();
       setEntryState("waiting");
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedContent]);
 
   return (

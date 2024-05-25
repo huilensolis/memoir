@@ -1,7 +1,7 @@
 "use client";
 
 import { NavLink } from "@/components/ui/nav-link";
-import { Axis3dIcon, BookOpen, PenTool, Search, Settings } from "lucide-react";
+import { Axis3dIcon, BookOpen, PenTool, Settings } from "lucide-react";
 import { ClientRoutingService } from "@/models/routing/client";
 import { type TNavLink } from "@/components/ui/nav-link/nav-link.models";
 

@@ -2,7 +2,7 @@
 
 import { CommandItem } from "@/components/ui/command";
 import { ClientRoutingService } from "@/models/routing/client";
-import { Entry } from "@/types/entry";
+import type { Entry } from "@/types/entry";
 import { File } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -44,6 +44,7 @@ export function EntryList() {
 
     const ctrl = new AbortController();
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchUserEntries({ signal: ctrl.signal });
 
     return () => {

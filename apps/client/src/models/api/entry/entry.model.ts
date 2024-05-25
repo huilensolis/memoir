@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ApiService } from "../api.model";
 import { ApiRoutingService } from "@/models/routing/api";
-import { Entry, NewEntry } from "@/types/entry";
+import type { Entry, NewEntry } from "@/types/entry";
 
 export class EntryService extends ApiService {
   constructor() {

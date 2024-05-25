@@ -15,6 +15,7 @@
     "@typescript-eslint/no-extraneous-class": "off",
     "@next/next/no-img-element": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/prefer-nullish-coalescing": "off"
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/prefer-optional-chain": "off"
   }
 }
