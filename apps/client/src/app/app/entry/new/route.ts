@@ -1,7 +1,7 @@
 import { EntryService } from "@/models/api/entry";
 import { ClientRoutingService } from "@/models/routing/client";
 import { getCookie } from "@/utils/getCookies";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {

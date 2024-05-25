@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ApiService } from "../api.model";
 import { ApiRoutingService } from "@/models/routing/api";
-import { Entry, NewEntry } from "@/types/entry";
+import type { Entry, NewEntry } from "@/types/entry";
 
 export class EntryService extends ApiService {
   constructor() {
@@ -94,6 +94,28 @@ export class EntryService extends ApiService {
       return { entry: data, error: null };
     } catch (error) {
       return { entry: null, error: JSON.stringify(error) };
+    }
+  }
+
+  public static async getUserEntyList({
+    signal,
+  }: {
+    signal?: AbortSignal;
+  }): Promise<{ entryList: Entry[] | null; error: string | null }> {
+    try {
+      const { status, data } = await axios.get<Entry[]>(
+        ApiRoutingService.routing.entry.getEntryList,
+        { ...(signal && { signal }) },
+      );
+
+      if (status !== 200)
+        throw new Error(
+          `api was expected to return 200 status code, but returned ${status}`,
+        );
+
+      return { error: null, entryList: data };
+    } catch (error) {
+      return { error: JSON.stringify(error), entryList: null };
     }
   }
 
