@@ -20,7 +20,7 @@ export function EntrySearchModalProvider() {
   return (
     <>
       {createPortal(
-        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-50">
+        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-50 overflow-y-hidden">
           <Command className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800 max-w-2xl max-h-96">
             <CommandInput
               placeholder="Type an entry title to search for matches..."

@@ -55,34 +55,26 @@ export function EntryList() {
           .fill("")
           .map((_, i) => <EntryItemSkeleton key={i} />)}
 
-      {!loading && (
-        <>
-          {entries.length > 0 &&
-            entries.map((entry) => (
-              <CommandItem
-                className="w-full"
-                key={entry.id}
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-                value={entry.title}
-              >
-                <Link
-                  href={ClientRoutingService.app.entries.readById(entry.id)}
-                  className="w-full flex items-center gap-2 text-base"
-                >
-                  <File className="mr-2 h-4 w-4" />
-                  <span>{entry.title}</span>
-                </Link>
-              </CommandItem>
-            ))}
-          {entries.length === 0 && (
-            <article className="w-full py-5 flex items-center justify-center">
-              <p className="text-sm">not found</p>
-            </article>
-          )}
-        </>
-      )}
+      {!loading &&
+        entries.length > 0 &&
+        entries.map((entry) => (
+          <CommandItem
+            className="w-full"
+            key={entry.id}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            value={entry.title}
+          >
+            <Link
+              href={ClientRoutingService.app.entries.readById(entry.id)}
+              className="w-full flex items-center gap-2 text-base"
+            >
+              <File className="mr-2 h-4 w-4" />
+              <span>{entry.title}</span>
+            </Link>
+          </CommandItem>
+        ))}
     </>
   );
 }
