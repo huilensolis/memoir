@@ -12,10 +12,28 @@ import { EntryList } from "./entry-list";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useEffect } from "react";
 
 export function EntrySearchModalProvider() {
   const showModal = useSearchEntryModalStore((state) => state.showModal);
   const toggleModal = useSearchEntryModalStore((state) => state.toggleModal);
+
+  useEffect(() => {
+    if (!showModal) return;
+
+    function toggleModalWhenPressingEsKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        toggleModal();
+      }
+    }
+
+    document.addEventListener("keyup", toggleModalWhenPressingEsKey);
+
+    return () => {
+      if (!showModal) return;
+      document.removeEventListener("keyup", toggleModalWhenPressingEsKey);
+    };
+  }, [showModal]);
 
   if (!showModal) return null;
 
@@ -38,7 +56,12 @@ export function EntrySearchModalProvider() {
                 autoFocus
                 className="text-base w-full"
               />
-              <Button variant="ghost" size="sm" onClick={toggleModal}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleModal}
+                className="text-muted-foreground"
+              >
                 <X />
               </Button>
             </div>
