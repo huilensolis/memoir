@@ -3,6 +3,7 @@ import { rateLimit } from "elysia-rate-limit";
 import { Environment } from "@/config/environment";
 import { AuthPlugin } from "@/shared/plugins/auth";
 import { AuthProvider } from "../../providers/auth";
+import { getCookieMaxAge } from "@/config/cookies";
 
 export const AuthRouter = new Elysia()
   .group("/auth", (app) =>
@@ -39,7 +40,19 @@ export const AuthRouter = new Elysia()
             const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = 201;
-            access_token.set({ value: token, path: "/" });
+
+            access_token.set({
+              value: token,
+              path: "/",
+              httpOnly: true,
+              maxAge: getCookieMaxAge(),
+              sameSite:
+                Environment.NODE_ENV === "production" ? "strict" : "none",
+              secure: true,
+              ...(Environment.NODE_ENV === "production" && {
+                domain: Environment.WEB_DOMAIN,
+              }),
+            });
             return {};
           } catch (e) {
             return error("Unauthorized", {});
@@ -68,7 +81,18 @@ export const AuthRouter = new Elysia()
             const token = await jwt.sign({ user: { id: data.user.id } });
 
             set.status = "Accepted";
-            access_token.set({ value: token, path: "/" });
+            access_token.set({
+              value: token,
+              path: "/",
+              httpOnly: true,
+              maxAge: getCookieMaxAge(),
+              sameSite:
+                Environment.NODE_ENV === "production" ? "strict" : "none",
+              secure: true,
+              ...(Environment.NODE_ENV === "production" && {
+                domain: Environment.WEB_DOMAIN,
+              }),
+            });
             return {};
           } catch (e) {
             return error("Unauthorized", {});
@@ -82,7 +106,7 @@ export const AuthRouter = new Elysia()
         },
       )
       .get("/sign-out", ({ cookie: { access_token }, set }) => {
-        access_token.remove();
+        access_token.set({ maxAge: new Date(0).getSeconds(), path: "/" });
         set.status = 201;
         return {};
       }),
