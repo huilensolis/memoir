@@ -1,5 +1,5 @@
-import { Users } from "../schema/index";
-import { UserSchema } from "../router/models";
+import type { Users } from "../schema/index";
+import type { UserSchema } from "../router/models";
 
 export type User = typeof Users.$inferSelect;
 export type NewUser = typeof Users.$inferInsert;
