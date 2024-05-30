@@ -1,7 +1,7 @@
 "use client";
 
 import { NavLink } from "@/components/ui/nav-link";
-import { Axis3dIcon, BookOpen, PenTool, Settings } from "lucide-react";
+import { Axis3dIcon, PenTool } from "lucide-react";
 import { ClientRoutingService } from "@/models/routing/client";
 import { type TNavLink } from "@/components/ui/nav-link/nav-link.models";
 
@@ -12,22 +12,22 @@ export function AsideNavLinks() {
       icon: Axis3dIcon,
       href: ClientRoutingService.app.home,
     },
-    {
-      title: "Entries",
-      icon: BookOpen,
-      href: "entries",
-      count: 6,
-    },
+    // {
+    //   title: "Entries",
+    //   icon: BookOpen,
+    //   href: "entries",
+    //   count: 6,
+    // },
     {
       title: "New Entry",
       icon: PenTool,
       href: ClientRoutingService.app.entries.create,
     },
-    {
-      title: "Settings",
-      icon: Settings,
-      href: "settings",
-    },
+    // {
+    //   title: "Settings",
+    //   icon: Settings,
+    //   href: "settings",
+    // },
   ];
   return (
     <ul className="w-full flex flex-col gap-1">
