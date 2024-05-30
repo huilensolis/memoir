@@ -136,7 +136,7 @@ export function SignUpForm() {
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
               if (
                 getFieldState("email").error?.message ||
-                !getFieldState("email").isDirty ||
+                e.target.value.length === 0 ||
                 isValidating ||
                 loading
               ) {
