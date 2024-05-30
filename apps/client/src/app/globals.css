@@ -21,10 +21,6 @@ p {
   text-wrap: pretty;
 }
 
-.lucide {
-  height: 1.25rem;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;

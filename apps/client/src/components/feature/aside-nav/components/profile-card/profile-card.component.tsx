@@ -37,10 +37,10 @@ export function ProfileCard() {
         <AccordionRoot.Trigger className="w-full py-2 flex border border-neutral-300 rounded-md hover:bg-zinc-200">
           <article className="w-full flex items-center justify-between gap-2 p-1 px-2">
             <section className="flex gap-2 items-center">
-              <CircleUserRound />
+              <CircleUserRound className="w-5 h-5" />
               {loading && <Skeleton className="w-32 h-4" />}
               {!loading && user && (
-                <span className="font-semibold text-base">{user.name}</span>
+                <span className="font-semibold text-sm">{user.name}</span>
               )}
             </section>
             <ChevronsUpDown />
