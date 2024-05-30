@@ -13,6 +13,4 @@ export function useBeforeUnloading(
       window.removeEventListener("beforeunload", callback);
     };
   }, [...dependencies]);
-
-  return;
 }

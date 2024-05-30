@@ -18,8 +18,6 @@ export function EntryHeader() {
       window.alert(
         "Are you sure you want to leave this page? your changes has not been saved yet",
       );
-
-      return;
     },
     [entryState],
   );
