@@ -22,7 +22,7 @@ export function EntryEditor({
 
   const { debouncedValue: debouncedContent } = useDebounce<Entry["content"]>({
     value: throttlingContent,
-    delay: 2000,
+    delay: 1000,
   });
 
   const setEntryId = useEntryStore((state) => state.setEntryId);
