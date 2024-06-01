@@ -1,10 +1,10 @@
 {
-  "id": "4ebd7894-c3fd-46dd-aa8d-7184727d4173",
+  "id": "b92a223d-864c-42e8-b29a-e475cb830043",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "journal_entry": {
+    "public.journal_entry": {
       "name": "journal_entry",
       "schema": "",
       "columns": {
@@ -25,7 +25,7 @@
           "name": "title",
           "type": "varchar(80)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'Untintled'"
         },
         "created_at": {
@@ -46,7 +46,7 @@
           "name": "word_count",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": 0
         },
         "content": {
@@ -54,13 +54,13 @@
           "type": "json",
           "primaryKey": false,
           "notNull": false,
-          "default": "'{}'::json"
+          "default": "'{\"title\":\"Untitled\",\"content\":{\"type\":\"doc\",\"content\":[{\"type\":\"heading\",\"attrs\":{\"level\":1},\"content\":[{\"type\":\"text\",\"text\":\"Untitled\"}]}]},\"word_count\":8}'::json"
         },
         "is_private": {
           "name": "is_private",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "end_date": {
@@ -82,14 +82,14 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {

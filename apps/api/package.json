@@ -13,7 +13,7 @@
     "format": "bunx @biomejs/biome format . --write",
     "check": "bunx @biomejs/biome check --apply .",
     "start": "NODE_ENV=production bun ./dist/www.js",
-    "generate-migration": "drizzle-kit generate:pg",
+    "generate-migration": "drizzle-kit generate",
     "migrate": "bun scripts/migration.ts",
     "test": "bun test --timeout 10000"
   },
@@ -24,7 +24,7 @@
     "@biomejs/biome": "1.5.3",
     "@types/pg": "^8.10.9",
     "bun-types": "^1.0.24",
-    "drizzle-kit": "^0.20.13",
+    "drizzle-kit": "latest",
     "rimraf": "^5.0.1"
   },
   "dependencies": {
@@ -33,7 +33,7 @@
     "@elysiajs/jwt": "^1.0.2",
     "@elysiajs/swagger": "^1.0.3",
     "@sinclair/typebox": "^0.32.20",
-    "drizzle-orm": "^0.29.3",
+    "drizzle-orm": "latest",
     "elysia": "^1.0.9",
     "elysia-helmet": "^1.0.2",
     "elysia-rate-limit": "^3.1.4",

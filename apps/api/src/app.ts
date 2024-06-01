@@ -1,5 +1,4 @@
 import Elysia from "elysia";
-import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { Routes } from "./config/routing";
 import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users";
@@ -17,7 +16,7 @@ const app = new Elysia();
 app.use(swagger({ path: "/docs", autoDarkMode: true }));
 app.use(
   helmet({
-    contentSecurityPolicy: Environment.NODE_ENV === "production" ? true : false,
+    contentSecurityPolicy: Boolean(Environment.NODE_ENV === "production"),
   }),
 );
 

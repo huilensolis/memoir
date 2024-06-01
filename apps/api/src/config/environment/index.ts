@@ -13,4 +13,5 @@ export const Environment = cleanEnv(process.env, {
   WEB_DOMAIN: url({
     desc: "the url of the frontend domain, this is used to configure the cookies origin",
   }),
+  DATABASE_URL: str(), // only for production
 });
