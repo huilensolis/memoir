@@ -39,7 +39,7 @@ async function generateMigration() {
   console.log("generating migrations schemas...");
 
   try {
-    const result = await $`drizzle-kit generate:pg`;
+    const result = await $`drizzle-kit generate`;
 
     if (result.exitCode !== 0)
       throw new Error("error generating migration schemas");

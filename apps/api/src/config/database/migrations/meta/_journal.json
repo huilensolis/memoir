@@ -1,54 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1712175016141,
-      "tag": "0000_spotty_talon",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1712619045954,
-      "tag": "0001_colorful_next_avengers",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1712862029262,
-      "tag": "0002_fresh_red_hulk",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1712862119053,
-      "tag": "0003_steady_mastermind",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1712864309817,
-      "tag": "0004_warm_klaw",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1716053616787,
-      "tag": "0005_gray_wallow",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1716172493022,
-      "tag": "0006_mute_iron_monger",
+      "version": "7",
+      "when": 1717206187404,
+      "tag": "0000_odd_betty_brant",
       "breakpoints": true
     }
   ]

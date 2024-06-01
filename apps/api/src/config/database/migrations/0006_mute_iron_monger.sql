@@ -1,1 +1,0 @@
-ALTER TABLE "journal_entry" ALTER COLUMN "content" SET DEFAULT '{"title":"Untitled","content":{"type":"doc","content":[{"type":"heading","attrs":{"level":1},"content":[{"type":"text","text":"Untitled"}]}]},"word_count":8}'::json;
