@@ -74,7 +74,7 @@ export class AuthService extends ApiService {
   }
 
   /*
-   *@param cookies: string
+   * @param cookies: string
    * sets the cookies explicitly on the request.
    * this is not necesary on the client side,
    * as the cookeis are sent by the browser
@@ -99,7 +99,7 @@ export class AuthService extends ApiService {
 
       return { isTokenValid: true };
     } catch (error) {
-      console.log(error);
+      console.log("token is invalid: ", { error });
       return { isTokenValid: false };
     }
   }
