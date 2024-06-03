@@ -1,5 +1,5 @@
 export class ApiRoutingService {
-  protected static baseUrl = `${process.env.VERCEL_URL || process.env.NEXT_PUBLIC_SITE_URL}/api`;
+  protected static baseUrl = `${process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : process.env.NEXT_PUBLIC_SITE_URL}/api`;
 
   constructor() {}
 
