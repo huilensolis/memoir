@@ -1,9 +1,16 @@
 import { migrate } from "drizzle-orm/postgres-js/migrator";
+
 import { db } from "../src/config/database";
+import { Environment } from "@/config/environment";
 
 await (async () => {
+  console.log("running migration script");
+  console.log(Environment.NODE_ENV);
+
   try {
-    await migrate(db, { migrationsFolder: "./src/config/database/migrations" });
+    await migrate(db, {
+      migrationsFolder: "./src/config/database/migrations",
+    });
 
     console.log("migration completed successfully");
 

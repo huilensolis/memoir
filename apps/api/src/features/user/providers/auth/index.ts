@@ -2,7 +2,7 @@ import EmailValidator from "email-validator";
 import { eq } from "drizzle-orm";
 import { db } from "../../../../config/database";
 import { Users } from "../../schema";
-import { NewUser, User } from "../../models/user.model";
+import type { NewUser, User } from "../../models/user.model";
 
 export class AuthProvider {
   static async signUp({
@@ -11,7 +11,6 @@ export class AuthProvider {
     user: NewUser;
   }): Promise<{ data: { user: User } | null; error: Error | null }> {
     const { email, name, password } = user;
-
     try {
       const { isEmailAvailable } =
         await AuthProvider.checkIfEmailIsAvailable(email);

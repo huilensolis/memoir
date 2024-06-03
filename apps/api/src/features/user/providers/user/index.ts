@@ -1,16 +1,16 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../../../config/database";
 import { Users } from "../../schema";
-import { PromiseReturnHanler } from "@/shared/models/promises";
+import type { TReturnHanler } from "@/shared/models/promises";
 import type { User } from "../../models";
-import { updateUser } from "../../models/user.model";
+import type { updateUser } from "../../models/user.model";
 
 export class UserProvider {
   static async getById({
     userId,
   }: {
     userId: string;
-  }): PromiseReturnHanler<{ user: User }, Error | unknown> {
+  }): Promise<TReturnHanler<{ user: User }, Error | unknown>> {
     try {
       const result = await db.select().from(Users).where(eq(Users.id, userId));
 
@@ -30,7 +30,7 @@ export class UserProvider {
     userEmail,
   }: {
     userEmail: string;
-  }): PromiseReturnHanler<{ user: User }, Error | unknown> {
+  }): Promise<TReturnHanler<{ user: User }, Error | unknown>> {
     try {
       const result = await db
         .select()
@@ -74,7 +74,7 @@ export class UserProvider {
     userId,
   }: {
     userId: string;
-  }): PromiseReturnHanler<null, Error> {
+  }): Promise<TReturnHanler<null, Error>> {
     try {
       await db
         .update(Users)
