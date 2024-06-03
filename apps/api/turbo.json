@@ -22,6 +22,17 @@
       "inputs": ["tests/**", ".env"],
       "dependsOn": ["setup"]
     },
+    "start": {
+      "cache": true,
+      "inputs": ["./**"],
+      "dependsOn": ["migrate"]
+    },
+    "generate-migration": {
+      "cache": false
+    },
+    "migrate": {
+      "dependsOn": ["generate-migration"]
+    },
     "lint": {},
     "format": {},
     "check": {}
