@@ -1,6 +1,7 @@
 import jwt from "@elysiajs/jwt";
 import Elysia, { t } from "elysia";
 import { Environment } from "@/config/environment";
+import { getCookieMaxAge } from "@/config/cookies";
 
 export const AuthPlugin = new Elysia().use(
   jwt({
@@ -11,6 +12,6 @@ export const AuthPlugin = new Elysia().use(
         id: t.String(),
       }),
     }),
-    exp: new Date().getTime() + 1000 * 60 * 60 * 24 * 14, // 14 days in the future
+    exp: getCookieMaxAge(),
   }),
 );

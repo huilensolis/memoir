@@ -37,7 +37,9 @@ export const AuthRouter = new Elysia()
               throw new Error();
             }
 
-            const token = await jwt.sign({ user: { id: data.user.id } });
+            const token = await jwt.sign({
+              user: { id: data.user.id },
+            });
 
             set.status = 201;
 
@@ -78,7 +80,11 @@ export const AuthRouter = new Elysia()
 
             if (error || !data?.user) throw new Error("bad credentials");
 
-            const token = await jwt.sign({ user: { id: data.user.id } });
+            const token = await jwt.sign({
+              user: { id: data.user.id },
+            });
+
+            console.log({ token });
 
             set.status = "Accepted";
             access_token.set({
@@ -170,6 +176,8 @@ export const AuthRouter = new Elysia()
 
           const tokenPayload = await jwt.verify(access_token.value);
 
+          console.log({ tokenPayload });
+
           if (!tokenPayload) {
             return error("Unauthorized", {
               error: "token signature is not valid",
@@ -178,12 +186,18 @@ export const AuthRouter = new Elysia()
 
           const { exp } = tokenPayload;
 
-          if (!exp) {
+          if (!exp || exp === 0) {
             return error("Bad Request", {
               error: "we could not find the expiration date on token",
             });
           }
 
+          const currentDate = new Date().getTime();
+          console.log({
+            exp: new Date(exp),
+            currentDate: new Date(currentDate),
+            result: exp - currentDate,
+          });
           if (exp - new Date().getTime() <= 0) {
             return error("Unauthorized", { error: "token expired" });
           }
