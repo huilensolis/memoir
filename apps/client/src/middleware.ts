@@ -10,6 +10,8 @@ export default async function middleware(request: NextRequest) {
   url.pathname = ClientRoutingService.auth.signIn;
   const urlSignInPath = url;
 
+  console.log("sign in url: ", urlSignInPath);
+
   const cookieStore = cookies();
 
   const accessToken = cookieStore.get(API_CONFIG.cookieName);
