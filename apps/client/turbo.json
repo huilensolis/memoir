@@ -6,8 +6,17 @@
       "cache": true
     },
     "dev": {
-      "cache": false,
-      "inputs": ["src/**"]
+      "cache": true,
+      "inputs": [
+        ".env.local",
+        "vitest.config",
+        "tsconfig.json",
+        "taiwlind.config.ts",
+        "postcss.config.js",
+        "package.json",
+        "next.config.js",
+        "src/**"
+      ]
     },
     "lint": {},
     "start": {}
