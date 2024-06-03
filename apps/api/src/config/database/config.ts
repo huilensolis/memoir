@@ -1,30 +1,37 @@
-import { drizzle as drizzlePostgresJs } from "drizzle-orm/postgres-js";
-import { drizzle as drizzleNode } from "drizzle-orm/node-postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
+
+import postgres from "postgres";
 
 import * as schema from "./schema";
 import { Environment } from "../environment";
-import postgres from "postgres";
-import { Client } from "pg";
+import { sql } from "drizzle-orm";
 
-function getDb() {
+/**
+ *
+ * @return a drizzle conenction with postgeresJs if the environment is production,
+ * otherwise it returns a drizzle connection with node postgres
+ *
+ */
+async function getDb() {
   if (Environment.NODE_ENV === "production") {
     // this set up is for supabase datbase, so we disable prepare, since transaction mode doesnt support it
     const client = postgres(Environment.DATABASE_URL, { prepare: false });
 
-    return drizzlePostgresJs<typeof schema>(client, { schema });
+    const db = drizzle<typeof schema>(client, { schema });
+
+    return db;
   }
 
-  const client = new Client({
-    host: "127.0.0.1",
-    port: 5432,
-    user: Environment.POSTGRES_USER,
-    password: Environment.POSTGRES_PASSWORD,
-    database: Environment.POSTGRES_DATABASE,
-  });
+  const { POSTGRES_PASSWORD, POSTGRES_USER, POSTGRES_DATABASE } = Environment;
 
-  return drizzleNode<typeof schema>(client, { schema });
+  const connectionString = `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:5432/${POSTGRES_DATABASE}`;
+  const client = postgres(connectionString, { prepare: false });
+
+  const db = drizzle<typeof schema>(client, { schema });
+
+  return db;
 }
 
-const db = getDb();
+const db = await getDb();
 
 export { db };
