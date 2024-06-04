@@ -1,7 +1,4 @@
 # Memoir
-> [!WARNING]
-> Backend API has not been deployed yet. Frontend deployment will not work as expected.
-
 ![791shots_so (1)](https://github.com/Huilensolis/memoir/assets/113150193/04ba49a9-1a00-4c80-bb02-5de080a16307)
 
 
