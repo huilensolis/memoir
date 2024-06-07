@@ -40,9 +40,8 @@ export function SignInForm() {
 
       router.push(ClientRoutingService.app.home);
     } catch (error) {
-      setError(true);
-    } finally {
       setLoading(false);
+      setError(true);
     }
   }
 
