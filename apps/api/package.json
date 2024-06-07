@@ -12,7 +12,7 @@
     "lint": "bunx @biomejs/biome lint .",
     "format": "bunx @biomejs/biome format . --write",
     "check": "bunx @biomejs/biome check --apply .",
-    "start": "NODE_ENV=production bun ./dist/www.js",
+    "start": "bun ./dist/www.js",
     "generate-migration": "drizzle-kit generate",
     "migrate": "bun scripts/migration.ts",
     "test": "bun test --timeout 10000"

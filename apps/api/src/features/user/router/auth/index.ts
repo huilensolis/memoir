@@ -84,8 +84,6 @@ export const AuthRouter = new Elysia()
               user: { id: data.user.id },
             });
 
-            console.log({ token });
-
             set.status = "Accepted";
             access_token.set({
               value: token,
@@ -201,12 +199,6 @@ export const AuthRouter = new Elysia()
             });
           }
 
-          const currentDate = new Date().getTime();
-          console.log({
-            exp: new Date(exp),
-            currentDate: new Date(currentDate),
-            result: exp - currentDate,
-          });
           if (exp - new Date().getTime() <= 0) {
             return error("Unauthorized", { error: "token expired" });
           }
