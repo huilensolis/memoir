@@ -52,7 +52,7 @@ export const AuthRouter = new Elysia()
                 Environment.NODE_ENV === "production" ? "strict" : "none",
               secure: true,
               ...(Environment.NODE_ENV === "production" && {
-                domain: Environment.WEB_DOMAIN,
+                domain: Environment.ORIGIN,
               }),
             });
             return {};
@@ -96,7 +96,7 @@ export const AuthRouter = new Elysia()
                 Environment.NODE_ENV === "production" ? "strict" : "none",
               secure: true,
               ...(Environment.NODE_ENV === "production" && {
-                domain: Environment.WEB_DOMAIN,
+                domain: Environment.ORIGIN,
               }),
             });
             return {};
@@ -112,7 +112,16 @@ export const AuthRouter = new Elysia()
         },
       )
       .get("/sign-out", ({ cookie: { access_token }, set }) => {
-        access_token.set({ maxAge: new Date(0).getSeconds(), path: "/" });
+        access_token.set({
+          maxAge: new Date(0).getSeconds(),
+          path: "/",
+          httpOnly: true,
+          sameSite: Environment.NODE_ENV === "production" ? "strict" : "none",
+          secure: true,
+          ...(Environment.NODE_ENV === "production" && {
+            domain: Environment.ORIGIN,
+          }),
+        });
         set.status = 201;
         return {};
       }),

@@ -56,9 +56,8 @@ export function SignUpForm() {
 
       router.push(ClientRoutingService.app.home);
     } catch (error) {
-      setErrorSubmitting(true);
-    } finally {
       setLoading(false);
+      setErrorSubmitting(true);
     }
   }
 

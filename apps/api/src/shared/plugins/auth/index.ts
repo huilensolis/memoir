@@ -13,5 +13,13 @@ export const AuthPlugin = new Elysia().use(
       }),
     }),
     exp: getCookieMaxAge(),
+    path: "/",
+    httpOnly: true,
+    maxAge: getCookieMaxAge(),
+    sameSite: Environment.NODE_ENV === "production" ? "strict" : "none",
+    secure: true,
+    ...(Environment.NODE_ENV === "production" && {
+      domain: Environment.ORIGIN,
+    }),
   }),
 );
