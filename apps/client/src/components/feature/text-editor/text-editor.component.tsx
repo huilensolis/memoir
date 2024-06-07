@@ -20,7 +20,7 @@ import { CommandMenu } from "./components/command-menu";
 import { Plugin, PluginKey, type Transaction } from "@tiptap/pm/state";
 
 const CustomDocument = Document.extend({
-  content: "heading{1} block+",
+  content: "heading{1} block*",
 });
 
 export function TextEditor({
