@@ -10,8 +10,8 @@ export const Environment = cleanEnv(process.env, {
   POSTGRES_DATABASE: str(),
   POSTGRES_PASSWORD: str(),
   NODE_ENV: str({ choices: ["development", "test", "production", "staging"] }),
-  WEB_DOMAIN: str({
-    desc: "the url of the frontend domain, this is used to configure the cookies origin",
+  ORIGIN: str({
+    desc: "the origin of the frontend domain, this is used to configure the cookies origin and the cors origin",
   }),
   DATABASE_URL: str(), // only for production
 });
