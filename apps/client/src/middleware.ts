@@ -10,17 +10,11 @@ export default async function middleware(request: NextRequest) {
   url.pathname = ClientRoutingService.auth.signIn;
   const urlSignInPath = url;
 
-  console.log("sign in url: ", urlSignInPath);
-
   const cookieStore = cookies();
 
   const accessToken = cookieStore.get(API_CONFIG.cookieName);
 
   if (!accessToken?.value || !accessToken.name) {
-    console.log(
-      `no cookies found in middleware request. redirecting to ${url.pathname}`,
-    );
-
     return NextResponse.redirect(urlSignInPath);
   }
 
@@ -31,7 +25,6 @@ export default async function middleware(request: NextRequest) {
 
     if (!isTokenValid) throw new Error("token invalid");
   } catch (error) {
-    console.log({ error });
     return NextResponse.redirect(urlSignInPath);
   }
 }
