@@ -11,7 +11,6 @@ import { BadgeCheck } from "lucide-react";
 function checkStatus() {
   // eslint-disable-next-line
   return new Promise(async (resolve, _reject) => {
-    if (typeof document === "undefined") return resolve("");
     let isServerDown = true;
     while (isServerDown) {
       await new Promise((resolve) =>
