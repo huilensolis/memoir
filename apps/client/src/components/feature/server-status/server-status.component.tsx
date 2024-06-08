@@ -1,44 +1,41 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/components/ui/spinner";
 import { ApiRoutingService } from "@/models/routing/api";
-import { BadgeCheck, Check } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 
 export function ServerStatus() {
-  const [serverStatus, setServerStatus] = useState<"up" | "down">("down");
-
   useEffect(() => {
     toast.promise(
       async () => {
-        while (serverStatus === "down") {
-          await new Promise((resolve) =>
-            setTimeout(() => {
-              resolve("");
-            }, 2000),
-          );
+        // eslint-disable-next-line
+        return new Promise(async (resolve, _reject) => {
+          let isServerDown = true;
+          while (isServerDown) {
+            try {
+              const { status } = await axios.get(
+                ApiRoutingService.routing.health,
+                {
+                  timeout: 3000,
+                },
+              );
 
-          try {
-            const { status } = await axios.get(
-              ApiRoutingService.routing.health,
-              {
-                timeout: 3000,
-              },
-            );
+              if (status !== 200) throw new Error("Unhealthy server");
 
-            if (status !== 200) throw new Error("Unhealthy server");
-
-            setServerStatus("up");
-            return Promise.resolve();
-          } catch (error) {}
-        }
+              isServerDown = false;
+              // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+              return resolve("");
+            } catch (error) {}
+          }
+        });
       },
       {
         loading: (
-          <article className="flex flex-col" key={serverStatus}>
+          <article className="flex flex-col">
             <header className="flex items-center gap-2">
               <Spinner />
               <strong>Server is down</strong>
@@ -51,7 +48,7 @@ export function ServerStatus() {
           </article>
         ),
         success: (
-          <article className="flex flex-col" key={serverStatus}>
+          <article className="flex flex-col">
             <header className="flex items-center gap-2">
               <BadgeCheck className="w-4 h-4 text-neutral-950" />
               <strong>Server is up</strong>
@@ -60,7 +57,7 @@ export function ServerStatus() {
         ),
       },
     );
-  }, [serverStatus]);
+  }, []);
 
   return null;
 }
