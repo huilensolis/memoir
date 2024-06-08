@@ -8,7 +8,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { ApiRoutingService } from "@/models/routing/api";
 import { BadgeCheck } from "lucide-react";
 
-export function ServerStatus() {
+export default function ServerStatus() {
   useEffect(() => {
     toast.promise(
       async () => {
