@@ -12,5 +12,7 @@ export function useBeforeUnloading(
     return () => {
       window.removeEventListener("beforeunload", callback);
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [...dependencies]);
 }
