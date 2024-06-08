@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 
 import type { Metadata } from "next";
 import "./globals.css";
+import { ServerStatus } from "@/components/feature/server-status";
+import { Toaster } from "@/components/feature/sonner";
 
 const satoshi = localFont({
   src: [
@@ -64,6 +66,8 @@ export default function RootLayout({
         className={`${satoshi.className} bg-neutral-50 flex flex-col items-center justify-center `}
       >
         {children}
+        <Toaster />
+        <ServerStatus />
       </body>
     </html>
   );

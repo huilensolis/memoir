@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --experimental-https",
-    "build": "next build",
-    "start": "next start",
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
     "lint": "next lint",
-    "test": "echo 'no test provided'"
+    "test": "echo no test provided"
   },
   "dependencies": {
-    "@elysiajs/eden": "^0.8.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@tiptap/extension-bubble-menu": "^2.2.4",
     "@tiptap/extension-document": "^2.2.4",
@@ -24,16 +23,16 @@
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "cmdk": "^1.0.0",
-    "elysia": "^0.8.14",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
+    "focus-trap-react": "^10.2.3",
     "lucide-react": "^0.331.0",
-    "next": "14.0.4",
+    "next": "14.2.3",
     "prettier": "^3.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "focus-trap-react": "^10.2.3",
     "react-hook-form": "^7.49.3",
+    "sonner": "^1.4.41",
     "tailwindcss-animate": "^1.0.7",
     "tippy.js": "^6.3.7",
     "zustand": "^4.5.2"
