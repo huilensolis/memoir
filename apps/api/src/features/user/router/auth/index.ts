@@ -183,8 +183,6 @@ export const AuthRouter = new Elysia()
 
           const tokenPayload = await jwt.verify(access_token.value);
 
-          console.log({ tokenPayload });
-
           if (!tokenPayload) {
             return error("Unauthorized", {
               error: "token signature is not valid",
