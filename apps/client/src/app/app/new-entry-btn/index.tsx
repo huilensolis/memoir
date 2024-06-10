@@ -3,11 +3,11 @@
 import { newEntry } from "@/actions/new-entry";
 import { Spinner } from "@/components/ui/spinner";
 import { ClientRoutingService } from "@/models/routing/client";
-import { PenTool } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function NewEntryBtn() {
+export function NewEntryFunction() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
@@ -33,21 +33,34 @@ export function NewEntryBtn() {
 
     setLoading(false);
   }
-
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
         onSubmit();
       }}
-      className="w-full"
     >
       <button
-        className="flex items-center w-full gap-2 py-2 px-2 rounded-md text-md font-semibold hover:bg-zinc-200 transition-all duration-75"
+        className="flex p-8 bg-neutral-50 border-2 border-zinc-200/40 rounded-md hover:border-zinc-300 transition-all duration-150"
         type="submit"
       >
-        {loading ? <Spinner /> : <PenTool className="w-5 h-5" />}
-        New Entry
+        <article className="flex flex-col gap-16 justify-between">
+          <section className="flex flex-col gap-8">
+            <header className="w-full flex flex-col">
+              {loading ? (
+                <Spinner className="w-8 h-8" />
+              ) : (
+                <Plus className="w-8 h-8" />
+              )}
+            </header>
+            <section>
+              <h2 className="font-bold text-xl">New Entry</h2>
+              <p>Create a new Document Entry from Scratch</p>
+            </section>
+          </section>
+          <strong>Get Started</strong>
+        </article>
       </button>
     </form>
   );
