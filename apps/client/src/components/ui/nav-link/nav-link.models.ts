@@ -5,4 +5,5 @@ export type TNavLink = {
   title: string;
   href: string;
   count?: number;
+  onClick?: () => void;
 };

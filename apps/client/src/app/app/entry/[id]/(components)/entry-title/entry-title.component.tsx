@@ -56,7 +56,7 @@ export function EntryTitle({
   return (
     <input
       type="text"
-      className="focus:outline-none font-bold text-[2.6666667em] bg-transparent"
+      className="focus:outline-none font-bold text-[2.6666667em] bg-transparent w-full"
       placeholder="Title"
       defaultValue={defaultValue}
       onChange={(e) => {

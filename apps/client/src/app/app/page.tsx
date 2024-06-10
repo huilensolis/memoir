@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function AppPage() {
   return (
     <main className="w-full min-h-screen p-2 flex items-center justify-center bg-neutral-100">
-      <ul className="grid grid-cols-2 gap-8">
+      <ul className="grid lg:grid-cols-2 gap-8">
         <li>
           <Link
             href={ClientRoutingService.app.entries.create}
