@@ -22,6 +22,7 @@
     "@tiptap/starter-kit": "^2.2.4",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -33,8 +34,10 @@
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
     "sonner": "^1.4.41",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "tippy.js": "^6.3.7",
+    "vaul": "^0.9.1",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

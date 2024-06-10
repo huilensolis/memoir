@@ -48,15 +48,15 @@ export function EntrySearchModalProvider() {
       {createPortal(
         <FocusTrap>
           <div
-            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-50 overflow-y-hidden"
+            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-[9999] overflow-y-hidden"
             onClick={toggleModal}
           >
             <Command
-              className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800 max-w-2xl max-h-96"
+              id="search-entry-command-modal"
+              className="rounded-lg border border-gray-200 shadow-md dark:border-gray-800 lg:max-w-2xl lg:max-h-96"
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              role="dialog"
             >
               <div className="w-full flex items-center justify-between">
                 <CommandInput

@@ -22,12 +22,12 @@ export default async function EntryPage({
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-start gap-5">
-      <div className="w-full sticky top-0 left-0 z-10 flex items-center justify-center p-3 bg-zinc-100 border-b border-gray-200">
+      <div className="w-full flex items-center justify-center p-3 bg-zinc-100 border-b border-gray-200">
         <div className="max-w-2xl w-full">
           <EntryHeader />
         </div>
       </div>
-      <main className="h-full w-full max-w-2xl py-10">
+      <main className="h-full w-full max-w-2xl py-10 px-3 lg:px-0">
         <EntryTitle entryId={entry.id} defaultValue={entry.title} />
         <EntryEditor initialContent={entry.content} entry={entry} />
       </main>
