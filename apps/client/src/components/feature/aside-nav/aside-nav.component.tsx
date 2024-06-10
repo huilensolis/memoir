@@ -4,7 +4,7 @@ import { Hr } from "@/components/ui/hr";
 import { AsideNavLinks } from "./components/navlinks";
 import { ProfileCard } from "./components/profile-card";
 import { EntrySearchModalTrigger } from "../entry-search-modal/search-entry-modal-trigger";
-import { Command, Menu, PenTool, X } from "lucide-react";
+import { Command, Menu, X } from "lucide-react";
 import {
   Drawer,
   DrawerClose,
