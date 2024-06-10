@@ -11,10 +11,7 @@ import {
 
 type TDocumentContent = {
   type: "doc";
-  content: {
-    type: "doc";
-    content: Record<string, unknown>[];
-  };
+  content: Record<string, unknown>[];
 };
 
 export const JournalEntry = pgTable("journal_entry", {
