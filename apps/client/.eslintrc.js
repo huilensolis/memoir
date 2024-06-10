@@ -1,6 +1,6 @@
-{
-  "extends": ["next/core-web-vitals", "standard-with-typescript", "prettier"],
-  "rules": {
+export default {
+  extends: ["next/core-web-vitals", "standard-with-typescript", "prettier"],
+  rules: {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -16,6 +16,6 @@
     "@next/next/no-img-element": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
-    "@typescript-eslint/prefer-optional-chain": "off"
-  }
-}
+    "@typescript-eslint/prefer-optional-chain": "off",
+  },
+};

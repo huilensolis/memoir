@@ -11,9 +11,7 @@ export function NavLink({ icon, title, href, count }: TNavLink) {
   const pathName = usePathname();
 
   useEffect(() => {
-    if (typeof location !== "undefined") {
-      if (location.pathname === href) setIsActive(true);
-    }
+    if (pathName === href) setIsActive(true);
   }, [href, pathName]);
 
   const Icon = icon;

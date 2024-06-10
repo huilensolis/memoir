@@ -9,6 +9,11 @@ import {
   json,
 } from "drizzle-orm/pg-core";
 
+type TDocumentContent = {
+  type: "doc";
+  content: Record<string, unknown>[];
+};
+
 export const JournalEntry = pgTable("journal_entry", {
   id: uuid("id").primaryKey().defaultRandom(),
   user_id: uuid("user_id")
@@ -20,29 +25,14 @@ export const JournalEntry = pgTable("journal_entry", {
   word_count: integer("word_count").default(0).notNull(),
   content: json("content")
     .default({
-      title: "Untitled",
-
-      // we define an empty document with a heading of level 1 that has the text of the title parameter
-      content: {
-        type: "doc",
-        content: [
-          {
-            type: "heading",
-            attrs: {
-              level: 1,
-            },
-            content: [
-              {
-                type: "text",
-                text: "Untitled",
-              },
-            ],
-          },
-        ],
-      },
-      word_count: 8,
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+        },
+      ],
     })
-    .$type<Record<string, unknown>[]>(),
+    .$type<TDocumentContent>(),
   is_private: boolean("is_private").default(false).notNull(),
   end_date: timestamp("end_date"),
 });
