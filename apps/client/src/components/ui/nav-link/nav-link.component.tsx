@@ -30,6 +30,7 @@ export function NavLink({
           : "bg-transparent hover:bg-zinc-200"
       }`}
       onClick={onClick ?? undefined}
+      replace
     >
       <section className="flex gap-2 items-center">
         <Icon className="w-5 h-5" />

@@ -19,11 +19,6 @@ export function AsideNavLinks() {
     //   href: "entries",
     //   count: 6,
     // },
-    {
-      title: "New Entry",
-      icon: PenTool,
-      href: ClientRoutingService.app.entries.create,
-    },
     // {
     //   title: "Settings",
     //   icon: Settings,

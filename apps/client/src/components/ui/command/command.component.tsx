@@ -56,7 +56,7 @@ const CommandList = React.forwardRef<
   <CommandPrimitive.List
     ref={ref}
     className={[
-      "max-h-[300px] overflow-y-auto overflow-x-hidden",
+      "lg:max-h-[300px] overflow-y-auto overflow-x-hidden",
       className,
     ].join(" ")}
     {...props}

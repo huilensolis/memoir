@@ -4,7 +4,7 @@ import { Hr } from "@/components/ui/hr";
 import { AsideNavLinks } from "./components/navlinks";
 import { ProfileCard } from "./components/profile-card";
 import { EntrySearchModalTrigger } from "../entry-search-modal/search-entry-modal-trigger";
-import { Command, Menu, X } from "lucide-react";
+import { Command, Menu, PenTool, X } from "lucide-react";
 import {
   Drawer,
   DrawerClose,
@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAsideNavStore } from "./store";
 import { useEffect, useState } from "react";
+import { NewEntryBtn } from "./components/new-entry-btn";
 
 export function AsideNav() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -101,6 +102,7 @@ function MenuItems() {
       <Hr orientation="horizontal" className="my-1" />
       <AsideNavLinks />
       <Hr orientation="horizontal" className="my-1" />
+      <NewEntryBtn />
       <EntrySearchModalTrigger>
         <div className="w-full flex items-center p-2 gap-2 hover:bg-zinc-200 transition-all duration-150 rounded-md font-semibold">
           <Command className="w-5 h-5" /> Search Entry
