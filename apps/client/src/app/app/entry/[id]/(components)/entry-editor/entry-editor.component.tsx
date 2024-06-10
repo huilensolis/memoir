@@ -22,7 +22,7 @@ export function EntryEditor({
 
   const { debouncedValue: debouncedContent } = useDebounce<Entry["content"]>({
     value: throttlingContent,
-    delay: 1000,
+    delay: 500,
   });
 
   const setEntryId = useEntryStore((state) => state.setEntryId);
@@ -90,6 +90,10 @@ export function EntryEditor({
   }, [debouncedContent]);
 
   return (
-    <TextEditor content={initialContent} onTransaction={handleTransaction} />
+    <TextEditor
+      content={initialContent}
+      onTransaction={handleTransaction}
+      id={entry.id}
+    />
   );
 }

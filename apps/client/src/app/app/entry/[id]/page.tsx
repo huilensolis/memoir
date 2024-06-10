@@ -2,6 +2,7 @@ import { EntryService } from "@/models/api/entry";
 import { getCookie } from "@/utils/getCookies";
 import { EntryEditor } from "./(components)/entry-editor/entry-editor.component";
 import { EntryHeader } from "./(components)/entry-header/entry-header.component";
+import { EntryTitle } from "./(components)/entry-title/entry-title.component";
 
 export default async function EntryPage({
   params: { id },
@@ -27,6 +28,7 @@ export default async function EntryPage({
         </div>
       </div>
       <main className="h-full w-full max-w-2xl py-10">
+        <EntryTitle entryId={entry.id} defaultValue={entry.title} />
         <EntryEditor initialContent={entry.content} entry={entry} />
       </main>
     </div>
