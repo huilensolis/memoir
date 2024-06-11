@@ -22,7 +22,7 @@ export function EntryEditor({
 
   const { debouncedValue: debouncedContent } = useDebounce<Entry["content"]>({
     value: throttlingContent,
-    delay: 1000,
+    delay: 500,
   });
 
   const setEntryId = useEntryStore((state) => state.setEntryId);
@@ -47,24 +47,10 @@ export function EntryEditor({
     async function saveDocumentNewData({ signal }: { signal: AbortSignal }) {
       setEntryState("saving");
 
-      function getEntryTitle(): string {
-        if (
-          debouncedContent.content &&
-          debouncedContent.content[0] &&
-          debouncedContent.content[0].content &&
-          debouncedContent.content[0].content[0].text
-        ) {
-          return debouncedContent.content[0].content[0].text.trim();
-        }
-
-        return entry.title;
-      }
-
-      const updatedEntry: NewEntry = {
-        title: getEntryTitle(),
+      const updatedEntry: Partial<NewEntry> = {
         content: debouncedContent,
-        word_count: 0,
       };
+
       await EntryService.updateEntryById({
         entryId: entry.id,
         entry: updatedEntry,
@@ -90,6 +76,10 @@ export function EntryEditor({
   }, [debouncedContent]);
 
   return (
-    <TextEditor content={initialContent} onTransaction={handleTransaction} />
+    <TextEditor
+      content={initialContent}
+      onTransaction={handleTransaction}
+      id={entry.id}
+    />
   );
 }

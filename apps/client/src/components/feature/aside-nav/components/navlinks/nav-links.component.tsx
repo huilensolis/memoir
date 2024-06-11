@@ -4,6 +4,7 @@ import { NavLink } from "@/components/ui/nav-link";
 import { Axis3dIcon, PenTool } from "lucide-react";
 import { ClientRoutingService } from "@/models/routing/client";
 import { type TNavLink } from "@/components/ui/nav-link/nav-link.models";
+import { useAsideNavStore } from "../../store";
 
 export function AsideNavLinks() {
   const NAV_ITEMS: TNavLink[] = [
@@ -18,17 +19,16 @@ export function AsideNavLinks() {
     //   href: "entries",
     //   count: 6,
     // },
-    {
-      title: "New Entry",
-      icon: PenTool,
-      href: ClientRoutingService.app.entries.create,
-    },
     // {
     //   title: "Settings",
     //   icon: Settings,
     //   href: "settings",
     // },
   ];
+
+  const closeDrawer = useAsideNavStore((state) => state.closeDrawer);
+  const openDrawer = useAsideNavStore((state) => state.openDrawer);
+
   return (
     <ul className="w-full flex flex-col gap-1">
       {NAV_ITEMS.map((item, i) => (
@@ -38,6 +38,13 @@ export function AsideNavLinks() {
             title={item.title}
             href={item.href}
             count={item.count}
+            onClick={() => {
+              closeDrawer();
+
+              setTimeout(() => {
+                openDrawer();
+              }, 300);
+            }}
           />
         </li>
       ))}

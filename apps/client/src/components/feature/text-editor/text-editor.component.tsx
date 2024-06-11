@@ -1,6 +1,5 @@
 "use client";
 
-import Document from "@tiptap/extension-document";
 import {
   useEditor,
   EditorContent,
@@ -19,13 +18,12 @@ import { useCommandMenuStore } from "./stores/command-menu";
 import { CommandMenu } from "./components/command-menu";
 import { Plugin, PluginKey, type Transaction } from "@tiptap/pm/state";
 
-const CustomDocument = Document.extend({
-  content: "heading{1} block*",
-});
-
 export function TextEditor({
   content,
   onTransaction,
+  disableSlashMenu = false,
+  id,
+  className,
 }: {
   content?: any;
   onTransaction?: ({
@@ -35,6 +33,9 @@ export function TextEditor({
     editor: Editor;
     transaction: Transaction;
   }) => void;
+  disableSlashMenu?: boolean;
+  id?: string;
+  className?: Element["className"];
 }) {
   const [commandMenusearchValue, setCommandMenuSearchValue] = useState("");
 
@@ -65,7 +66,8 @@ export function TextEditor({
         new Plugin({
           key: new PluginKey("preventDefaultEnterPLugin"),
           props: {
-            handleKeyDown(view, event) {
+            handleKeyDown(_view, event) {
+              if (disableSlashMenu) return false;
               if (event.key === "Enter") {
                 if (isCommandMenuVisible) {
                   return true;
@@ -78,6 +80,7 @@ export function TextEditor({
       ];
     },
   });
+
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -85,12 +88,9 @@ export function TextEditor({
       },
     },
     extensions: [
-      CustomDocument,
-      PreventDefualtBehaviorOfEnter,
       StarterKit.configure({
-        document: false,
         heading: {
-          levels: [1, 2, 3, 4],
+          levels: [2, 3, 4],
           HTMLAttributes: {
             class: "font-bold",
           },
@@ -112,6 +112,7 @@ export function TextEditor({
         },
         code: false,
       }),
+      PreventDefualtBehaviorOfEnter,
       Typography.configure({
         oneHalf: false,
         oneQuarter: false,
@@ -121,8 +122,10 @@ export function TextEditor({
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {
-          if (node.type.name === "heading") return "Title";
-          return "Write something or type '/' to open a command menu...";
+          if (node.type.name === "paragraph")
+            return "Write something or type '/' to open a command menu...";
+
+          return "";
         },
         emptyNodeClass:
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
@@ -162,7 +165,7 @@ export function TextEditor({
   }
 
   return (
-    <div>
+    <>
       {editor && (
         <>
           <BubbleMenu editor={editor} updateDelay={300} className="w-full">
@@ -204,11 +207,15 @@ export function TextEditor({
           </FloatingMenu>
           <EditorContent
             editor={editor}
-            className="w-full h-full min-h-screen prose prose-neutral dark:prose-invert prose-lg"
-            onKeyDown={handleKeyDown}
+            className={[
+              "w-full h-full prose prose-neutral dark:prose-invert prose-lg",
+              className,
+            ].join(" ")}
+            onKeyDown={disableSlashMenu ? undefined : handleKeyDown}
+            id={id || undefined}
           />
         </>
       )}
-    </div>
+    </>
   );
 }

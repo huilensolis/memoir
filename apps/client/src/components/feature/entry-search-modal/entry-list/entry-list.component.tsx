@@ -9,19 +9,38 @@ import { useEffect, useState } from "react";
 import { EntryItemSkeleton } from "./entry-item-skeleton";
 import { EntryService } from "@/models/api/entry";
 import { useSearchEntryModalStore } from "@/app/app/(stores)/search-entry-command-modal";
+import { useAsideNavStore } from "../../aside-nav/store";
+import moment from "moment";
 
 export function EntryList() {
   const toggleModal = useSearchEntryModalStore((state) => state.toggleModal);
+  const closeDrawerMenu = useAsideNavStore((state) => state.closeDrawer);
+  const openDrawerMenu = useAsideNavStore((state) => state.openDrawer);
 
   const [loading, setLoading] = useState(true);
 
   const [entries, setEntries] = useState<Entry[]>([]);
+
+  function handleClickOnEntry() {
+    toggleModal();
+
+    closeDrawerMenu();
+
+    setTimeout(() => {
+      openDrawerMenu();
+    }, 500);
+  }
 
   useEffect(() => {
     // fetch entries
     async function fetchUserEntries({ signal }: { signal: AbortSignal }) {
       try {
         setLoading(true);
+        await new Promise((resolve) =>
+          setTimeout(() => {
+            resolve("");
+          }, 4000),
+        );
         const { entryList, error } = await EntryService.getUserEntyList({
           signal,
         });
@@ -73,10 +92,15 @@ export function EntryList() {
             <Link
               href={ClientRoutingService.app.entries.readById(entry.id)}
               className="w-full flex items-center gap-2 text-base"
-              onClick={toggleModal}
+              onClick={handleClickOnEntry}
             >
-              <File className="mr-2 h-4 w-4" />
-              <span>{entry.title}</span>
+              <File className="mr-2 h-5 w-5" />
+              <div className="flex flex-col">
+                <span className="text-sm">{entry.title}</span>
+                <p className="text-neutral-400 text-sm">
+                  {moment(entry.updated_at).startOf("seconds").fromNow()}
+                </p>
+              </div>
             </Link>
           </CommandItem>
         ))}

@@ -5,15 +5,19 @@ import { type TNavLink } from "./nav-link.models";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-export function NavLink({ icon, title, href, count }: TNavLink) {
+export function NavLink({
+  icon,
+  title,
+  href,
+  count,
+  onClick = () => {},
+}: TNavLink) {
   const [isActive, setIsActive] = useState(false);
 
   const pathName = usePathname();
 
   useEffect(() => {
-    if (typeof location !== "undefined") {
-      if (location.pathname === href) setIsActive(true);
-    }
+    if (pathName === href) setIsActive(true);
   }, [href, pathName]);
 
   const Icon = icon;
@@ -25,6 +29,8 @@ export function NavLink({ icon, title, href, count }: TNavLink) {
           ? "bg-primary text-neutral-50"
           : "bg-transparent hover:bg-zinc-200"
       }`}
+      onClick={onClick ?? undefined}
+      replace
     >
       <section className="flex gap-2 items-center">
         <Icon className="w-5 h-5" />

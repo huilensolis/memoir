@@ -9,6 +9,7 @@ export class ApiRoutingService {
 
   static get routing() {
     return {
+      health: this.getPath("health"),
       auth: {
         signUp: this.getPath("auth/sign-up"),
         signIn: this.getPath("auth/sign-in"),

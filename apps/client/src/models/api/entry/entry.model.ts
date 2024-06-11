@@ -24,16 +24,7 @@ export class EntryService extends ApiService {
           type: "doc",
           content: [
             {
-              type: "heading",
-              attrs: {
-                level: 1,
-              },
-              content: [
-                {
-                  type: "text",
-                  text: title,
-                },
-              ],
+              type: "paragraph",
             },
           ],
         },
@@ -125,7 +116,7 @@ export class EntryService extends ApiService {
     signal,
   }: {
     entryId: string;
-    entry: NewEntry;
+    entry: Partial<NewEntry>;
     signal?: AbortSignal;
   }): Promise<{ error: string | null }> {
     try {
