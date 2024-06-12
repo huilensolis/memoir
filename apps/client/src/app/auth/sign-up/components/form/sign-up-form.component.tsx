@@ -24,14 +24,8 @@ export function SignUpForm() {
 
   const [isEmailAvailable, setIsEmailAvailable] = useState<boolean>(false);
 
-  const {
-    handleSubmit,
-    formState,
-    register,
-    setError,
-    getFieldState,
-    getValues,
-  } = useForm<signUpFormModels>({ mode: "onChange" });
+  const { handleSubmit, formState, register, setError, getFieldState } =
+    useForm<signUpFormModels>({ mode: "onChange" });
 
   const { errors, isValid, dirtyFields, isDirty, isValidating } = formState;
 

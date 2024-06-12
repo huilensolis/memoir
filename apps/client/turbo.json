@@ -4,7 +4,7 @@
     "build": {
       "outputs": [".next/**"],
       "cache": true,
-      "inputs": ["!tests/**"]
+      "inputs": ["!tests/**", ".env.local"]
     },
     "dev": {
       "cache": true,
