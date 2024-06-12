@@ -16,7 +16,7 @@ Memoir is a web editor for journaling and documenting your reflections.
     - [ ] Users can tag entries with keywords for easy categorization and future reference.
 
 # Out of MVP features
-1. ** Support for more blocks **
+1. **Support for more blocks**
     - [ ] links
     - [ ] checkboxes
     - [ ] item list
