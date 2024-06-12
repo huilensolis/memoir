@@ -80,8 +80,6 @@ export function SignUpForm() {
   }
 
   useEffect(() => {
-    console.log({ isDirty: getFieldState("email", formState).isDirty });
-    console.log({ emailValue: getValues("email") });
     if (
       debouncedEmailValue.length > 0 &&
       getFieldState("email", formState).isDirty &&
@@ -144,7 +142,6 @@ export function SignUpForm() {
                 isValidating ||
                 loading
               ) {
-                console.log("returning because onchange if is true");
                 return;
               }
 
