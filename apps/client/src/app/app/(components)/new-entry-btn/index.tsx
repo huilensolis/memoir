@@ -1,6 +1,7 @@
 "use client";
 
 import { newEntry } from "@/actions/new-entry";
+import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { ClientRoutingService } from "@/models/routing/client";
 import { Plus } from "lucide-react";
@@ -38,10 +39,12 @@ export function NewEntryFunction() {
       onSubmit={(e) => {
         e.preventDefault();
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         onSubmit();
       }}
     >
-      <button
+      <Button
+        variant="ghost"
         className="flex p-8 bg-neutral-50 border-2 border-zinc-200/40 rounded-md hover:border-zinc-300 transition-all duration-150"
         type="submit"
       >
@@ -61,7 +64,7 @@ export function NewEntryFunction() {
           </section>
           <strong>Get Started</strong>
         </article>
-      </button>
+      </Button>
     </form>
   );
 }

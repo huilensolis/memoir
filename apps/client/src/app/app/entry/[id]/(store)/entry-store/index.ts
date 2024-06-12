@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type TState = "up to date" | "waiting" | "saving";
+type TState = "up to date" | "waiting" | "saving" | "error";
 
 type TEntryStore = {
   entryId: string | null;

@@ -38,6 +38,8 @@ export function NewEntryBtn() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         onSubmit();
       }}
       className="w-full"

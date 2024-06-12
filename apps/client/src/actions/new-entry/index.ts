@@ -20,7 +20,7 @@ export async function newEntry(): Promise<{
 
     if (!entryId || error) throw new Error("could not create entry");
 
-    const route = new URL(process.env.NEXT_PUBLIC_SITE_URL as string);
+    const route = new URL(process.env.NEXT_PUBLIC_SITE_URL || "");
     route.pathname = ClientRoutingService.app.entries.readById(entryId);
 
     return { newEntryId: entryId, error: false };

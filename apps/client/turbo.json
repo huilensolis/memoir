@@ -3,7 +3,8 @@
   "tasks": {
     "build": {
       "outputs": [".next/**"],
-      "cache": true
+      "cache": true,
+      "inputs": ["!tests/**"]
     },
     "dev": {
       "cache": true,

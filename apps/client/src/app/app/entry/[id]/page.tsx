@@ -5,7 +5,7 @@ import { getCookie } from "@/utils/getCookies";
 import { EntryEditor } from "./(components)/entry-editor/entry-editor.component";
 import { EntryHeader } from "./(components)/entry-header/entry-header.component";
 import { EntryTitle } from "./(components)/entry-title/entry-title.component";
-import { Calendar, CalendarFold, Clock } from "lucide-react";
+import { CalendarFold } from "lucide-react";
 
 export default async function EntryPage({
   params: { id },
