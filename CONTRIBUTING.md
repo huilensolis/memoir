@@ -20,6 +20,17 @@ cp .env.example .env.local # copy the content of env.example file to .env.local 
 ```
 2. Fill in the env variables
 
+3. Create a `.env` file inside `apps/api`, and write the variables. The list of necessary variables are listed in `apps/api/env.example`
+
+```bash
+cd apps/api # move to the api folder
+touch .env # create a .env file
+
+cp env.example .env # copy the content of env.example file to .env file
+```
+
+2. Fill in the env variables
+
 ### Install turborepo globally
 In this repository, we use bun as the package manager, but for installing turborepo, we are going to need `npm`, `yarn` or `pnpm`.
 
