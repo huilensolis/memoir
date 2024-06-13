@@ -199,7 +199,8 @@ export function TextEditor({
 
                 if (
                   currentLineInput.startsWith("/") &&
-                  currentLineInput.trimEnd() === currentLineInput
+                  currentLineInput.trimEnd() === currentLineInput &&
+                  currentLineInput.split(" ").length <= 2
                 ) {
                   setCommandMenuIsVisible(true);
 
