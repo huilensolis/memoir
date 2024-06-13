@@ -10,10 +10,10 @@ git clone https://github.com/Huilensolis/memoir --depth=1
 ```
 
 ### set up environment variables
-1. Create a `.env.local` file inside `/packages/client`, and write the variables. The list of necessary variables are listed in `packages/client/env.example`
+1. Create a `.env.local` file inside `apps/client`, and write the variables. The list of necessary variables are listed in `apps/client/env.example`
 
 ```bash
-cd packages/client # move to the client folder
+cd apps/client # move to the client folder
 touch .env.local # create a .env.local file
 
 cp .env.example .env.local # copy the content of env.example file to .env.local file
