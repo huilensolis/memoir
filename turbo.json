@@ -12,5 +12,6 @@
     "test": {
       "cache": true
     }
-  }
+  },
+  "ui": "stream"
 }
