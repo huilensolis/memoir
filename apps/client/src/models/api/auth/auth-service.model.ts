@@ -124,13 +124,15 @@ export class AuthService extends ApiService {
 
   public static async getUser({
     Cookie = undefined,
+    signal = undefined,
   }: {
     Cookie?: string;
+    signal?: AbortSignal;
   }): Promise<{ user: User | null }> {
     try {
       const { data: user, status } = await axios.get<User>(
         ApiRoutingService.routing.auth.getUser,
-        { headers: Cookie ? { Cookie } : {} },
+        { headers: { ...(Cookie && { Cookie }) }, ...(signal && { signal }) },
       );
 
       if (!user || status !== 200) throw new Error("error getting user");

@@ -1,40 +1,60 @@
 "use client";
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/components/ui/spinner";
 import { ApiRoutingService } from "@/models/routing/api";
 import { BadgeCheck } from "lucide-react";
+import { useServerStatusStore } from "@/stores/server-status";
 
-function checkStatus() {
+function useCheckStatus() {
   // eslint-disable-next-line
-  return new Promise(async (resolve, _reject) => {
-    let isServerDown = true;
-    while (isServerDown) {
-      await new Promise((resolve) =>
-        setTimeout(() => {
-          resolve("");
-        }, 2000),
-      );
-      try {
-        const { status } = await axios.get(ApiRoutingService.routing.health, {
-          timeout: 3000,
-        });
-
-        if (status !== 200) throw new Error("Unhealthy server");
-
-        isServerDown = false;
-        resolve("");
-      } catch (error) {}
-    }
-  });
+  return new Promise(async (resolve, _reject) => {});
 }
 
 export function ServerStatus() {
-  function showToaster() {
-    toast.promise(checkStatus, {
+  const setServerStatus = useServerStatusStore(
+    (state) => state.setServerStatus,
+  );
+
+  const serverStatus = useServerStatusStore((state) => state.serverStatus);
+
+  async function checkServerStatus() {
+    return new Promise(async (resolve) => {
+      do {
+        try {
+          const { status } = await axios.get(ApiRoutingService.routing.health, {
+            timeout: 3000,
+          });
+
+          if (status !== 200) throw new Error("Unhealthy server");
+
+          setServerStatus("up");
+          resolve("");
+        } catch (error) {}
+
+        if (serverStatus === "down") {
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve("");
+            }, 2000),
+          );
+        }
+      } while (serverStatus === "down");
+    });
+  }
+
+  // this is just for preventing the useeffect from calling toast.promise twice in strit mode
+  const renderTime = useRef<number>(0);
+
+  useEffect(() => {
+    renderTime.current++;
+
+    if (renderTime.current > 1) return;
+
+    toast.promise(checkServerStatus(), {
       loading: (
         <article className="flex flex-col">
           <header className="flex items-center gap-2">
@@ -57,10 +77,6 @@ export function ServerStatus() {
         </article>
       ),
     });
-  }
-
-  useEffect(() => {
-    showToaster();
   }, []);
 
   return null;
