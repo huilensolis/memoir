@@ -42,10 +42,11 @@ export function NewEntryFunction() {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         onSubmit();
       }}
+      className="w-full h-full"
     >
       <Button
         variant="ghost"
-        className="flex p-8 bg-neutral-50 border-2 border-zinc-200/40 rounded-md hover:border-zinc-300 transition-all duration-150"
+        className="flex h-full w-full p-8 bg-neutral-50 border-2 border-zinc-200/40 rounded-md hover:border-zinc-300 transition-all duration-150"
         type="submit"
       >
         <article className="flex flex-col gap-16 justify-between">
