@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/components/ui/spinner";
@@ -46,7 +46,14 @@ export function ServerStatus() {
     });
   }
 
+  // this is just for preventing the useeffect from calling toast.promise twice in strit mode
+  const renderTime = useRef<number>(0);
+
   useEffect(() => {
+    renderTime.current++;
+
+    if (renderTime.current > 1) return;
+
     toast.promise(checkServerStatus(), {
       loading: (
         <article className="flex flex-col">
