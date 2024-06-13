@@ -1,4 +1,3 @@
-import { PrefetchOnRender } from "@/components/feature/prefetch-on-render";
 import { WithUserNotAuthenticated } from "@/components/wrappers/protect-from-authenticated-users";
 import { ClientRoutingService } from "@/models/routing/client";
 import { type ReactNode } from "react";
@@ -21,7 +20,6 @@ export default async function AuthLayout({
           </h2>
         </section>
       </div>
-      <PrefetchOnRender path={ClientRoutingService.app.home} />
     </WithUserNotAuthenticated>
   );
 }

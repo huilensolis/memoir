@@ -39,11 +39,18 @@ export function EntryTitle({
         signal,
       });
 
+      if (error) {
+        setEntryState("error");
+
+        return;
+      }
+
       setEntryState("up to date");
     }
 
     const ctrl = new AbortController();
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     UpdateTitle({ signal: ctrl.signal });
 
     renderingTimes.current++;
@@ -51,6 +58,8 @@ export function EntryTitle({
     return () => {
       ctrl.abort();
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedTitle]);
 
   return (

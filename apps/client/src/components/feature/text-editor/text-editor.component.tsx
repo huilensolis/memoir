@@ -194,6 +194,7 @@ export function TextEditor({
                 setCommandMenuIsVisible(false);
                 return false;
               } catch (error) {
+                console.log({ error });
                 // DO NOT REMOVE. This is necesary to delay it and do not run before a command option;
                 setTimeout(() => {
                   setCommandMenuIsVisible(false);

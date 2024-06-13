@@ -1,7 +1,7 @@
 "use client";
 
 import { NavLink } from "@/components/ui/nav-link";
-import { Axis3dIcon, PenTool } from "lucide-react";
+import { Axis3dIcon } from "lucide-react";
 import { ClientRoutingService } from "@/models/routing/client";
 import { type TNavLink } from "@/components/ui/nav-link/nav-link.models";
 import { useAsideNavStore } from "../../store";

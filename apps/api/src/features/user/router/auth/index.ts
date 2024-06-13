@@ -168,7 +168,7 @@ export const AuthRouter = new Elysia()
       .use(
         rateLimit({
           duration: 1000 * 60,
-          max: 30,
+          max: Environment.NODE_ENV === "test" ? 4000 : 30,
           generator: (request, server) =>
             server?.requestIP(request)?.address ?? "",
         }),
@@ -204,6 +204,7 @@ export const AuthRouter = new Elysia()
           set.status = "Accepted";
           return {};
         } catch (e) {
+          console.log("error", e);
           return error("Unauthorized", {
             error: "token expired or unauthorized",
           });

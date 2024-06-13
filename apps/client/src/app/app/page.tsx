@@ -1,6 +1,6 @@
 import { EntrySearchModalTrigger } from "@/components/feature/entry-search-modal/search-entry-modal-trigger";
 import { Search } from "lucide-react";
-import { NewEntryFunction } from "./new-entry-btn";
+import { NewEntryFunction } from "./(components)/new-entry-btn";
 
 export default function AppPage() {
   return (

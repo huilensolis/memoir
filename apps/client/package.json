@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --experimental-https",
-    "build": "NODE_ENV=production next build",
-    "start": "NODE_ENV=production next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "test": "echo no test provided"
   },
@@ -13,7 +13,7 @@
     "@radix-ui/react-accordion": "^1.1.2",
     "@tiptap/extension-bubble-menu": "^2.2.4",
     "@tiptap/extension-document": "^2.2.4",
-    "@tiptap/extension-floating-menu": "^2.2.4",
+    "@tiptap/extension-floating-menu": "^2.4.0",
     "@tiptap/extension-hard-break": "^2.2.4",
     "@tiptap/extension-placeholder": "^2.2.4",
     "@tiptap/extension-typography": "^2.2.4",
@@ -27,7 +27,6 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "focus-trap-react": "^10.2.3",
-    "install": "^0.13.0",
     "lucide-react": "^0.331.0",
     "moment": "^2.30.1",
     "next": "14.2.3",
@@ -43,7 +42,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.41.0",
+    "@playwright/test": "^1.44.1",
     "@tailwindcss/typography": "^0.5.10",
     "@testing-library/react": "^14.1.2",
     "@types/node": "^20",

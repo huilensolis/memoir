@@ -24,13 +24,10 @@ export function SignUpForm() {
 
   const [isEmailAvailable, setIsEmailAvailable] = useState<boolean>(false);
 
-  const {
-    handleSubmit,
-    formState: { errors, isValid, dirtyFields, isDirty, isValidating },
-    register,
-    setError,
-    getFieldState,
-  } = useForm<signUpFormModels>({ mode: "onChange" });
+  const { handleSubmit, formState, register, setError, getFieldState } =
+    useForm<signUpFormModels>({ mode: "onChange" });
+
+  const { errors, isValid, dirtyFields, isDirty, isValidating } = formState;
 
   const { signUp, checkEmailAvailability } = useSession();
 
@@ -79,7 +76,7 @@ export function SignUpForm() {
   useEffect(() => {
     if (
       debouncedEmailValue.length > 0 &&
-      getFieldState("email").isDirty &&
+      getFieldState("email", formState).isDirty &&
       !getFieldState("email").error?.message
     ) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -155,7 +152,7 @@ export function SignUpForm() {
               <span>validating email</span>
             </>
           )}
-          {getFieldState("email").isDirty && isEmailAvailable && (
+          {getFieldState("email", formState).isDirty && isEmailAvailable && (
             <>
               <BadgeCheck className="w-4 h-4 text-neutral-950" />
               <span>Email is available</span>

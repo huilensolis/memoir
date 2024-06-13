@@ -10,14 +10,25 @@ git clone https://github.com/Huilensolis/memoir --depth=1
 ```
 
 ### set up environment variables
-1. Create a `.env.local` file inside `/packages/client`, and write the variables. The list of necessary variables are listed in `packages/client/env.example`
+1. Create a `.env.local` file inside `apps/client`, and write the variables. The list of necessary variables are listed in `apps/client/env.example`
 
 ```bash
-cd packages/client # move to the client folder
+cd apps/client # move to the client folder
 touch .env.local # create a .env.local file
 
 cp .env.example .env.local # copy the content of env.example file to .env.local file
 ```
+2. Fill in the env variables
+
+3. Create a `.env` file inside `apps/api`, and write the variables. The list of necessary variables are listed in `apps/api/env.example`
+
+```bash
+cd apps/api # move to the api folder
+touch .env # create a .env file
+
+cp env.example .env # copy the content of env.example file to .env file
+```
+
 2. Fill in the env variables
 
 ### Install turborepo globally
