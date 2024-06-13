@@ -175,39 +175,69 @@ export function TextEditor({
           <FloatingMenu
             shouldShow={({ editor, view, state, oldState }): any => {
               try {
-                const selectedNodeJSON = editor
-                  .$pos(state.selection.from)
-                  .content.toJSON() as JSONContent["content"];
+                const selectedNode = editor.$pos(state.selection.from);
+
+                const selectedNodeJSON =
+                  selectedNode.content.toJSON() as JSONContent["content"];
 
                 if (!selectedNodeJSON) {
                   throw new Error("selected node json is false");
                 }
 
-                const selectedNode = selectedNodeJSON[0];
+                const nodeContent = selectedNodeJSON[0];
 
-                const nodeType = selectedNode.type;
+                if (!nodeContent) {
+                  throw new Error("could not find node content");
+                }
+
+                const nodeType = nodeContent.type;
 
                 if (nodeType !== "text") {
                   throw new Error("node type is not text");
                 }
 
-                const currentLineInput = selectedNode.text;
+                const parentNode = selectedNode.parent?.node.content;
+
+                if (!parentNode) {
+                  throw new Error("no parent node");
+                }
+
+                const end = selectedNode.to;
+
+                const index = view.state.selection.ranges[0].$to.pos;
+
+                if (index + 1 !== end) {
+                  throw new Error(
+                    "cursor is not in the end of the current line string",
+                  );
+                }
+
+                const currentLineInput = nodeContent.text;
 
                 if (!currentLineInput) {
                   throw new Error("could not get current line input");
                 }
 
-                if (
-                  currentLineInput.startsWith("/") &&
-                  currentLineInput.trimEnd() === currentLineInput &&
-                  currentLineInput.split(" ").length <= 2
-                ) {
-                  setCommandMenuIsVisible(true);
-
-                  setCommandMenuSearchValue(currentLineInput.split("/")[1]);
-
-                  return true;
+                if (!currentLineInput.startsWith("/")) {
+                  throw new Error("current line does not start with slash /");
                 }
+
+                if (currentLineInput.split(" ").length !== 1) {
+                  throw new Error(
+                    "there is a space after the slash in current line",
+                  );
+                }
+
+                if (currentLineInput.split(" ")[0])
+                  if (currentLineInput.trimEnd() === currentLineInput) {
+                    setCommandMenuIsVisible(true);
+
+                    setCommandMenuSearchValue(
+                      currentLineInput.split("/")[1].split(" ").join(""),
+                    );
+
+                    return true;
+                  }
 
                 setCommandMenuIsVisible(false);
                 return false;
