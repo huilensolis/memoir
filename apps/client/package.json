@@ -13,7 +13,7 @@
     "@radix-ui/react-accordion": "^1.1.2",
     "@tiptap/extension-bubble-menu": "^2.2.4",
     "@tiptap/extension-document": "^2.2.4",
-    "@tiptap/extension-floating-menu": "^2.2.4",
+    "@tiptap/extension-floating-menu": "^2.4.0",
     "@tiptap/extension-hard-break": "^2.2.4",
     "@tiptap/extension-placeholder": "^2.2.4",
     "@tiptap/extension-typography": "^2.2.4",
