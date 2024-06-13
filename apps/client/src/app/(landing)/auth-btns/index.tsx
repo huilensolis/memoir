@@ -50,7 +50,6 @@ export async function AuthBtns() {
     return VIEWS["non-authenticated"];
   }
 
-  await new Promise((resolve) => setTimeout(() => resolve(""), 4000));
   const { user } = await AuthService.getUser({ Cookie: cookie });
 
   if (!user) {
