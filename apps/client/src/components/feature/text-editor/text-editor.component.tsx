@@ -7,6 +7,7 @@ import {
   FloatingMenu,
   Extension,
   type Editor,
+  JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
@@ -172,13 +173,29 @@ export function TextEditor({
             <Toolbar editor={editor} />
           </BubbleMenu>
           <FloatingMenu
-            shouldShow={({ view }): any => {
+            shouldShow={({ editor, view, state, oldState }): any => {
               try {
-                if ((view as any).trackWrites.data === undefined)
-                  throw new Error("track data is undefined");
+                const selectedNodeJSON = editor
+                  .$pos(state.selection.from)
+                  .content.toJSON() as JSONContent["content"];
 
-                const currentLineInput = (view as any).trackWrites
-                  .data as string; // line input
+                if (!selectedNodeJSON) {
+                  throw new Error("selected node json is false");
+                }
+
+                const selectedNode = selectedNodeJSON[0];
+
+                const nodeType = selectedNode.type;
+
+                if (nodeType !== "text") {
+                  throw new Error("node type is not text");
+                }
+
+                const currentLineInput = selectedNode.text;
+
+                if (!currentLineInput) {
+                  throw new Error("could not get current line input");
+                }
 
                 if (
                   currentLineInput.startsWith("/") &&
@@ -194,7 +211,6 @@ export function TextEditor({
                 setCommandMenuIsVisible(false);
                 return false;
               } catch (error) {
-                console.log({ error });
                 // DO NOT REMOVE. This is necesary to delay it and do not run before a command option;
                 setTimeout(() => {
                   setCommandMenuIsVisible(false);
