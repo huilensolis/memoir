@@ -91,7 +91,7 @@ test.describe("Document", () => {
       .fill("/heading1");
 
     // we select the heading 1
-    await page.locator("body").press("Enter");
+    await page.keyboard.press("Enter");
 
     const h1Block = page.getByRole("heading", { level: 2 }).nth(0);
 
@@ -115,7 +115,7 @@ test.describe("Document", () => {
     await page.getByRole("paragraph", { name: "" }).nth(1).fill("/heading2");
 
     // we select the heading 2
-    await page.locator("body").press("Enter");
+    await page.keyboard.press("Enter");
 
     const h2Block = page
       .locator("main")
@@ -136,8 +136,8 @@ test.describe("Document", () => {
     // we open the slash command menu and search for a heading 3
     await page.getByRole("paragraph", { name: "" }).nth(2).fill("/heading3");
 
-    // we select the heading 2
-    await page.locator("body").press("Enter");
+    // we select the heading 3
+    await page.keyboard.press("Enter");
 
     const h3Block = page
       .locator("main")
