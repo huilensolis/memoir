@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useCommandMenuStore } from "./stores/command-menu";
 import { CommandMenu } from "./components/command-menu";
 import { Plugin, PluginKey, type Transaction } from "@tiptap/pm/state";
+import { TrailingNode } from "./extensions/trailing-node";
 
 export function TextEditor({
   content,
@@ -131,6 +132,7 @@ export function TextEditor({
         emptyNodeClass:
           "before:[content:_attr(data-placeholder);] before:outline-none before:h-0 before:pointer-events-none before:float-left before:text-neutral-400",
       }),
+      TrailingNode.configure({ notAfter: [], node: "paragraph" }),
     ],
     autofocus: "start",
     editable: true,
@@ -138,9 +140,9 @@ export function TextEditor({
     parseOptions: {
       preserveWhitespace: "full",
     },
-    onTransaction: ({ transaction }) => {
+    onTransaction: (tr) => {
       if (onTransaction && editor) {
-        onTransaction({ editor, transaction });
+        onTransaction({ editor, transaction: tr.transaction });
       }
     },
   });
