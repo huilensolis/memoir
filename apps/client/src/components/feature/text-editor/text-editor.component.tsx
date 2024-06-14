@@ -7,6 +7,7 @@ import {
   FloatingMenu,
   Extension,
   type Editor,
+  type JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
@@ -172,29 +173,75 @@ export function TextEditor({
             <Toolbar editor={editor} />
           </BubbleMenu>
           <FloatingMenu
-            shouldShow={({ view }): any => {
+            shouldShow={({ editor, view, state, oldState }): any => {
               try {
-                if ((view as any).trackWrites.data === undefined)
-                  throw new Error("track data is undefined");
+                const selectedNode = editor.$pos(state.selection.from);
 
-                const currentLineInput = (view as any).trackWrites
-                  .data as string; // line input
+                const selectedNodeJSON =
+                  selectedNode.content.toJSON() as JSONContent["content"];
 
-                if (
-                  currentLineInput.startsWith("/") &&
-                  currentLineInput.trimEnd() === currentLineInput
-                ) {
-                  setCommandMenuIsVisible(true);
-
-                  setCommandMenuSearchValue(currentLineInput.split("/")[1]);
-
-                  return true;
+                if (!selectedNodeJSON) {
+                  throw new Error("selected node json is false");
                 }
+
+                const nodeContent = selectedNodeJSON[0];
+
+                if (!nodeContent) {
+                  throw new Error("could not find node content");
+                }
+
+                const nodeType = nodeContent.type;
+
+                if (nodeType !== "text") {
+                  throw new Error("node type is not text");
+                }
+
+                const parentNode = selectedNode.parent?.node.content;
+
+                if (!parentNode) {
+                  throw new Error("no parent node");
+                }
+
+                const end = selectedNode.to;
+
+                const index = view.state.selection.ranges[0].$to.pos;
+
+                if (index + 1 !== end) {
+                  throw new Error(
+                    "cursor is not in the end of the current line string",
+                  );
+                }
+
+                const currentLineInput = nodeContent.text;
+
+                if (!currentLineInput) {
+                  throw new Error("could not get current line input");
+                }
+
+                if (!currentLineInput.startsWith("/")) {
+                  throw new Error("current line does not start with slash /");
+                }
+
+                if (currentLineInput.split(" ").length !== 1) {
+                  throw new Error(
+                    "there is a space after the slash in current line",
+                  );
+                }
+
+                if (currentLineInput.split(" ")[0])
+                  if (currentLineInput.trimEnd() === currentLineInput) {
+                    setCommandMenuIsVisible(true);
+
+                    setCommandMenuSearchValue(
+                      currentLineInput.split("/")[1].split(" ").join(""),
+                    );
+
+                    return true;
+                  }
 
                 setCommandMenuIsVisible(false);
                 return false;
               } catch (error) {
-                console.log({ error });
                 // DO NOT REMOVE. This is necesary to delay it and do not run before a command option;
                 setTimeout(() => {
                   setCommandMenuIsVisible(false);
