@@ -36,11 +36,6 @@ export function EntryList() {
     async function fetchUserEntries({ signal }: { signal: AbortSignal }) {
       try {
         setLoading(true);
-        await new Promise((resolve) =>
-          setTimeout(() => {
-            resolve("");
-          }, 4000),
-        );
         const { entryList, error } = await EntryService.getUserEntyList({
           signal,
         });

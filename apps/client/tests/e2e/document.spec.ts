@@ -106,13 +106,13 @@ test.describe("Document", () => {
 
     // create a new paragraphh block bellow
     await h1Block.click();
-    await h1Block.fill("heading 1 \n");
+    await h1Block.fill("heading 1");
 
     // select the paragraph generated bellow the h1 block
-    await page.getByRole("paragraph").nth(1).click();
+    await page.getByRole("paragraph", { name: "" }).nth(1).click();
 
     // we open the slash command menu and search for a heading 2
-    await page.getByRole("paragraph").nth(1).fill("/heading2");
+    await page.getByRole("paragraph", { name: "" }).nth(1).fill("/heading2");
 
     // we select the heading 2
     await page.locator("body").press("Enter");
@@ -129,5 +129,27 @@ test.describe("Document", () => {
     expect(h2Block).toContainText("heading 2");
     expect(h2Block).toHaveCSS("font-weight", "700");
     expect(h2Block).toHaveCSS("font-size", "24px");
+
+    // select the paragraph generated bellow the h2 block
+    await page.getByRole("paragraph", { name: "" }).nth(2).click();
+
+    // we open the slash command menu and search for a heading 3
+    await page.getByRole("paragraph", { name: "" }).nth(2).fill("/heading3");
+
+    // we select the heading 2
+    await page.locator("body").press("Enter");
+
+    const h3Block = page
+      .locator("main")
+      .filter({ hasText: "waitinga few seconds" })
+      .locator("h4");
+
+    // we write "heading 3" on the heading 3 block
+    await h3Block.fill("heading 3");
+
+    expect(h3Block).toBeVisible();
+    expect(h3Block).toContainText("heading 3");
+    expect(h3Block).toHaveCSS("font-weight", "700");
+    expect(h3Block).toHaveCSS("font-size", "18px");
   });
 });
