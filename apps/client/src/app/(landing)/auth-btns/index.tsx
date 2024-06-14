@@ -72,6 +72,7 @@ export function AuthBtns() {
     const ctrl = new AbortController();
 
     if (serverStatus === "up") {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       getUserRole({ signal: ctrl.signal });
     }
 

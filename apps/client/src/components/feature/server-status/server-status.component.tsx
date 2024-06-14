@@ -1,18 +1,13 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/components/ui/spinner";
 import { ApiRoutingService } from "@/models/routing/api";
 import { BadgeCheck } from "lucide-react";
 import { useServerStatusStore } from "@/stores/server-status";
-
-function useCheckStatus() {
-  // eslint-disable-next-line
-  return new Promise(async (resolve, _reject) => {});
-}
 
 export function ServerStatus() {
   const setServerStatus = useServerStatusStore(
@@ -22,7 +17,8 @@ export function ServerStatus() {
   const serverStatus = useServerStatusStore((state) => state.serverStatus);
 
   async function checkServerStatus() {
-    return new Promise(async (resolve) => {
+    // eslint-disable-next-line no-async-promise-executor
+    return await new Promise(async (resolve) => {
       do {
         try {
           const { status } = await axios.get(ApiRoutingService.routing.health, {
@@ -42,6 +38,7 @@ export function ServerStatus() {
             }, 2000),
           );
         }
+        // eslint-disable-next-line no-unmodified-loop-condition
       } while (serverStatus === "down");
     });
   }
@@ -77,6 +74,8 @@ export function ServerStatus() {
         </article>
       ),
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
