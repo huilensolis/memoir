@@ -7,7 +7,7 @@ import {
   FloatingMenu,
   Extension,
   type Editor,
-  JSONContent,
+  type JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
