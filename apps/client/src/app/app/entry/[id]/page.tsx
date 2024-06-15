@@ -30,7 +30,7 @@ export default async function EntryPage({
           <EntryHeader />
         </div>
       </div>
-      <main className="w-full flex justify-center py-10 px-3 lg:px-5 max-h-[calc(100vh-50px-1.25rem)] overflow-y-auto">
+      <main className="w-full flex justify-center py-10 px-3 lg:px-5 max-h-[calc(100vh-50px)] overflow-y-auto">
         <div className="max-w-4xl w-full h-full">
           <header className="flex flex-col">
             <EntryTitle entryId={entry.id} defaultValue={entry.title} />
