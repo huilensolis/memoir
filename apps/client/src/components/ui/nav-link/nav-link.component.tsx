@@ -17,7 +17,12 @@ export function NavLink({
   const pathName = usePathname();
 
   useEffect(() => {
-    if (pathName === href) setIsActive(true);
+    if (pathName === href) {
+      setIsActive(true);
+      return;
+    }
+
+    setIsActive(false);
   }, [href, pathName]);
 
   const Icon = icon;
