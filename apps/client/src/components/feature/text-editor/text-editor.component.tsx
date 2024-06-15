@@ -119,8 +119,8 @@ export function TextEditor({
         oneHalf: false,
         oneQuarter: false,
         threeQuarters: false,
-        laquo: false,
-        raquo: false,
+        openSingleQuote: false,
+        closeSingleQuote: false,
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {
@@ -171,11 +171,22 @@ export function TextEditor({
     <>
       {editor && (
         <>
-          <BubbleMenu editor={editor} updateDelay={300} className="w-full">
+          <BubbleMenu
+            editor={editor}
+            updateDelay={150}
+            shouldShow={() => {
+              return Boolean(
+                (editor.isActive("paragraph") || editor.isActive("heading")) &&
+                  editor.state.selection.ranges[0].$from.pos <
+                    editor.state.selection.ranges[0].$to.pos,
+              );
+            }}
+            className="w-full"
+          >
             <Toolbar editor={editor} />
           </BubbleMenu>
           <FloatingMenu
-            shouldShow={({ editor, view, state, oldState }): any => {
+            shouldShow={({ editor, view, state }): any => {
               try {
                 const selectedNode = editor.$pos(state.selection.from);
 

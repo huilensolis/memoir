@@ -35,15 +35,15 @@ export default async function EntryPage({
         <div className="flex flex-col gap-3 max-w-4xl w-full h-full">
           <header className="flex flex-col">
             <EntryTitle entryId={entry.id} defaultValue={entry.title} />
-            <div
-              className="flex gap-2 items-center"
-              title={`last time updated: ${moment(entry.updated_at).startOf("seconds").fromNow()}`}
-            >
-              <CalendarFold className="w-5 h-5 text-neutral-400" />
-              <p className="text-neutral-400">
-                {moment(entry.updated_at).startOf("seconds").fromNow()}
-              </p>
-            </div>
+            {/* <div */}
+            {/*   className="flex gap-2 items-center" */}
+            {/*   title={`last time updated: ${moment(entry.updated_at).startOf("seconds").fromNow()}`} */}
+            {/* > */}
+            {/*   <CalendarFold className="w-5 h-5 text-neutral-400" /> */}
+            {/*   <p className="text-neutral-400"> */}
+            {/*     {moment(entry.updated_at).startOf("seconds").fromNow()} */}
+            {/*   </p> */}
+            {/* </div> */}
           </header>
           <EntryEditor initialContent={entry.content} entry={entry} />
         </div>
