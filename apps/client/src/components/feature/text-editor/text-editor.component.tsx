@@ -119,8 +119,8 @@ export function TextEditor({
         oneHalf: false,
         oneQuarter: false,
         threeQuarters: false,
-        laquo: false,
-        raquo: false,
+        openSingleQuote: false,
+        closeSingleQuote: false,
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {
@@ -171,11 +171,22 @@ export function TextEditor({
     <>
       {editor && (
         <>
-          <BubbleMenu editor={editor} updateDelay={300} className="w-full">
+          <BubbleMenu
+            editor={editor}
+            updateDelay={150}
+            shouldShow={() => {
+              return Boolean(
+                (editor.isActive("paragraph") || editor.isActive("heading")) &&
+                  editor.state.selection.ranges[0].$from.pos <
+                    editor.state.selection.ranges[0].$to.pos,
+              );
+            }}
+            className="w-full"
+          >
             <Toolbar editor={editor} />
           </BubbleMenu>
           <FloatingMenu
-            shouldShow={({ editor, view, state, oldState }): any => {
+            shouldShow={({ editor, view, state }): any => {
               try {
                 const selectedNode = editor.$pos(state.selection.from);
 
@@ -258,7 +269,7 @@ export function TextEditor({
           <EditorContent
             editor={editor}
             className={[
-              "w-full h-full prose prose-neutral dark:prose-invert prose-lg",
+              "w-full h-full prose prose-neutral dark:prose-invert prose-lg prose-p:py-0 prose-p:my-0 prose-ul:my-2 prose-li:my-0 prose-headings:mb-2 prose-headings:mt-4 prose-p:text-pretty",
               className,
             ].join(" ")}
             onKeyDown={disableSlashMenu ? undefined : handleKeyDown}
