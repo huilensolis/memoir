@@ -6,6 +6,7 @@ import { EntryEditor } from "./(components)/entry-editor/entry-editor.component"
 import { EntryHeader } from "./(components)/entry-header/entry-header.component";
 import { EntryTitle } from "./(components)/entry-title/entry-title.component";
 import { CalendarFold } from "lucide-react";
+import { Hr } from "@/components/ui/hr";
 
 export default async function EntryPage({
   params: { id },
@@ -31,7 +32,7 @@ export default async function EntryPage({
         </div>
       </div>
       <main className="w-full flex justify-center py-10 px-3 lg:px-5 max-h-[calc(100vh-50px)] overflow-y-auto">
-        <div className="max-w-4xl w-full h-full">
+        <div className="flex flex-col gap-3 max-w-4xl w-full h-full">
           <header className="flex flex-col">
             <EntryTitle entryId={entry.id} defaultValue={entry.title} />
             <div
