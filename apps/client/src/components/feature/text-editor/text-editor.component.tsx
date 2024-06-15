@@ -258,7 +258,7 @@ export function TextEditor({
           <EditorContent
             editor={editor}
             className={[
-              "w-full h-full prose prose-neutral dark:prose-invert prose-lg",
+              "w-full h-full prose prose-neutral dark:prose-invert prose-lg prose-p:py-5 prose-p:my-0",
               className,
             ].join(" ")}
             onKeyDown={disableSlashMenu ? undefined : handleKeyDown}

@@ -47,6 +47,12 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
             return;
           }
 
+          const lastNode = doc.content.lastChild;
+
+          if (lastNode && lastNode.textContent.length === 0) {
+            return;
+          }
+
           return tr.insert(endPosition, type.create());
         },
         state: {
