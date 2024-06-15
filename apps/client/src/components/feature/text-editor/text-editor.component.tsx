@@ -92,7 +92,7 @@ export function TextEditor({
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [2, 3, 4],
+          levels: [1, 2, 3],
           HTMLAttributes: {
             class: "font-bold",
           },
@@ -269,7 +269,7 @@ export function TextEditor({
           <EditorContent
             editor={editor}
             className={[
-              "w-full h-full prose prose-neutral dark:prose-invert prose-lg prose-p:py-0 prose-p:my-0 prose-ul:my-2 prose-li:my-0 prose-headings:mb-2 prose-headings:mt-4 prose-hr:my-5",
+              "w-full h-full prose prose-neutral dark:prose-invert prose-lg prose-p:py-0 prose-p:my-0 prose-ul:my-2 prose-li:my-0 prose-headings:mb-2 prose-headings:mt-4 prose-hr:my-5 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl",
               className,
             ].join(" ")}
             onKeyDown={disableSlashMenu ? undefined : handleKeyDown}

@@ -14,7 +14,7 @@ export const BLOCK_COMMANDS: TCommandItem[] = [
     command: (editor) => {
       editor.chain().focus().selectNodeBackward().deleteSelection().run();
 
-      editor.chain().toggleHeading({ level: 2 }).run();
+      editor.chain().toggleHeading({ level: 1 }).run();
     },
   },
   {
@@ -23,7 +23,7 @@ export const BLOCK_COMMANDS: TCommandItem[] = [
     command: (editor) => {
       editor.chain().focus().selectNodeBackward().deleteSelection().run();
 
-      editor.chain().toggleHeading({ level: 3 }).run();
+      editor.chain().toggleHeading({ level: 2 }).run();
     },
   },
   {
@@ -32,7 +32,7 @@ export const BLOCK_COMMANDS: TCommandItem[] = [
     command: (editor) => {
       editor.chain().focus().selectNodeBackward().deleteSelection().run();
 
-      editor.chain().toggleHeading({ level: 4 }).run();
+      editor.chain().toggleHeading({ level: 3 }).run();
     },
   },
 ];
