@@ -106,6 +106,7 @@ export function EntryEditor({
       content={initialContent}
       onTransaction={handleTransaction}
       id={entry.id}
+      className="pb-24"
     />
   );
 }
