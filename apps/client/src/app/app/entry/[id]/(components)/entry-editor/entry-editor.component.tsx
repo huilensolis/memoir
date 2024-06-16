@@ -76,6 +76,7 @@ export function EntryEditor({
         return;
       }
       if (lastTimeUpdated.getTime() < new Date().getTime() - 1000 * 2) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         saveDocumentNewData({ entryContent: throttlingContent });
       }
     }, 5000);
