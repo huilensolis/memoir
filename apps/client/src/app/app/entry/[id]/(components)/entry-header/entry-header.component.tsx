@@ -6,11 +6,12 @@ import { Spinner } from "@/components/ui/spinner";
 import { useBeforeUnloading } from "@/hooks/use-before-unloading";
 
 export function EntryHeader() {
+  const getEntryState = useEntryStore((state) => state.getState);
   const entryState = useEntryStore((state) => state.state);
 
   useBeforeUnloading(
     (e: BeforeUnloadEvent) => {
-      if (entryState === "up to date") return;
+      if (getEntryState() === "up to date") return;
 
       e.preventDefault();
       e.returnValue = true;
@@ -21,6 +22,7 @@ export function EntryHeader() {
     },
     [entryState],
   );
+
   return (
     <header className="w-full flex justify-end">
       <div className="flex justify-center items-center gap-1">

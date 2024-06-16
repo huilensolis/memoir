@@ -15,22 +15,25 @@ export function EntryEditor({
   initialContent: Entry["content"];
   entry: Entry;
 }) {
-  // we dont use this state to send the content to the editor, but rather to handle the transactions saving.
+  // we dont use this state to set the content to the editor, but rather to handle the transactions saving.
   // the editor starts from an initial content, and then manages the changed content by itself
+  // this state is just for savinf the changed editor content and then using it with useDebounce
   const [throttlingContent, setThrottlingContent] =
     useState<Entry["content"]>(initialContent);
 
+  const [lastTimeUpdated, setLastTimeUpdated] = useState(new Date());
+
   const { debouncedValue: debouncedContent } = useDebounce<Entry["content"]>({
     value: throttlingContent,
-    delay: 500,
+    delay: 250,
   });
 
   const setEntryId = useEntryStore((state) => state.setEntryId);
   const setEntryState = useEntryStore((state) => state.setState);
-  const entryState = useEntryStore((state) => state.state);
+  const getEntryState = useEntryStore((state) => state.getState);
 
   function handleTransaction({ editor }: { editor: Editor }) {
-    if (entryState !== "waiting") {
+    if (getEntryState() !== "waiting") {
       setEntryState("waiting");
     }
 
@@ -44,11 +47,17 @@ export function EntryEditor({
   }, []);
 
   useEffect(() => {
-    async function saveDocumentNewData({ signal }: { signal: AbortSignal }) {
+    async function saveDocumentNewData({
+      signal,
+      entryContent,
+    }: {
+      signal?: AbortSignal;
+      entryContent: Entry["content"];
+    }) {
       setEntryState("saving");
 
       const updatedEntry: Partial<NewEntry> = {
-        content: debouncedContent,
+        content: entryContent,
       };
 
       await EntryService.updateEntryById({
@@ -57,18 +66,34 @@ export function EntryEditor({
         signal,
       });
 
+      setLastTimeUpdated(new Date());
       setEntryState("up to date");
     }
 
+    const TimeIntervalId = setInterval(() => {
+      // if the document has not been saved in the last 5 seconds, we save it
+      if (getEntryState() === "up to date") {
+        return;
+      }
+      if (lastTimeUpdated.getTime() < new Date().getTime() - 1000 * 2) {
+        saveDocumentNewData({ entryContent: throttlingContent });
+      }
+    }, 5000);
+
     const ctrl = new AbortController();
 
-    if (entryState !== "up to date") {
+    if (getEntryState() !== "up to date") {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      saveDocumentNewData({ signal: ctrl.signal });
+      saveDocumentNewData({
+        signal: ctrl.signal,
+        entryContent: debouncedContent,
+      });
     }
 
     return () => {
       ctrl.abort();
+      clearInterval(TimeIntervalId);
+
       setEntryState("waiting");
     };
 

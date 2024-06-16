@@ -14,17 +14,11 @@ export function ServerStatus() {
     (state) => state.setServerStatus,
   );
 
-  const serverStatus = useServerStatusStore((state) => state.serverStatus);
-
   async function checkServerStatus() {
     // eslint-disable-next-line no-async-promise-executor
     return await new Promise(async (resolve) => {
       let isServeDown = true;
       do {
-        if (serverStatus === "up") {
-          isServeDown = false;
-          break;
-        }
         try {
           const { status } = await axios.get(ApiRoutingService.routing.health, {
             timeout: 3000,
@@ -32,6 +26,7 @@ export function ServerStatus() {
 
           if (status !== 200) throw new Error("Unhealthy server");
 
+          isServeDown = false;
           setServerStatus("up");
           resolve("");
         } catch (error) {}
