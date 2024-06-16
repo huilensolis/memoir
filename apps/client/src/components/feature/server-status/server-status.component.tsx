@@ -19,7 +19,12 @@ export function ServerStatus() {
   async function checkServerStatus() {
     // eslint-disable-next-line no-async-promise-executor
     return await new Promise(async (resolve) => {
+      let isServeDown = true;
       do {
+        if (serverStatus === "up") {
+          isServeDown = false;
+          break;
+        }
         try {
           const { status } = await axios.get(ApiRoutingService.routing.health, {
             timeout: 3000,
@@ -31,15 +36,12 @@ export function ServerStatus() {
           resolve("");
         } catch (error) {}
 
-        if (serverStatus === "down") {
-          await new Promise((resolve) =>
-            setTimeout(() => {
-              resolve("");
-            }, 2000),
-          );
-        }
-        // eslint-disable-next-line no-unmodified-loop-condition
-      } while (serverStatus === "down");
+        await new Promise((resolve) =>
+          setTimeout(() => {
+            resolve("");
+          }, 2000),
+        );
+      } while (isServeDown);
     });
   }
 
