@@ -5,8 +5,12 @@ import { Axis3dIcon } from "lucide-react";
 import { ClientRoutingService } from "@/models/routing/client";
 import { type TNavLink } from "@/components/ui/nav-link/nav-link.models";
 import { useAsideNavStore } from "../../store";
+import { usePathname } from "next/navigation";
+import { useEntryStore } from "@/app/app/entry/[id]/(store)/entry-store";
 
 export function AsideNavLinks() {
+  const pathName = usePathname();
+
   const NAV_ITEMS: TNavLink[] = [
     {
       title: "Home",
@@ -29,6 +33,9 @@ export function AsideNavLinks() {
   const closeDrawer = useAsideNavStore((state) => state.closeDrawer);
   const openDrawer = useAsideNavStore((state) => state.openDrawer);
 
+  const entryStatus = useEntryStore((state) => state.state);
+  const entryId = useEntryStore((state) => state.entryId);
+
   return (
     <ul className="w-full flex flex-col gap-1">
       {NAV_ITEMS.map((item, i) => (
@@ -38,12 +45,24 @@ export function AsideNavLinks() {
             title={item.title}
             href={item.href}
             count={item.count}
-            onClick={() => {
+            onClick={(e) => {
               closeDrawer();
 
               setTimeout(() => {
                 openDrawer();
               }, 300);
+
+              if (
+                entryId &&
+                pathName.startsWith(
+                  ClientRoutingService.app.entries.readById(entryId),
+                ) &&
+                (entryStatus === "saving" || entryStatus === "waiting")
+              ) {
+                window.alert(
+                  "Are you sure you want to leave this page? your changes has not been saved yet",
+                );
+              }
             }}
           />
         </li>

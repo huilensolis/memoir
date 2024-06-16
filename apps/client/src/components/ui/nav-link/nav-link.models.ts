@@ -5,5 +5,5 @@ export type TNavLink = {
   title: string;
   href: string;
   count?: number;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
