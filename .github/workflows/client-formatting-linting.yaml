@@ -7,8 +7,6 @@ on:
       - main
     paths:
       - "./apps/client/**"
-    paths-ignore:
-      - "./apps/api/**"
 
 jobs:
   formatting:

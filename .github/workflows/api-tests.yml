@@ -7,8 +7,6 @@ on:
       - main
     paths:
       - "./apps/api/**"
-    paths-ignore:
-      - "./apps/client/**"
 
 jobs:
   test:
