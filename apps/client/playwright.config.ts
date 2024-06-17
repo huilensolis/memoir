@@ -37,7 +37,7 @@ export default defineConfig({
       stderr: "pipe",
       stdout: "pipe",
       reuseExistingServer: !process.env.CI,
-      timeout: 1000 * 60 * 12,
+      timeout: 1000 * 60 * 6,
     },
     {
       command: "bun run build && bun run start",
@@ -45,7 +45,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       stderr: "pipe",
       stdout: "pipe",
-      timeout: 1000 * 60 * 12,
+      timeout: 1000 * 60 * 6,
     },
   ],
 
