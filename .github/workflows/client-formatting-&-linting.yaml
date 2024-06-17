@@ -1,4 +1,4 @@
-name: Api Formatting and Linting
+name: Client Formatting and Linting
 run-name: Run Linter and Formatter on ${{ github.event.pull_request.title }} by ${{ github.event.sender.login }}
 
 on:
@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "apps/api/**"
+      - "apps/client/**"
 
 jobs:
   formatting:
