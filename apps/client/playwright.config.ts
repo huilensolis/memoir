@@ -32,7 +32,7 @@ export default defineConfig({
   webServer: [
     {
       cwd: "../api",
-      command: "bunx turbo start",
+      command: "bun run setup && bun run build && bun run start",
       url: "http://localhost:3001/health",
       stderr: "pipe",
       stdout: "pipe",
@@ -40,7 +40,7 @@ export default defineConfig({
       timeout: 1000 * 60 * 12,
     },
     {
-      command: "bunx turbo start",
+      command: "bun run build && bun run start",
       url: "http://localhost:3000/",
       reuseExistingServer: !process.env.CI,
       stderr: "pipe",
