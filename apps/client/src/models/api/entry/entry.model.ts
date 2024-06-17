@@ -138,6 +138,7 @@ export class EntryService extends ApiService {
       return { error: JSON.stringify(error) };
     }
   }
+
   public static async deleteEntryById({
     entryId,
   }: {
