@@ -11,6 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    imeout-minutes: 5
     defaults:
       run:
         shell: bash
