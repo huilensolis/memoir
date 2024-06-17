@@ -36,6 +36,7 @@ export default defineConfig({
       url: "http://localhost:3001/health",
       stderr: "pipe",
       stdout: "pipe",
+      timeout: 120 * 1000,
     },
     {
       cwd: "./",
@@ -44,6 +45,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       stderr: "pipe",
       stdout: "pipe",
+      timeout: 120 * 1000,
     },
   ],
 
