@@ -37,15 +37,14 @@ export default defineConfig({
       stderr: "pipe",
       stdout: "pipe",
       timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
     },
     {
-      cwd: "./",
       command: "bunx turbo start",
-      url: "http://localhost:3000",
+      url: "http://localhost:3000/",
       reuseExistingServer: !process.env.CI,
       stderr: "pipe",
       stdout: "pipe",
-      timeout: 120 * 1000,
     },
   ],
 

@@ -37,7 +37,6 @@
       ]
     },
     "test": {
-      "dependsOn": ["start"],
       "inputs": ["./tests/**", "./playwright.config.ts", ".env.local", "!./**"]
     }
   }
