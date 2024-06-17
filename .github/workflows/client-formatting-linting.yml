@@ -26,7 +26,7 @@ jobs:
       - name: Format
         run: bun run format
       - name: stage changes
-      - run: git commit -m 'formatting'
+        run: git commit -m 'formatting'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   linting:
