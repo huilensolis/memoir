@@ -1,11 +1,9 @@
-// import moment from "moment";
-
 import { EntryService } from "@/models/api/entry";
 import { getCookie } from "@/utils/getCookies";
 import { EntryEditor } from "./(components)/entry-editor/entry-editor.component";
 import { EntryHeader } from "./(components)/entry-header/entry-header.component";
 import { EntryTitle } from "./(components)/entry-title/entry-title.component";
-// import { CalendarFold } from "lucide-react";
+import Link from "next/link";
 
 export default async function EntryPage({
   params: { id },
@@ -14,7 +12,12 @@ export default async function EntryPage({
 }) {
   const { cookie } = getCookie();
 
-  if (!cookie) return <p>There has been an error, please reload the page</p>;
+  if (!cookie)
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <p>There has been an error, please reload the page</p>
+      </div>
+    );
 
   const { entry, error } = await EntryService.readEntryById({
     entryId: id,
@@ -23,11 +26,24 @@ export default async function EntryPage({
 
   if (!entry || error) return <p>404 - not found</p>;
 
+  if (typeof entry.end_date === "string") {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <p>
+          Entry deleted - you can restore it{" "}
+          <Link href="" className="underline text-blue-600">
+            here (not implemented yet)
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full w-full flex flex-col items-center justify-start">
-      <div className="w-full flex items-center justify-center p-3 bg-zinc-100 border-b border-gray-200">
+      <div className="w-full flex items-center justify-center p-2 bg-zinc-100 border-b border-gray-200">
         <div className="max-w-4xl w-full">
-          <EntryHeader />
+          <EntryHeader entryId={id} />
         </div>
       </div>
       <main className="w-full flex justify-center py-10 px-3 lg:px-5 max-h-[calc(100vh-50px)] overflow-y-auto">

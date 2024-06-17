@@ -91,7 +91,6 @@ export class AuthService extends ApiService {
       });
 
       if (res.status !== 202) {
-        console.log(await res.json());
         throw new Error(
           "there is been an error on the check token request request response",
         );
@@ -99,7 +98,6 @@ export class AuthService extends ApiService {
 
       return { isTokenValid: true };
     } catch (error) {
-      console.log("token is invalid: ", { error });
       return { isTokenValid: false };
     }
   }

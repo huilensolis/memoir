@@ -101,7 +101,6 @@ function MenuItems() {
       <ProfileCard />
       <Hr orientation="horizontal" className="my-1" />
       <AsideNavLinks />
-      <Hr orientation="horizontal" className="my-1" />
       <NewEntryBtn />
       <EntrySearchModalTrigger>
         <div className="w-full flex items-center p-2 gap-2 hover:bg-zinc-200 transition-all duration-150 rounded-md font-semibold">
