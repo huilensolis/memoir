@@ -1,4 +1,4 @@
-name: Run Api Tests
+name: Run Client Tests
 run-name: ${{ github.actor }} is testing out ${{ github.event.pull_request.title }}
 
 on:
@@ -6,15 +6,15 @@ on:
     branches:
       - main
     paths:
-      - "./apps/api/**"
+      - "./apps/client/**"
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    imeout-minutes: 5
     defaults:
       run:
         shell: bash
-        working-directory: apps/api
     environment: Preview
     steps:
       - uses: actions/checkout@v4
@@ -25,20 +25,16 @@ jobs:
         with:
           version: "v2.24.1" # the full version of `docker-compose` command
       - name: Install npm dependencies
-        run: pwd && bun i
+        run: bun i
+      - name: install playwright browsers
+        working-directory: ./apps/client
+        run: bunx playwright install --with-deps
       - name: Create .env file
+        working-directory: ./apps/client
         run: |
           touch .env
-          echo PORT=3000 >> .env
-          echo JWT_SECRET="secret" >> .env
-          echo POSTGRES_DATABASE="memoir_db" >> .env
-          echo POSTGRES_USER="memoir_user" >> .env
-          echo POSTGRES_PASSWORD="memoir_password" >> .env
-          echo NODE_ENV="test" >> .env
-          echo ORIGIN="localhost:3001" >> .env
-          echo API_URL="http://localhost:3000" >> .env
-          echo DATABASE_URL="empty-string" >> .env
-      - name: Run set up environment script
-        run: bun run setup
+          echo NEXT_PUBLIC_SITE=http://localhost:3000 >> .env
+          echo API_URL=http://localhost:3001 >> .env
       - name: Run tests
+        working-directory: ./apps/client
         run: bun run test

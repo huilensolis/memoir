@@ -8,7 +8,7 @@
     "dev": {
       "dependsOn": ["setup"],
       "cache": true,
-      "inputs": ["./src", "!./tests/**"]
+      "inputs": ["./src/**", "!./tests/**"]
     },
     "setup": {
       "cache": false,
@@ -19,13 +19,13 @@
     },
     "test": {
       "cache": true,
-      "inputs": ["tests/**", ".env"],
+      "inputs": ["tests/**", ".env", "!./src/**"],
       "dependsOn": ["setup"]
     },
     "start": {
       "cache": true,
-      "inputs": ["./**"],
-      "dependsOn": ["migrate"]
+      "inputs": ["./src/**", "!./tests/**", ".env"],
+      "dependsOn": ["setup"]
     },
     "generate-migration": {
       "cache": false

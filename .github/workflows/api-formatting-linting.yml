@@ -1,4 +1,4 @@
-name: Api Formatting and Linter check
+name: Api Formatting and Linting
 run-name: Run Linter and Formatter on ${{ github.event.pull_request.title }} by ${{ github.event.sender.login }}
 
 on:
@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "apps/api/**"
+      - "./apps/api/**"
 
 jobs:
   formatting:
@@ -25,6 +25,10 @@ jobs:
         run: bun install
       - name: Format
         run: bun run format
+      - name: stage changes
+      - run: git commit -m 'formatting'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   linting:
     needs: formatting
     runs-on: ubuntu-latest

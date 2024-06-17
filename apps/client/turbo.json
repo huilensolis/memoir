@@ -3,11 +3,16 @@
   "tasks": {
     "build": {
       "outputs": [".next/**"],
-      "cache": true,
-      "inputs": ["!tests/**", ".env.local"]
+      "inputs": [
+        "!tests/**",
+        ".env.local",
+        "./src/**",
+        "./tsconfig.json",
+        "./tailwind.config.ts",
+        "./postcss.config.js"
+      ]
     },
     "dev": {
-      "cache": true,
       "inputs": [
         ".env.local",
         "vitest.config",
@@ -20,6 +25,20 @@
       ]
     },
     "lint": {},
-    "start": {}
+    "start": {
+      "dependsOn": ["build"],
+      "inputs": [
+        ".env.local",
+        "!./tests/**",
+        "./src/**",
+        "./tsconfig.json",
+        "./tailwind.config.ts",
+        "./postcss.config.js"
+      ]
+    },
+    "test": {
+      "dependsOn": ["start"],
+      "inputs": ["./tests/**", "./playwright.config.ts", ".env.local", "!./**"]
+    }
   }
 }

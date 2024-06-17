@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo no test provided"
+    "format": "prettier . --write",
+    "test": "playwright test"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
