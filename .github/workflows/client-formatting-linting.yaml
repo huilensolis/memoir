@@ -6,9 +6,9 @@ on:
     branches:
       - main
     paths:
-      - "apps/client/**"
+      - "./apps/client/**"
     paths-ignore:
-      - "apps/api/**"
+      - "./apps/api/**"
 
 jobs:
   formatting:
