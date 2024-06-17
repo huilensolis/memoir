@@ -36,8 +36,8 @@ export default defineConfig({
       url: "http://localhost:3001/health",
       stderr: "pipe",
       stdout: "pipe",
-      timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
+      timeout: 1000 * 60 * 12,
     },
     {
       command: "bunx turbo start",
@@ -45,6 +45,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       stderr: "pipe",
       stdout: "pipe",
+      timeout: 1000 * 60 * 12,
     },
   ],
 
