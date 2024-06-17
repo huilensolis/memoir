@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/modal";
 import { EntryService } from "@/models/api/entry";
 import { ClientRoutingService } from "@/models/routing/client";
-import { Entry } from "@/types/entry";
+import type { Entry } from "@/types/entry";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 export function DeleteEntryModalTrigger({
   children,
@@ -37,7 +37,7 @@ export function DeleteEntryModalTrigger({
       const { error } = await EntryService.deleteEntryById({ entryId });
 
       if (error) {
-        throw new Error(error as string);
+        throw new Error(error);
       }
 
       if (pathName === ClientRoutingService.app.entries.readById(entryId)) {

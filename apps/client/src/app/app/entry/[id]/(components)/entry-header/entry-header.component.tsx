@@ -3,7 +3,7 @@
 import { DeleteEntryModalTrigger } from "@/components/feature/delete-entry-modal";
 import { Trash } from "lucide-react";
 import { EntryState } from "./entry-state";
-import { Entry } from "@/types/entry";
+import type { Entry } from "@/types/entry";
 
 export function EntryHeader({ entryId }: { entryId: Entry["id"] }) {
   return (
