@@ -48,7 +48,7 @@ export function EntrySearchModalProvider() {
       {createPortal(
         <FocusTrap>
           <div
-            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-[51] overflow-y-hidden"
+            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-neutral-900/20 z-[9999] overflow-y-hidden"
             onClick={toggleModal}
           >
             <Command

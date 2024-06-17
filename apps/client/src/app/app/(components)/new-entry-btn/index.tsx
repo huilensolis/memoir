@@ -49,7 +49,7 @@ export function NewEntryFunction() {
         className="flex h-full w-full p-8 bg-neutral-50 border-2 border-zinc-200/40 rounded-md hover:border-zinc-300 transition-all duration-150"
         type="submit"
       >
-        <article className="flex flex-col gap-16 items-start justify-between">
+        <article className="flex flex-col gap-16 justify-between">
           <section className="flex flex-col gap-8">
             <header className="w-full flex flex-col">
               {loading ? (
@@ -59,10 +59,8 @@ export function NewEntryFunction() {
               )}
             </header>
             <section>
-              <h2 className="font-bold text-xl text-start">New Entry</h2>
-              <p className="text-start">
-                Create a new Document Entry from Scratch
-              </p>
+              <h2 className="font-bold text-xl">New Entry</h2>
+              <p>Create a new Document Entry from Scratch</p>
             </section>
           </section>
           <strong>Get Started</strong>

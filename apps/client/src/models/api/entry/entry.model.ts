@@ -56,6 +56,8 @@ export class EntryService extends ApiService {
 
       return { entryId: id, error: null };
     } catch (error) {
+      console.log({ error });
+
       return { entryId: null, error: JSON.stringify(error) };
     }
   }
@@ -136,30 +138,6 @@ export class EntryService extends ApiService {
       return { error: null };
     } catch (error) {
       return { error: JSON.stringify(error) };
-    }
-  }
-  public static async deleteEntryById({
-    entryId,
-  }: {
-    entryId: Entry["id"];
-  }): Promise<{ error: string | null }> {
-    try {
-      const { status } = await axios.delete(
-        ApiRoutingService.routing.entry.deleteById(entryId),
-      );
-
-      if (status !== 201)
-        throw new Error(
-          "expected status code of 200 but found" +
-            " " +
-            status +
-            " " +
-            " while trying to delete entry by id",
-        );
-
-      return { error: null };
-    } catch (error) {
-      return { error: "there has been an error deleting the entry" };
     }
   }
 }
