@@ -19,7 +19,7 @@ async function awaitForDocker() {
     database: "memoir_db",
   });
 
-  for (let i = 0; i <= 20; i++) {
+  for (let i = 0; i <= 10; i++) {
     try {
       await pool.connect();
       console.log("connected succesfully to database!");
@@ -30,7 +30,7 @@ async function awaitForDocker() {
       console.log(`attempt ${i} of 10`);
 
       await Bun.sleep(5000);
-      if (i >= 20) throw new Error(JSON.stringify(error));
+      if (i >= 10) throw new Error(JSON.stringify(error));
     }
   }
 }

@@ -30,7 +30,20 @@ jobs:
       - name: install playwright browsers
         working-directory: ./apps/client
         run: bunx playwright install --with-deps
-      - name: Create .env file
+      - name: Create .env file on api dir
+        working-directory: ./apps/api
+        run: |
+          touch .env
+          echo PORT=3000 >> .env
+          echo JWT_SECRET="secret" >> .env
+          echo POSTGRES_DATABASE="memoir_db" >> .env
+          echo POSTGRES_USER="memoir_user" >> .env
+          echo POSTGRES_PASSWORD="memoir_password" >> .env
+          echo NODE_ENV="test" >> .env
+          echo ORIGIN="localhost:3001" >> .env
+          echo API_URL="http://localhost:3000" >> .env
+          echo DATABASE_URL="empty-string" >> .env
+      - name: Create .env file on client dir
         working-directory: ./apps/client
         run: |
           touch .env
