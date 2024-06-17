@@ -1,19 +1,40 @@
 "use client";
 
-import { DeleteEntryModalTrigger } from "@/components/feature/delete-entry-modal";
-import { Trash } from "lucide-react";
-import { EntryState } from "./entry-state";
-import { Entry } from "@/types/entry";
+import { Activity, PackageCheck } from "lucide-react";
+import { useEntryStore } from "../../(store)/entry-store";
+import { Spinner } from "@/components/ui/spinner";
+import { useBeforeUnloading } from "@/hooks/use-before-unloading";
 
-export function EntryHeader({ entryId }: { entryId: Entry["id"] }) {
+export function EntryHeader() {
+  const getEntryState = useEntryStore((state) => state.getState);
+  const entryState = useEntryStore((state) => state.state);
+
+  useBeforeUnloading(
+    (e: BeforeUnloadEvent) => {
+      if (getEntryState() === "up to date") return;
+
+      e.preventDefault();
+      e.returnValue = true;
+
+      window.alert(
+        "Are you sure you want to leave this page? your changes has not been saved yet",
+      );
+    },
+    [entryState],
+  );
+
   return (
-    <header className="w-full flex justify-end gap-2">
-      <EntryState />
-      <DeleteEntryModalTrigger entryId={entryId}>
-        <button className="hover:bg-zinc-200 py-2 px-3 rounded-sm">
-          <Trash className="w-5 h-5" />
-        </button>
-      </DeleteEntryModalTrigger>
+    <header className="w-full flex justify-end">
+      <div className="flex justify-center items-center gap-1">
+        {entryState}
+        {entryState === "up to date" ? (
+          <PackageCheck className="w-5 h-5" />
+        ) : entryState === "waiting" ? (
+          <Activity className="w-5 h-5" />
+        ) : (
+          <Spinner />
+        )}
+      </div>
     </header>
   );
 }
