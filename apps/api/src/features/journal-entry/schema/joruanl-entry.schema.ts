@@ -1,16 +1,18 @@
 import { Users } from "@/features/user/schema";
 import {
-  pgTable,
-  integer,
-  varchar,
   boolean,
-  uuid,
-  timestamp,
+  integer,
   json,
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
 } from "drizzle-orm/pg-core";
 
-type TDocumentContent = {
-  type: "doc";
+export type TDocType = "doc";
+
+export type TDocumentContent = {
+  type: TDocType | string;
   content: Record<string, unknown>[];
 };
 

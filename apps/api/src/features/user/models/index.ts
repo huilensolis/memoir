@@ -1,3 +1,3 @@
-import type { User, NewUser } from "./user.model";
+import type { NewUser, User } from "./user.model";
 
 export type { User, NewUser };

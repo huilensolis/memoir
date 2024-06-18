@@ -1,12 +1,14 @@
 import { db } from "@/config/database";
-import { JournalEntry } from "../schema";
-import { and, eq, ilike } from "drizzle-orm";
 import type { TReturnHanler } from "@/shared/models/promises";
+import { and, eq, ilike, isNotNull, sql } from "drizzle-orm";
 import type {
+  TDocType,
+  TDocumentContent,
   TInsertJournalEntry,
   TNewJournalEntry,
   TReadJournalEntry,
 } from "../models/joruanl-entry.models";
+import { JournalEntry } from "../schema";
 
 export class JournalEntryProvider {
   static async getPrivateEntryById({
@@ -75,7 +77,14 @@ export class JournalEntryProvider {
     userId: TReadJournalEntry["user_id"];
   }): Promise<TReturnHanler<TReadJournalEntry, string>> {
     const newEntryValues: TNewJournalEntry = {
-      content: [],
+      content: {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+          },
+        ],
+      },
       ...entry,
       user_id: userId,
     };
@@ -125,7 +134,9 @@ export class JournalEntryProvider {
       await db
         .update(JournalEntry)
         .set(values)
-        .where(eq(JournalEntry.id, entryId));
+        .where(
+          and(eq(JournalEntry.id, entryId), isNotNull(JournalEntry.end_date)),
+        );
 
       return { error: null };
     } catch (error) {
