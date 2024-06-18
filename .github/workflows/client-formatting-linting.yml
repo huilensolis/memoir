@@ -24,10 +24,11 @@ jobs:
         run: bun install
       - name: Format
         run: bun run format
-      - name: stage changes
-        run: git commit -m 'formatting'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: format code
   linting:
     needs: formatting
     runs-on: ubuntu-latest
