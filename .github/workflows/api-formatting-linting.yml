@@ -17,6 +17,8 @@ jobs:
     environment: Preview
     steps:
       - uses: actions/checkout@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
