@@ -1,11 +1,11 @@
 type TSuccessfulReturn<D> = {
-  error: null;
-  data: D;
+	error: null;
+	data: D;
 };
 
 type TFailedReturn<E> = {
-  data: null;
-  error: E;
+	data: null;
+	error: E;
 };
 
 /**

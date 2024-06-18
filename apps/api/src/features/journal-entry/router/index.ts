@@ -1,11 +1,11 @@
 import { isAuthenticated } from "@/shared/middlewares/auth";
 import Elysia, { error, t } from "elysia";
+import { JournalEntryAdapter } from "../adapters";
 import {
   JournalEntryInsertSchema,
   JournalEntrySafeSchema,
 } from "../models/joruanl-entry.models";
 import { JournalEntryProvider } from "../providers";
-import { JournalEntryAdapter } from "../adapters";
 
 export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
   app
@@ -41,11 +41,17 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
           const unsafeUserJournalEntries =
             await JournalEntryProvider.getEntriesListByUserId(user.id);
 
-          if (typeof unsafeUserJournalEntries.length === "undefined")
-            throw new Error("could not found user journal entries");
-
           const safeJournalEntries = unsafeUserJournalEntries.map((entry) => {
-            const { safeEntry } = JournalEntryAdapter.toSafeEntry(entry);
+            const { entry: notDeletedEntry } =
+              JournalEntryAdapter.toNotDeleted(entry);
+
+            if (!notDeletedEntry) {
+              throw new Error("entry is deleted");
+            }
+
+            const { safeEntry } =
+              JournalEntryAdapter.toSafeEntry(notDeletedEntry);
+
             return safeEntry;
           });
 
@@ -65,19 +71,31 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
     .get(
       "/:id",
       async ({ user, error, set, params }) => {
-        const journalEntry = await JournalEntryProvider.getPrivateEntryById({
-          entryId: params.id,
-          userId: user.id,
-        });
+        try {
+          const journalEntry = await JournalEntryProvider.getPrivateEntryById({
+            entryId: params.id,
+            userId: user.id,
+          });
 
-        if (!journalEntry) {
+          if (!journalEntry) {
+            return error("Not Found", {});
+          }
+
+          const { entry: notDeletedEntry } =
+            JournalEntryAdapter.toNotDeleted(journalEntry);
+
+          if (!notDeletedEntry) {
+            throw new Error("Entry Deleted");
+          }
+
+          const { safeEntry } =
+            JournalEntryAdapter.toSafeEntry(notDeletedEntry);
+
+          set.status = "OK";
+          return safeEntry;
+        } catch (e) {
           return error("Not Found", {});
         }
-
-        const { safeEntry } = JournalEntryAdapter.toSafeEntry(journalEntry);
-
-        set.status = "OK";
-        return safeEntry;
       },
       {
         params: t.Object({ id: t.String() }),
@@ -95,7 +113,7 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
 
           if (error) throw new Error(error);
 
-          set.status = "Created";
+          set.status = "Accepted";
           return {};
         } catch (e) {
           return error("Internal Server Error", {});

@@ -1,41 +1,41 @@
 {
-  "extends": ["//"],
-  "tasks": {
-    "build": {
-      "outputs": ["./dist/**"],
-      "cache": true,
-      "dependsOn": ["setup"]
-    },
-    "dev": {
-      "dependsOn": ["setup"],
-      "cache": true,
-      "inputs": ["./src/**", "!./tests/**"]
-    },
-    "setup": {
-      "cache": false,
-      "inputs": ["scripts/**", "compose.yaml", "drizzle.config.ts", ".env"]
-    },
-    "clean-up": {
-      "cache": false
-    },
-    "test": {
-      "cache": true,
-      "inputs": ["tests/**", ".env", "!./src/**"],
-      "dependsOn": ["setup"]
-    },
-    "start": {
-      "cache": true,
-      "inputs": ["./src/**", "!./tests/**", ".env"],
-      "dependsOn": ["build"]
-    },
-    "generate-migration": {
-      "cache": false
-    },
-    "migrate": {
-      "dependsOn": ["generate-migration"]
-    },
-    "lint": {},
-    "format": {},
-    "check": {}
-  }
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"outputs": ["./dist/**"],
+			"cache": true,
+			"dependsOn": ["setup"]
+		},
+		"dev": {
+			"dependsOn": ["setup"],
+			"cache": true,
+			"inputs": ["./src/**", "!./tests/**"]
+		},
+		"setup": {
+			"cache": false,
+			"inputs": ["scripts/**", "compose.yaml", "drizzle.config.ts", ".env"]
+		},
+		"clean-up": {
+			"cache": false
+		},
+		"test": {
+			"cache": true,
+			"inputs": ["tests/**", ".env", "!./src/**"],
+			"dependsOn": ["setup"]
+		},
+		"start": {
+			"cache": true,
+			"inputs": ["./src/**", "!./tests/**", ".env"],
+			"dependsOn": ["build"]
+		},
+		"generate-migration": {
+			"cache": false
+		},
+		"migrate": {
+			"dependsOn": ["generate-migration"]
+		},
+		"lint": {},
+		"format": {},
+		"check": {}
+	}
 }

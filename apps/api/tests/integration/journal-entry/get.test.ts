@@ -1,15 +1,15 @@
 import { Value } from "@sinclair/typebox/value";
 
-import { app } from "@/app";
-import { createUser } from "@/tests/lib/user";
 import { describe, expect, it, test } from "bun:test";
-import { endpointPath } from ".";
+import { app } from "@/app";
 import {
   JournalEntrySafeSchema,
   type TJournalEntrySafe,
 } from "@/features/journal-entry/models/joruanl-entry.models";
-import { createNewEntry } from "@/tests/lib/journal";
 import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { createNewEntry } from "@/tests/lib/journal";
+import { createUser } from "@/tests/lib/user";
+import { endpointPath } from ".";
 
 describe("Test GET method on journal entries endpoints", () => {
   describe("GET private user journal entries", () => {

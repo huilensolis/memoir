@@ -1,10 +1,10 @@
-import Elysia from "elysia";
 import swagger from "@elysiajs/swagger";
-import { Routes } from "./config/routing";
-import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users";
+import Elysia from "elysia";
 import { helmet } from "elysia-helmet";
 import { Environment } from "./config/environment";
+import { Routes } from "./config/routing";
 import { pluginCronCleanDeletedJournalEntries } from "./shared/plugins/cron/remove-entries";
+import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users";
 
 const app = new Elysia();
 // app.use(
@@ -15,9 +15,9 @@ const app = new Elysia();
 // );
 app.use(swagger({ path: "/docs", autoDarkMode: true }));
 app.use(
-  helmet({
-    contentSecurityPolicy: Boolean(Environment.NODE_ENV === "production"),
-  }),
+	helmet({
+		contentSecurityPolicy: Boolean(Environment.NODE_ENV === "production"),
+	}),
 );
 
 app.use(Routes);

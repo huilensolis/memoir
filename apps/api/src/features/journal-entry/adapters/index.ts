@@ -11,4 +11,14 @@ export class JournalEntryAdapter {
 
     return { safeEntry: safeKeys };
   }
+
+  static toNotDeleted<T extends TJournalEntrySafe | TReadJournalEntry>(
+    entry: T,
+  ): { entry: T | null } {
+    if (entry.end_date === null) {
+      return { entry };
+    }
+
+    return { entry: null };
+  }
 }
