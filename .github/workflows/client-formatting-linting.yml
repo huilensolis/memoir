@@ -1,5 +1,5 @@
 name: Client Formatting and Linting
-run-name: Run Linter and Formatter on ${{ github.event.pull_request.title }} by ${{ github.event.sender.login }}
+run-name: Run client Linter and Formatter on ${{ github.event.pull_request.title }} by ${{ github.event.sender.login }}
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: apps/api
+        working-directory: apps/client
     environment: Preview
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: apps/api
+        working-directory: apps/client
     environment: Preview
     steps:
       - uses: actions/checkout@v4
