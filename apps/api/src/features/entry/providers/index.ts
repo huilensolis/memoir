@@ -1,6 +1,6 @@
 import { db } from "@/config/database";
 import type { TReturnHanler } from "@/shared/models/promises";
-import { and, eq, ilike, isNotNull } from "drizzle-orm";
+import { and, eq, ilike, isNull } from "drizzle-orm";
 import type {
   TInsertEntry,
   TNewEntry,
@@ -121,7 +121,7 @@ export class EntryProvider {
       await db
         .update(Entry)
         .set(values)
-        .where(and(eq(Entry.id, entryId), isNotNull(Entry.end_date)));
+        .where(and(eq(Entry.id, entryId), isNull(Entry.end_date)));
 
       return { error: null };
     } catch (error) {

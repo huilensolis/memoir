@@ -125,7 +125,7 @@ export const EntryRoutes = new Elysia().group("/entry", (app) =>
 
           if (error) throw new Error(error);
 
-          set.status = "Created";
+          set.status = "No Content";
           return {};
         } catch (e) {
           return error("Internal Server Error", {});
