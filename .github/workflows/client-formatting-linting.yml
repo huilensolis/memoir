@@ -20,6 +20,8 @@ jobs:
     environment: Preview
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
