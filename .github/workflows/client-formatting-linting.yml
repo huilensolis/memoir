@@ -31,7 +31,6 @@ jobs:
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
           author_name: Github Action
-          cwd: "./apps/client"
           message: "format(client): formatt code"
   linting:
     needs: formatting
