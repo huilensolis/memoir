@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest # or "latest", "canary", <sha>
@@ -26,12 +26,11 @@ jobs:
         run: bun install
       - name: Format
         run: bun run format
-      - name: Commit and push changes
-        uses: devops-infra/action-commit-push@master
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: format code
-          target_branch: ${{ github.event.pull_request.head.ref }}
+          author_name: Github Action
+          message: "format(api): formatt code"
+          push: true
   linting:
     needs: formatting
     runs-on: ubuntu-latest
