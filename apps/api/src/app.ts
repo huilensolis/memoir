@@ -3,7 +3,7 @@ import Elysia from "elysia";
 import { helmet } from "elysia-helmet";
 import { Environment } from "./config/environment";
 import { Routes } from "./config/routing";
-import { pluginCronCleanDeletedJournalEntries } from "./shared/plugins/cron/remove-entries";
+import { pluginCronCleanDeletedEntries } from "./shared/plugins/cron/remove-entries";
 import { pluginCronCleanInactiveUsers } from "./shared/plugins/cron/remove-users";
 
 const app = new Elysia();
@@ -22,6 +22,6 @@ app.use(
 
 app.use(Routes);
 app.use(pluginCronCleanInactiveUsers);
-app.use(pluginCronCleanDeletedJournalEntries);
+app.use(pluginCronCleanDeletedEntries);
 
 export { app };

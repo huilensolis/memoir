@@ -1,24 +1,20 @@
 import { isAuthenticated } from "@/shared/middlewares/auth";
 import Elysia, { error, t } from "elysia";
-import { JournalEntryAdapter } from "../adapters";
-import {
-  JournalEntryInsertSchema,
-  JournalEntrySafeSchema,
-} from "../models/joruanl-entry.models";
-import { JournalEntryProvider } from "../providers";
+import { EntryAdapter } from "../adapters";
+import { EntryInsertSchema, EntrySafeSchema } from "../models/entry.models";
+import { EntryProvider } from "../providers";
 
-export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
+export const EntryRoutes = new Elysia().group("/entry", (app) =>
   app
     .use(isAuthenticated)
     .post(
       "/",
       async ({ user, body, set }) => {
         try {
-          const { data: newEntry, error } =
-            await JournalEntryProvider.createEntry({
-              entry: body,
-              userId: user.id,
-            });
+          const { data: newEntry, error } = await EntryProvider.createEntry({
+            entry: body,
+            userId: user.id,
+          });
 
           if (error || !newEntry)
             throw new Error(error ?? "error creating entry");
@@ -30,7 +26,7 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
         }
       },
       {
-        body: JournalEntryInsertSchema,
+        body: EntryInsertSchema,
         response: { 201: t.Object({ id: t.String() }), 500: t.Object({}) },
       },
     )
@@ -38,32 +34,31 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
       "/",
       async ({ user, set }) => {
         try {
-          const unsafeUserJournalEntries =
-            await JournalEntryProvider.getEntriesListByUserId(user.id);
+          const unsafeUserEntries = await EntryProvider.getEntriesListByUserId(
+            user.id,
+          );
 
-          const safeJournalEntries = unsafeUserJournalEntries.map((entry) => {
-            const { entry: notDeletedEntry } =
-              JournalEntryAdapter.toNotDeleted(entry);
+          const safeEntries = unsafeUserEntries.map((entry) => {
+            const { entry: notDeletedEntry } = EntryAdapter.toNotDeleted(entry);
 
             if (!notDeletedEntry) {
               throw new Error("entry is deleted");
             }
 
-            const { safeEntry } =
-              JournalEntryAdapter.toSafeEntry(notDeletedEntry);
+            const { safeEntry } = EntryAdapter.toSafeEntry(notDeletedEntry);
 
             return safeEntry;
           });
 
           set.status = "OK";
-          return safeJournalEntries;
+          return safeEntries;
         } catch (e) {
           return error("Internal Server Error", {});
         }
       },
       {
         response: {
-          200: t.Array(JournalEntrySafeSchema),
+          200: t.Array(EntrySafeSchema),
           500: t.Object({}),
         },
       },
@@ -72,24 +67,22 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
       "/:id",
       async ({ user, error, set, params }) => {
         try {
-          const journalEntry = await JournalEntryProvider.getPrivateEntryById({
+          const entry = await EntryProvider.getPrivateEntryById({
             entryId: params.id,
             userId: user.id,
           });
 
-          if (!journalEntry) {
+          if (!entry) {
             return error("Not Found", {});
           }
 
-          const { entry: notDeletedEntry } =
-            JournalEntryAdapter.toNotDeleted(journalEntry);
+          const { entry: notDeletedEntry } = EntryAdapter.toNotDeleted(entry);
 
           if (!notDeletedEntry) {
             throw new Error("Entry Deleted");
           }
 
-          const { safeEntry } =
-            JournalEntryAdapter.toSafeEntry(notDeletedEntry);
+          const { safeEntry } = EntryAdapter.toSafeEntry(notDeletedEntry);
 
           set.status = "OK";
           return safeEntry;
@@ -99,14 +92,14 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
       },
       {
         params: t.Object({ id: t.String() }),
-        response: { 200: JournalEntrySafeSchema, 404: t.Object({}) },
+        response: { 200: EntrySafeSchema, 404: t.Object({}) },
       },
     )
     .delete(
       "/:id",
       async ({ params: { id: entryId }, set, user }) => {
         try {
-          const { error } = await JournalEntryProvider.deleteEntry({
+          const { error } = await EntryProvider.deleteEntry({
             entryId,
             userId: user.id,
           });
@@ -125,7 +118,7 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
       "/:id",
       async ({ params: { id }, set, body }) => {
         try {
-          const { error } = await JournalEntryProvider.updateEntry({
+          const { error } = await EntryProvider.updateEntry({
             entryId: id,
             values: body,
           });
@@ -140,7 +133,7 @@ export const JournalEntryRoutes = new Elysia().group("/journal", (app) =>
       },
       {
         params: t.Object({ id: t.String() }),
-        body: JournalEntryInsertSchema,
+        body: EntryInsertSchema,
         response: {
           201: t.Object({}),
           500: t.Object({}),
