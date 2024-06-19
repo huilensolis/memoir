@@ -53,7 +53,7 @@ const satoshi = localFont({
 const projectURL =
   process.env.NODE_ENV === "production"
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "https//localhost:300";
+    : "https://localhost:3000";
 
 export const metadata: Metadata = {
   title: "Memoir",

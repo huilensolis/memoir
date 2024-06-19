@@ -48,6 +48,9 @@ export function CommandMenu({
             >
               <button
                 className="w-full flex items-center"
+                onMouseEnter={() => {
+                  setIndexOfCurrentOption(i);
+                }}
                 onClick={() => {
                   setIndexOfCurrentOption(i);
                   handleSelect(editor);
