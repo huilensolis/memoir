@@ -2,6 +2,12 @@ import { EntrySearchModalTrigger } from "@/components/feature/entry-search-modal
 import { Search } from "lucide-react";
 import { NewEntryFunction } from "./(components)/new-entry-btn";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home - Memoir",
+};
+
 export default function AppPage() {
   return (
     <main className="w-full min-h-screen p-2 flex items-center justify-center bg-neutral-100">
