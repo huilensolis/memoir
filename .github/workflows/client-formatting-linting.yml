@@ -25,11 +25,12 @@ jobs:
       - name: Format
         run: bun run format
       - name: Commit and push changes
-        uses: devops-infra/action-commit-push@master
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: format code
-          target_branch: ${{ github.event.pull_request.head.ref }}
+          author_name: Github Action
+          author_email: mail@example.com
+          cwd: "./apps/client"
+          message: "format(client): formatt code"
   linting:
     needs: formatting
     runs-on: ubuntu-latest
