@@ -52,7 +52,7 @@ const satoshi = localFont({
 
 export const metadata: Metadata = {
   title: "Memoir",
-  description: "A new way to write your joruanl",
+  description: "Text editor - focus in writting, not in the tools",
 };
 
 export default function RootLayout({

@@ -1,41 +1,35 @@
 import { db } from "@/config/database";
-import { JournalEntry } from "@/features/journal-entry/schema";
+import { Entry } from "@/features/entry/schema";
 import cron from "@elysiajs/cron";
 import { eq, isNotNull } from "drizzle-orm";
-import Elysia from "elysia";
+import type Elysia from "elysia";
 
-export const pluginCronCleanDeletedJournalEntries = (app: Elysia) =>
-	app.use(
-		cron({
-			pattern: "@daily",
-			name: "clean-deleted-journal-entries",
-			async run(store) {
-				const deletedJournalEntries = await db
-					.select()
-					.from(JournalEntry)
-					.where(isNotNull(JournalEntry.end_date));
-				if (!deletedJournalEntries.length || deletedJournalEntries.length === 0)
-					return;
+export const pluginCronCleanDeletedEntries = (app: Elysia) =>
+  app.use(
+    cron({
+      pattern: "@daily",
+      name: "clean-deleted-entries",
+      async run(store) {
+        const deletedEntries = await db
+          .select()
+          .from(Entry)
+          .where(isNotNull(Entry.end_date));
+        if (!deletedEntries.length || deletedEntries.length === 0) return;
 
-				const today = new Date();
+        const today = new Date();
 
-				for await (const deletedEntry of deletedJournalEntries) {
-					if (
-						deletedEntry.end_date !== null &&
-						deletedEntry.end_date.getTime() < today.getTime()
-					) {
-						try {
-							await db
-								.delete(JournalEntry)
-								.where(eq(JournalEntry.id, deletedEntry.id));
-						} catch (error) {
-							console.log(
-								"could not delete journal entry with id:",
-								deletedEntry.id,
-							);
-						}
-					}
-				}
-			},
-		}),
-	);
+        for await (const deletedEntry of deletedEntries) {
+          if (
+            deletedEntry.end_date !== null &&
+            deletedEntry.end_date.getTime() < today.getTime()
+          ) {
+            try {
+              await db.delete(Entry).where(eq(Entry.id, deletedEntry.id));
+            } catch (error) {
+              console.log("could not delete entry with id:", deletedEntry.id);
+            }
+          }
+        }
+      },
+    }),
+  );

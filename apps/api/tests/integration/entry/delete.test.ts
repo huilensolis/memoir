@@ -1,23 +1,23 @@
 import { describe, expect, it, test } from "bun:test";
 import { app } from "@/app";
 import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
-import { createNewEntry } from "@/tests/lib/journal";
+import { createNewEntry } from "@/tests/lib/entry";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
 
-describe("Test DELETE method on journal entries endpoints", () => {
-  describe("Delete own journal entry succesfully", async () => {
+describe("Test DELETE method on entries endpoints", () => {
+  describe("Delete own entry succesfully", async () => {
     const { cookie } = await createUser({});
 
-    const { journalEntryId } = await createNewEntry(
+    const { EntryId } = await createNewEntry(
       { title: "test", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
       cookie,
     );
 
-    if (!journalEntryId) throw new Error("Journal entry not created");
+    if (!EntryId) throw new Error("Entry not created");
 
     const res = await app.handle(
-      new Request(`${endpointPath}/${journalEntryId}`, {
+      new Request(`${endpointPath}/${EntryId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -37,7 +37,7 @@ describe("Test DELETE method on journal entries endpoints", () => {
     });
   });
 
-  test.todo("Delete journal entry not ownd by user", async () => {
+  test.todo("Delete entry not ownd by user", async () => {
     it("Should return status 401", () => {});
 
     it("Should return empty object on body response", async () => {});
@@ -46,15 +46,15 @@ describe("Test DELETE method on journal entries endpoints", () => {
   describe("should not return deleted entry after delete", async () => {
     const { cookie } = await createUser({});
 
-    const { journalEntryId } = await createNewEntry(
+    const { EntryId } = await createNewEntry(
       { title: "test", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
       cookie,
     );
 
-    if (!journalEntryId) throw new Error("Journal entry not created");
+    if (!EntryId) throw new Error("entry not created");
 
     await app.handle(
-      new Request(`${endpointPath}/${journalEntryId}`, {
+      new Request(`${endpointPath}/${EntryId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -64,7 +64,7 @@ describe("Test DELETE method on journal entries endpoints", () => {
     );
 
     const res = await app.handle(
-      new Request(`${endpointPath}/${journalEntryId}`, {
+      new Request(`${endpointPath}/${EntryId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json; charset=utf-8",

@@ -9,14 +9,12 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-export type TDocType = "doc";
-
-export type TDocumentContent = {
-  type: TDocType | string;
+type TDocumentContent = {
+  type: "doc" | string;
   content: Record<string, unknown>[];
 };
 
-export const JournalEntry = pgTable("journal_entry", {
+export const Entry = pgTable("entry", {
   id: uuid("id").primaryKey().defaultRandom(),
   user_id: uuid("user_id")
     .references(() => Users.id, { onDelete: "cascade", onUpdate: "cascade" })

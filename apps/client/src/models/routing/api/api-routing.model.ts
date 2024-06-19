@@ -20,12 +20,11 @@ export class ApiRoutingService {
           this.getPath(`check-availability/email/${email}`),
       },
       entry: {
-        createEntry: this.getPath("journal"),
-        readEntryById: (entryId: string) => this.getPath(`journal/${entryId}`),
-        deleteById: (entryId: string) => this.getPath(`journal/${entryId}`),
-        updateEntryById: (entryId: string) =>
-          this.getPath(`journal/${entryId}`),
-        getEntryList: this.getPath("journal/"),
+        createEntry: this.getPath("entry"),
+        readEntryById: (entryId: string) => this.getPath(`entry/${entryId}`),
+        deleteById: (entryId: string) => this.getPath(`entry/${entryId}`),
+        updateEntryById: (entryId: string) => this.getPath(`entry/${entryId}`),
+        getEntryList: this.getPath("entry"),
       },
     };
   }

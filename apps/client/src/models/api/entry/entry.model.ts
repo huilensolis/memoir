@@ -124,7 +124,7 @@ export class EntryService extends ApiService {
         { signal },
       );
 
-      if (status !== 201)
+      if (status !== 204)
         throw new Error(
           "api was expected to return status code of 201 but returned:" +
             " " +
@@ -149,7 +149,7 @@ export class EntryService extends ApiService {
         ApiRoutingService.routing.entry.deleteById(entryId),
       );
 
-      if (status !== 201)
+      if (status !== 202)
         throw new Error(
           "expected status code of 200 but found" +
             " " +

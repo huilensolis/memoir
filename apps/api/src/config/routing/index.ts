@@ -1,5 +1,5 @@
+import { EntryRoutes } from "@/features/entry/router/";
 import { HealthRouter } from "@/features/health/router";
-import { JournalEntryRoutes } from "@/features/journal-entry/router/";
 import { AuthRouter, UserRouter } from "@/features/user/router";
 import Elysia, { error } from "elysia";
 
@@ -25,6 +25,6 @@ Routes.onError(({ code, error: e }) => {
 Routes.use(HealthRouter);
 Routes.use(AuthRouter);
 Routes.use(UserRouter);
-Routes.use(JournalEntryRoutes);
+Routes.use(EntryRoutes);
 
 export { Routes };
