@@ -50,9 +50,28 @@ const satoshi = localFont({
   ],
 });
 
+const projectURL =
+  process.env.NODE_ENV === "production"
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https//localhost:300";
+
 export const metadata: Metadata = {
   title: "Memoir",
   description: "Text editor - focus in writting, not in the tools",
+  metadataBase: new URL(projectURL),
+  openGraph: {
+    title: "Memoir",
+    description: "Text editor - focus in writting, not in the tools",
+    images: ["/"],
+    type: "website",
+    locale: "en-US",
+  },
+  twitter: {
+    title: "Memoir",
+    description: "Text editor - focus in writting, not in the tools",
+    images: ["/"],
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

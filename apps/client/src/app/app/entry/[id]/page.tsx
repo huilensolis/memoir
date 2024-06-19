@@ -5,6 +5,12 @@ import { EntryHeader } from "./(components)/entry-header/entry-header.component"
 import { EntryTitle } from "./(components)/entry-title/entry-title.component";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Entry - Memoir",
+};
+
 export default async function EntryPage({
   params: { id },
 }: {
