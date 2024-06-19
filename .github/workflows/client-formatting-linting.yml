@@ -31,6 +31,7 @@ jobs:
         with:
           author_name: Github Action
           message: "format(client): formatt code"
+          push: true
   linting:
     needs: formatting
     runs-on: ubuntu-latest
