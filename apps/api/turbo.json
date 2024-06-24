@@ -8,7 +8,7 @@
 		},
 		"dev": {
 			"dependsOn": ["setup"],
-			"cache": true,
+			"cache": false,
 			"inputs": ["./src/**", "!./tests/**"]
 		},
 		"setup": {

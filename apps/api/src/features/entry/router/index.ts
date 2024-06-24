@@ -38,14 +38,18 @@ export const EntryRoutes = new Elysia().group("/entry", (app) =>
 						user.id,
 					);
 
-					const safeEntries = unsafeUserEntries.map((entry) => {
+					const notDeletedEntryList = unsafeUserEntries.filter((entry) => {
 						const { entry: notDeletedEntry } = EntryAdapter.toNotDeleted(entry);
 
 						if (!notDeletedEntry) {
-							throw new Error("entry is deleted");
+							return false;
 						}
 
-						const { safeEntry } = EntryAdapter.toSafeEntry(notDeletedEntry);
+						return true;
+					});
+
+					const safeEntries = notDeletedEntryList.map((entry) => {
+						const { safeEntry } = EntryAdapter.toSafeEntry(entry);
 
 						return safeEntry;
 					});
@@ -53,6 +57,7 @@ export const EntryRoutes = new Elysia().group("/entry", (app) =>
 					set.status = "OK";
 					return safeEntries;
 				} catch (e) {
+					console.log({ e });
 					return error("Internal Server Error", {});
 				}
 			},
