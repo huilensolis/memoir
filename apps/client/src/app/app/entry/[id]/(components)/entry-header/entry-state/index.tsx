@@ -17,7 +17,7 @@ export function EntryState() {
       e.returnValue = true;
 
       window.alert(
-        "Are you sure you want to leave this page? your changes has not been saved yet",
+        "Are you sure you want to leave this page? your changes have not been saved yet",
       );
     },
     [entryState],
