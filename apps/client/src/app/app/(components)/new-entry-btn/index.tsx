@@ -1,7 +1,6 @@
 "use client";
 
 import { newEntry } from "@/actions/new-entry";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { ClientRoutingService } from "@/models/routing/client";
 import { Plus } from "lucide-react";
