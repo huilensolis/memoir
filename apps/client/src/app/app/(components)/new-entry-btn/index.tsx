@@ -1,7 +1,6 @@
 "use client";
 
 import { newEntry } from "@/actions/new-entry";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { ClientRoutingService } from "@/models/routing/client";
 import { Plus } from "lucide-react";
@@ -44,8 +43,7 @@ export function NewEntryFunction() {
       }}
       className="w-full h-full"
     >
-      <Button
-        variant="ghost"
+      <button
         className="flex h-full w-full p-8 bg-neutral-50 border-2 border-zinc-200/40 rounded-md hover:border-zinc-300 transition-all duration-150"
         type="submit"
       >
@@ -67,7 +65,7 @@ export function NewEntryFunction() {
           </section>
           <strong>Get Started</strong>
         </article>
-      </Button>
+      </button>
     </form>
   );
 }
