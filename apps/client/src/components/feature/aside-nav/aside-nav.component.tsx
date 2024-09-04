@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useAsideNavStore } from "./store";
 import { useEffect, useState } from "react";
 import { NewEntryBtn } from "./components/new-entry-btn";
+import { EntryList } from "./components/entry-list";
 
 export function AsideNav() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -54,6 +55,8 @@ export function AsideNav() {
       <div className="hidden lg:flex">
         <aside className="max-w-80 w-full h-full min-h-screen p-2 flex gap-2 flex-col items-center border-r border-neutral-300">
           <MenuItems />
+          <Hr orientation="horizontal" className="my-1" />
+          <EntryList />
         </aside>
       </div>
       <div className="lg:hidden bg-zinc-100 border-b border-gray-200 p-2">
