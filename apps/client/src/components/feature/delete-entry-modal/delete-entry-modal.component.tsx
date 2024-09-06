@@ -42,6 +42,7 @@ export function DeleteEntryModalTrigger({
 
       if (pathName === ClientRoutingService.app.entries.readById(entryId)) {
         router.push(ClientRoutingService.app.home);
+        router.refresh();
         return;
       }
 

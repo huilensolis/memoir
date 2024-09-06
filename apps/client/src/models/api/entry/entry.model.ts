@@ -88,13 +88,20 @@ export class EntryService extends ApiService {
 
   public static async getUserEntyList({
     signal,
+    cookie,
   }: {
     signal?: AbortSignal;
+    cookie?: string;
   }): Promise<{ entryList: Entry[] | null; error: string | null }> {
     try {
       const { status, data } = await axios.get<Entry[]>(
         ApiRoutingService.routing.entry.getEntryList,
-        { ...(signal && { signal }) },
+        {
+          ...(signal && { signal }),
+          headers: {
+            ...(cookie && { Cookie: cookie }),
+          },
+        },
       );
 
       if (status !== 200)

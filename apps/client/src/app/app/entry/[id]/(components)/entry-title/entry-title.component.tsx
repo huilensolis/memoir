@@ -55,6 +55,8 @@ export function EntryTitle({
       router.refresh();
     }
 
+    if (defaultValue === debouncedTitle) return;
+
     const ctrl = new AbortController();
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
