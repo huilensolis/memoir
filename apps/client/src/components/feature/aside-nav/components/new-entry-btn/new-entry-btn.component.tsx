@@ -29,6 +29,7 @@ export function NewEntryBtn() {
 
     const url = ClientRoutingService.app.entries.readById(newEntryId);
 
+    router.refresh();
     router.push(url);
 
     setLoading(false);

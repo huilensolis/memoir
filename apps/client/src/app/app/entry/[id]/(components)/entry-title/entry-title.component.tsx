@@ -5,6 +5,9 @@ import { EntryService } from "@/models/api/entry";
 import type { Entry } from "@/types/entry";
 import { useEffect, useRef, useState } from "react";
 import { useEntryStore } from "../../(store)/entry-store";
+import { cleanCache } from "@/actions/clean-cache";
+import { ClientRoutingService } from "@/models/routing/client";
+import { useRouter } from "next/navigation";
 
 export function EntryTitle({
   defaultValue = "",
@@ -23,6 +26,8 @@ export function EntryTitle({
   const renderingTimes = useRef(1);
 
   const setEntryState = useEntryStore((state) => state.setState);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (renderingTimes.current === 1) {
@@ -46,7 +51,11 @@ export function EntryTitle({
       }
 
       setEntryState("up to date");
+      await cleanCache(ClientRoutingService.app.home, "layout");
+      router.refresh();
     }
+
+    if (defaultValue === debouncedTitle) return;
 
     const ctrl = new AbortController();
 
