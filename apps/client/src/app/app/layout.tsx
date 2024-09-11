@@ -7,7 +7,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <EntrySearchModalProvider />
-      <div className="flex flex-col w-full min-h-screen">
+      <div className="flex flex-col w-full min-h-screen bg-neutral-50">
         <Suspense>
           <BannerMessage />
         </Suspense>

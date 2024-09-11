@@ -8,7 +8,6 @@ export async function EntryList() {
   if (!cookie) return <p>something went wrong</p>;
 
   const { entryList, error } = await EntryService.getUserEntyList({ cookie });
-  console.log(entryList);
 
   return (
     <ul className="w-full flex flex-col gap-2">

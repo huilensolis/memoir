@@ -46,7 +46,7 @@ export function NewEntryBtn() {
       className="w-full"
     >
       <button
-        className="flex items-center w-full gap-2 py-2 px-2 rounded-md text-md font-semibold hover:bg-zinc-200 transition-all duration-75"
+        className="flex items-center w-full gap-2 py-2 px-2 rounded-sm text-md font-semibold hover:bg-neutral-200 transition-all duration-75"
         type="submit"
       >
         {loading ? <Spinner /> : <PenTool className="w-5 h-5" />}

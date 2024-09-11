@@ -6,6 +6,5 @@ export async function cleanCache(
   path: string,
   type: "layout" | "page" = "page",
 ) {
-  console.log("cleaning cache of ", path);
   revalidatePath(path, type);
 }

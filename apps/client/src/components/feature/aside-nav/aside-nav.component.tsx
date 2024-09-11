@@ -14,13 +14,13 @@ const VIEWS = {
 
 export function AsideNav() {
   return (
-    <div className="bg-zinc-100">
+    <div className="bg-neutral-100">
       <div className="hidden lg:flex">
         <VIEWS.desktop>
           <MenuItems />
         </VIEWS.desktop>
       </div>
-      <div className="lg:hidden bg-zinc-100 border-b border-gray-200 p-2">
+      <div className="lg:hidden border-b border-gray-200 p-2">
         <VIEWS.mobile>
           <MenuItems />
         </VIEWS.mobile>
@@ -37,7 +37,7 @@ function MenuItems() {
       <AsideNavLinks />
       <NewEntryBtn />
       <EntrySearchModalTrigger>
-        <div className="w-full flex items-center p-2 gap-2 hover:bg-zinc-200 transition-all duration-150 rounded-md font-semibold">
+        <div className="w-full flex items-center p-2 gap-2 hover:bg-neutral-200 transition-all duration-150 rounded-sm font-semibold">
           <Command className="w-5 h-5" /> Search Entry
         </div>
       </EntrySearchModalTrigger>
