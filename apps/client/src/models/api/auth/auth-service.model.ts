@@ -88,6 +88,7 @@ export class AuthService extends ApiService {
           ...(cookies && { Cookie: `${API_CONFIG.cookieName}=${cookies}` }),
           "Content-Type": "application/json; utf-8",
         },
+        signal: AbortSignal.timeout(10000),
       });
 
       if (res.status !== 202) {
