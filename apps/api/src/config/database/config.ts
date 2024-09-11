@@ -2,7 +2,6 @@ import { drizzle } from "drizzle-orm/postgres-js";
 
 import postgres from "postgres";
 
-import { sql } from "drizzle-orm";
 import { Environment } from "../environment";
 import * as schema from "./schema";
 

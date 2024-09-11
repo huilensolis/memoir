@@ -21,7 +21,10 @@ export const Entry = pgTable("entry", {
 		.notNull(),
 	title: varchar("title", { length: 80 }).default("Untintled").notNull(),
 	created_at: timestamp("created_at").defaultNow().notNull(),
-	updated_at: timestamp("updated_at").defaultNow().notNull(),
+	updated_at: timestamp("updated_at")
+		.defaultNow()
+		.notNull()
+		.$onUpdateFn(() => new Date()),
 	word_count: integer("word_count").default(0).notNull(),
 	content: json("content")
 		.default({
