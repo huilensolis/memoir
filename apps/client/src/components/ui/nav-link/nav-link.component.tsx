@@ -29,10 +29,10 @@ export function NavLink({
   return (
     <Link
       href={href}
-      className={`flex w-full justify-between py-2 px-2 rounded-md text-md font-semibold transition-all duration-75 ${
+      className={`flex w-full justify-between py-2 px-2 rounded-sm text-md font-semibold transition-all duration-75 ${
         isActive
           ? "bg-primary text-neutral-50"
-          : "bg-transparent hover:bg-zinc-200"
+          : "bg-transparent hover:bg-neutral-200"
       }`}
       onClick={onClick ?? undefined}
       replace

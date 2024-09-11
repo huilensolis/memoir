@@ -1,11 +1,11 @@
 import { EntryService } from "@/models/api/entry";
 import { getCookie } from "@/utils/getCookies";
 import { EntryEditor } from "./(components)/entry-editor/entry-editor.component";
-import { EntryHeader } from "./(components)/entry-header/entry-header.component";
 import { EntryTitle } from "./(components)/entry-title/entry-title.component";
 import Link from "next/link";
 
 import type { Metadata } from "next";
+import { EntryOptions } from "./(components)/entry-options/entry-options.component";
 
 export const metadata: Metadata = {
   title: "Entry - Memoir",
@@ -47,17 +47,15 @@ export default async function EntryPage({
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-start">
-      <div className="w-full flex items-center justify-center p-2 bg-zinc-100 border-b border-gray-200">
-        <div className="max-w-4xl w-full">
-          <EntryHeader entryId={id} />
-        </div>
-      </div>
-      <main className="w-full flex justify-center py-10 px-3 lg:px-5 max-h-[calc(100vh-50px)] overflow-y-auto">
+      <main className="w-full relative flex justify-center py-10 px-3 lg:px-5">
         <div className="flex flex-col gap-3 max-w-4xl w-full h-full">
           <header className="flex flex-col">
             <EntryTitle entryId={entry.id} defaultValue={entry.title} />
           </header>
           <EntryEditor initialContent={entry.content} entry={entry} />
+          <footer className="fixed bottom-0 lg:left-80 left-0 w-full">
+            <EntryOptions entryId={id} />
+          </footer>
         </div>
       </main>
     </div>
