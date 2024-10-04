@@ -1,5 +1,5 @@
 const dbName = "database";
-const dbVersion = 1;
+const dbVersion = 2;
 
 export type TDbKeyRecord = {
   id: string;
@@ -7,7 +7,7 @@ export type TDbKeyRecord = {
   algorithm: string;
 };
 
-export function getIndexDb(): Promise<{ db: IDBDatabase }> {
+export function getIndexDb(defaultTable: string): Promise<{ db: IDBDatabase }> {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.open(dbName, dbVersion);
 
@@ -16,9 +16,8 @@ export function getIndexDb(): Promise<{ db: IDBDatabase }> {
 
       const db = (event.target as IDBOpenDBRequest).result;
 
-      if (!db.objectStoreNames.contains("keys")) {
-        const objectStore = db.createObjectStore("keys", { keyPath: "id" });
-        objectStore.createIndex("name", "name", { unique: false });
+      if (!db.objectStoreNames.contains(defaultTable)) {
+        db.createObjectStore(defaultTable, { keyPath: "id" });
       }
     };
 

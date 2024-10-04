@@ -1,62 +1,102 @@
+import { Base64Parser } from "../base64-parser";
 import { getIndexDb, type TDbKeyRecord } from "../index-db";
 
+// TODO: refactor this code because could be improved a lot!
+
 export class CryptographyCustomApi {
-  keyName: string;
+  dbObjectName: string;
+  keyIdInDb: string;
 
   constructor() {
-    this.keyName = "cryptography_key";
+    this.dbObjectName = "cryptography_key";
+    this.keyIdInDb = "key_id";
   }
 
   private async storeKey(
-    name: string,
+    id: string,
     key: CryptoKey,
     algorithm: string,
   ): Promise<undefined> {
     // eslint-disable-next-line no-async-promise-executor
     await new Promise(async (resolve, reject) => {
       try {
-        const { db } = await getIndexDb();
+        const { db } = await getIndexDb(this.dbObjectName);
 
-        const transaction = db.transaction(["keys"], "readwrite");
-        const store = transaction.objectStore("keys");
+        const request = db
+          .transaction([this.dbObjectName], "readwrite")
+          .objectStore(this.dbObjectName)
+          .get(id);
 
-        const keyData = await window.crypto.subtle.exportKey("raw", key);
+        request.onsuccess = async (event) => {
+          const keyData = await window.crypto.subtle.exportKey("raw", key);
+          const keyRecord: TDbKeyRecord = { id, key: keyData, algorithm };
 
-        const keyRecord: TDbKeyRecord = { id: name, key: keyData, algorithm };
-        store.add(keyRecord);
+          const dbRecord = (event.target as any).result as
+            | TDbKeyRecord
+            | undefined;
 
-        transaction.oncomplete = (_e) => {
-          resolve(undefined);
+          // record with the same id is already in db - perform put
+          if (dbRecord) {
+            const newRequest = db
+              .transaction([this.dbObjectName], "readwrite")
+              .objectStore(this.dbObjectName)
+              .put(keyRecord);
+
+            newRequest.onsuccess = () => {
+              console.log("success performing put to index db key");
+
+              resolve(undefined);
+            };
+
+            newRequest.onerror = () => {
+              console.log("error performing put to index db key");
+              reject(new Error("error performing put to index db key"));
+            };
+          } else {
+            const newRequest = db
+              .transaction([this.dbObjectName], "readwrite")
+              .objectStore(this.dbObjectName)
+              .add(keyRecord);
+
+            newRequest.onsuccess = () => {
+              console.log("success performing add to index db key");
+
+              resolve(undefined);
+            };
+
+            newRequest.onerror = () => {
+              console.log("error performing add to index db key");
+              reject(new Error("error performing add to index db key"));
+            };
+          }
         };
 
-        transaction.onerror = (e) => {
-          console.error(
-            "Transaction failed:",
-            (e.target as IDBTransaction).error,
-          );
-
-          reject(new Error(`Transaction failed`));
+        // key with the same id doesnt exist
+        request.onerror = async () => {
+          console.log("error creating objectStore");
+          reject(new Error("error creating objectStore"));
         };
       } catch (error) {
+        console.log({ error });
         reject(new Error("error"));
       }
     });
   }
 
-  private async getKey(name: string) {
-    const { db } = await getIndexDb();
-    const transaction = db.transaction(["keys"], "readonly");
-    const store = transaction.objectStore("keys");
+  private async getRawKey(id: string) {
+    const { db } = await getIndexDb(this.dbObjectName);
+    const transaction = db.transaction([this.dbObjectName], "readonly");
+    const store = transaction.objectStore(this.dbObjectName);
 
     return await new Promise<{ key: CryptoKey }>((resolve, reject) => {
-      const request = store.get(name);
+      const request = store.get(id);
 
       request.onsuccess = async (event) => {
         const result: TDbKeyRecord | undefined = (event.target as any).result;
 
         if (!result) {
-          console.error("No key found with that name.");
-          reject(new Error("no key could be retrieved with name: " + name));
+          console.error("No key found with that id.", id);
+          reject(new Error("no key could be retrieved with id: " + id));
           return;
         }
 
@@ -81,10 +121,46 @@ export class CryptographyCustomApi {
     });
   }
 
+  public async getBase64Key() {
+    try {
+      const { key } = await this.getRawKey(this.keyIdInDb);
+
+      const keyData = await window.crypto.subtle.exportKey("raw", key);
+
+      const base64key = Base64Parser.from_arraybuffer_to_base64(keyData);
+
+      return await Promise.resolve({ base64key });
+    } catch (error) {
+      console.log({ error });
+      return await Promise.reject(new Error("there has been an error"));
+    }
+  }
+
+  public async importBase64Key(base64key: string) {
+    try {
+      const arrayBufferKey = Base64Parser.from_base64_to_arraybuffer(base64key);
+
+      const keyData = await window.crypto.subtle.importKey(
+        "raw",
+        arrayBufferKey,
+        {
+          name: "AES-GCM",
+          length: 256,
+        },
+        false,
+        ["encrypt", "decrypt"],
+      );
+
+      await this.storeKey(this.keyIdInDb, keyData, keyData.algorithm.name);
+    } catch (error) {
+      return await Promise.reject(new Error("there has been an error"));
+    }
+  }
+
   private async generateKey() {
     return await window.crypto.subtle.generateKey(
       { name: "AES-GCM", length: 256 },
-      true, // extractable
+      true,
       ["encrypt", "decrypt"],
     );
   }
@@ -93,7 +169,7 @@ export class CryptographyCustomApi {
     try {
       const key = await this.generateKey();
 
-      await this.storeKey("test", key, key.algorithm.name);
+      await this.storeKey(this.keyIdInDb, key, key.algorithm.name);
 
       await Promise.resolve();
     } catch (error) {
@@ -103,7 +179,7 @@ export class CryptographyCustomApi {
 
   public async decrypt(iv: Uint8Array, encryptedData: ArrayBuffer) {
     try {
-      const { key } = await this.getKey(this.keyName);
+      const { key } = await this.getRawKey(this.keyIdInDb);
 
       const decryptedDataEncoded = await window.crypto.subtle.decrypt(
         { name: key.algorithm.name, iv },
@@ -123,7 +199,7 @@ export class CryptographyCustomApi {
 
   public async encrypt(data: string) {
     try {
-      const { key } = await this.getKey(this.keyName);
+      const { key } = await this.getRawKey(this.keyIdInDb);
 
       const iv = window.crypto.getRandomValues(new Uint8Array(12)); // Initialization vector
       const encodedData = new TextEncoder().encode(data);
