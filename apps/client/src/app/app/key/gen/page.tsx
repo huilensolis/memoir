@@ -41,8 +41,6 @@ export default function GenKeyPage() {
 
       const { base64key } = await keyService.getBase64Key();
 
-      console.log(base64key);
-
       setKey(base64key);
 
       setIsloading(false);
@@ -55,7 +53,11 @@ export default function GenKeyPage() {
   return (
     <div className="h-full min-h-screen w-full flex items-center justify-center flex-col">
       {key && <p>{key}</p>}
-      <Button onClick={generateKey} loading={isLoading} disabled={isLoading}>
+      <Button
+        onClick={generateKey}
+        loading={isLoading}
+        disabled={isLoading || Boolean(key)}
+      >
         generate key
       </Button>
     </div>
