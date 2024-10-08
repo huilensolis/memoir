@@ -100,7 +100,7 @@ export function Document({ entry }: { entry: TRawEntry }) {
             {decryptedData ? (
                 <div className="flex flex-col gap-3 w-full h-full">
                     <header className="flex flex-col">
-                        <EntryTitle entryId={entry.id} defaultValue={decryptedData?.title ?? ' '} onUpdateTitle={updateTitle} />
+                        <EntryTitle entryId={entry.id} defaultValue={decryptedData.title ?? ''} onUpdateTitle={updateTitle} />
                     </header>
                     <EntryEditor initialContent={decryptedData.content} entry={entry} onUpdate={updateContent} />
                 </div>

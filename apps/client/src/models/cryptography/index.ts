@@ -187,7 +187,7 @@ export class CryptographyCustomApi {
         }
     }
 
-    public async decrypt({ iv, encryptedData }: { iv: Uint8Array, encryptedData: ArrayBuffer }) {
+    public async decrypt({ iv, encryptedData }: { iv: ArrayBuffer, encryptedData: ArrayBuffer }) {
         try {
             const { key } = await this.getRawKey(this.keyIdInDb);
 

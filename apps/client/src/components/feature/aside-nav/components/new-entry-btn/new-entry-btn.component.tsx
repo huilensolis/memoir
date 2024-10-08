@@ -15,7 +15,7 @@ export function NewEntryBtn() {
     async function onSubmit() {
         setLoading(true);
 
-        const { error, entryId } = await EntryService.createNewEntry({ title: 'undefined' });
+        const { error, entryId } = await EntryService.createNewEntry({ title: 'Untitled' });
 
         if (error || !entryId) {
             const url = `${ClientRoutingService.app.home}?message=There has been an error, we could not create the new entry`;
