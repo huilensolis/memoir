@@ -2,6 +2,7 @@ import { db } from "@/config/database";
 import type { TReturnHanler } from "@/shared/models/promises";
 import { and, eq, ilike, isNull } from "drizzle-orm";
 import type {
+	TEntryInsertSchema,
 	TInsertEntry,
 	TNewEntry,
 	TReadEntry,
@@ -43,20 +44,20 @@ export class EntryProvider {
 		return entries;
 	}
 
-	static async getPrivateEntryListByTitle({
-		title,
-		userId,
-	}: {
-		title: string;
-		userId: string;
-	}): Promise<TReadEntry[]> {
-		const entries = await db
-			.select()
-			.from(Entry)
-			.where(and(ilike(Entry.title, title), eq(Entry.user_id, userId)));
-
-		return entries;
-	}
+	//static async getPrivateEntryListByTitle({
+	//    title,
+	//    userId,
+	//}: {
+	//    title: string;
+	//    userId: string;
+	//}): Promise<TReadEntry[]> {
+	//    const entries = await db
+	//        .select()
+	//        .from(Entry)
+	//        .where(and(ilike(Entry.title, title), eq(Entry.user_id, userId)));
+	//
+	//    return entries;
+	//}
 
 	static async createEntry({
 		entry,
@@ -66,14 +67,6 @@ export class EntryProvider {
 		userId: TReadEntry["user_id"];
 	}): Promise<TReturnHanler<TReadEntry, string>> {
 		const newEntryValues: TNewEntry = {
-			content: {
-				type: "doc",
-				content: [
-					{
-						type: "paragraph",
-					},
-				],
-			},
 			...entry,
 			user_id: userId,
 		};
@@ -115,12 +108,19 @@ export class EntryProvider {
 		entryId,
 	}: {
 		entryId: TReadEntry["id"];
-		values: TInsertEntry;
+		values: TEntryInsertSchema;
 	}): Promise<{ error: string | null }> {
 		try {
+			if (!values.data) throw new Error("missing data field");
+
+			const cleanValues = {
+				data: values.data,
+				...(values.iv !== undefined && { iv: values.iv }),
+			};
+
 			await db
 				.update(Entry)
-				.set(values)
+				.set(cleanValues)
 				.where(and(eq(Entry.id, entryId), isNull(Entry.end_date)));
 
 			return { error: null };

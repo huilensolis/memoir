@@ -1,7 +1,12 @@
 import { isAuthenticated } from "@/shared/middlewares/auth";
 import Elysia, { error, t } from "elysia";
 import { EntryAdapter } from "../adapters";
-import { EntryInsertSchema, EntrySafeSchema } from "../models/entry.models";
+import {
+	EntryInsertSchema,
+	EntrySafeSchema,
+	type TEntryInsertSchema,
+	type TInsertEntry,
+} from "../models/entry.models";
 import { EntryProvider } from "../providers";
 
 export const EntryRoutes = new Elysia().group("/entry", (app) =>
