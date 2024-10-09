@@ -47,10 +47,6 @@ export default async function EntryPage({
     }
 
     return (
-        <div className="h-full w-full flex flex-col items-center justify-start">
-            <main className="w-full relative flex justify-center w-full max-w-4xl py-10 px-3 lg:px-5">
-                <Document entry={entry} />
-            </main>
-        </div>
+        <Document entry={entry} />
     );
 }

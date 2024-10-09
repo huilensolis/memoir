@@ -2,8 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EntryPageLoading() {
     return (
-        <div className="flex flex-col items-center h-screen w-full max-w-4xl">
-            <main className="w-full h-full flex flex-col gap-3">
+            <div className="w-full h-full flex flex-col gap-3">
                 <Skeleton className="w-80 h-10 rounded-md" />
                 <div className="flex flex-col gap-16">
                     <div className="flex flex-col gap-2">
@@ -31,7 +30,6 @@ export default function EntryPageLoading() {
                         <Skeleton className="w-8/12 h-4 rounded-md" />
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
     );
 }
