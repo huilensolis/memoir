@@ -1,11 +1,11 @@
 {
-	"id": "310079ed-8707-4397-9545-ca476f27af94",
-	"prevId": "b92a223d-864c-42e8-b29a-e475cb830043",
+	"id": "6bfbb042-5dfb-42f5-8185-2a2e897d7484",
+	"prevId": "45a2554d-f7ce-4db6-be5f-0b6d03cda34e",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
-		"public.journal_entry": {
-			"name": "journal_entry",
+		"public.entry": {
+			"name": "entry",
 			"schema": "",
 			"columns": {
 				"id": {
@@ -21,12 +21,17 @@
 					"primaryKey": false,
 					"notNull": true
 				},
-				"title": {
-					"name": "title",
-					"type": "varchar(80)",
+				"data": {
+					"name": "data",
+					"type": "text",
 					"primaryKey": false,
-					"notNull": true,
-					"default": "'Untintled'"
+					"notNull": true
+				},
+				"iv": {
+					"name": "iv",
+					"type": "bytea",
+					"primaryKey": false,
+					"notNull": false
 				},
 				"created_at": {
 					"name": "created_at",
@@ -42,27 +47,6 @@
 					"notNull": true,
 					"default": "now()"
 				},
-				"word_count": {
-					"name": "word_count",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"default": 0
-				},
-				"content": {
-					"name": "content",
-					"type": "json",
-					"primaryKey": false,
-					"notNull": false,
-					"default": "'{\"type\":\"doc\",\"content\":[{\"type\":\"paragraph\"}]}'::json"
-				},
-				"is_private": {
-					"name": "is_private",
-					"type": "boolean",
-					"primaryKey": false,
-					"notNull": true,
-					"default": false
-				},
 				"end_date": {
 					"name": "end_date",
 					"type": "timestamp",
@@ -72,9 +56,9 @@
 			},
 			"indexes": {},
 			"foreignKeys": {
-				"journal_entry_user_id_users_id_fk": {
-					"name": "journal_entry_user_id_users_id_fk",
-					"tableFrom": "journal_entry",
+				"entry_user_id_users_id_fk": {
+					"name": "entry_user_id_users_id_fk",
+					"tableFrom": "entry",
 					"tableTo": "users",
 					"columnsFrom": ["user_id"],
 					"columnsTo": ["id"],

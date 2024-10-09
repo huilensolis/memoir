@@ -1,6 +1,6 @@
 {
-	"id": "71781081-042f-4718-bd3e-86fc59bd6f04",
-	"prevId": "310079ed-8707-4397-9545-ca476f27af94",
+	"id": "44223be2-6cf6-451f-95ea-90ba58b65e6d",
+	"prevId": "6bfbb042-5dfb-42f5-8185-2a2e897d7484",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
@@ -21,12 +21,17 @@
 					"primaryKey": false,
 					"notNull": true
 				},
-				"title": {
-					"name": "title",
-					"type": "varchar(80)",
+				"data": {
+					"name": "data",
+					"type": "text",
 					"primaryKey": false,
-					"notNull": true,
-					"default": "'Untintled'"
+					"notNull": true
+				},
+				"iv": {
+					"name": "iv",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": false
 				},
 				"created_at": {
 					"name": "created_at",
@@ -41,27 +46,6 @@
 					"primaryKey": false,
 					"notNull": true,
 					"default": "now()"
-				},
-				"word_count": {
-					"name": "word_count",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"default": 0
-				},
-				"content": {
-					"name": "content",
-					"type": "json",
-					"primaryKey": false,
-					"notNull": false,
-					"default": "'{\"type\":\"doc\",\"content\":[{\"type\":\"paragraph\"}]}'::json"
-				},
-				"is_private": {
-					"name": "is_private",
-					"type": "boolean",
-					"primaryKey": false,
-					"notNull": true,
-					"default": false
 				},
 				"end_date": {
 					"name": "end_date",

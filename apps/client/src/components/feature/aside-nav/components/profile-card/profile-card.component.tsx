@@ -6,8 +6,9 @@ import { Box } from "@/components/ui/box";
 import { NavLink } from "@/components/ui/nav-link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/use-session";
+import { ClientRoutingService } from "@/models/routing/client";
 import { type User } from "@/types/user";
-import { Bolt, ChevronsUpDown, CircleUserRound, Timer } from "lucide-react";
+import { Bolt, ChevronsUpDown, CircleUserRound, Key } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function ProfileCard() {
@@ -50,10 +51,14 @@ export function ProfileCard() {
           <Box className="rounded-md">
             <ul className="flex flex-col gap-2 p-1">
               <li>
-                <NavLink icon={Bolt} href=" " title="settings" />
+                <NavLink
+                  icon={Key}
+                  href={ClientRoutingService.app.keys.generate}
+                  title="Encryption key"
+                />
               </li>
               <li>
-                <NavLink icon={Timer} href=" " title="test" />
+                <NavLink icon={Bolt} href=" " title="settings" />
               </li>
               <li>
                 <SignOutBtn />

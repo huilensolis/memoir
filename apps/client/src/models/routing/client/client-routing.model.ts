@@ -11,9 +11,14 @@ export class ClientRoutingService {
       create: "/app/entry/new",
     };
 
+    const keys = {
+      generate: "/app/key/gen/",
+    };
+
     return {
       home: "/app",
       entries,
+      keys,
     };
   }
 }

@@ -3,6 +3,7 @@ import { app } from "@/app";
 import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
+import { uint8ArrayToBase64 } from "@/tests/lib/parse-unit8array";
 
 describe("Test POST method on entries endpoints", () => {
 	describe("Entry created succesfully", async () => {
@@ -19,6 +20,7 @@ describe("Test POST method on entries endpoints", () => {
 					title: "test",
 					content: EXAMPLE_DOCUMENT_CONTENT,
 					word_count: 291,
+					iv: uint8ArrayToBase64(crypto.getRandomValues(new Uint8Array(12))),
 				}),
 			}),
 		);
@@ -55,6 +57,7 @@ describe("Test POST method on entries endpoints", () => {
 					title: 1233,
 					content: "asdfas",
 					word_count: "asdf",
+					iv: 123,
 				}),
 			}),
 		);

@@ -1,11 +1,11 @@
 {
-	"id": "b92a223d-864c-42e8-b29a-e475cb830043",
+	"id": "45a2554d-f7ce-4db6-be5f-0b6d03cda34e",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
-		"public.journal_entry": {
-			"name": "journal_entry",
+		"public.entry": {
+			"name": "entry",
 			"schema": "",
 			"columns": {
 				"id": {
@@ -54,14 +54,13 @@
 					"type": "json",
 					"primaryKey": false,
 					"notNull": false,
-					"default": "'{\"title\":\"Untitled\",\"content\":{\"type\":\"doc\",\"content\":[{\"type\":\"heading\",\"attrs\":{\"level\":1},\"content\":[{\"type\":\"text\",\"text\":\"Untitled\"}]}]},\"word_count\":8}'::json"
+					"default": "'{\"type\":\"doc\",\"content\":[{\"type\":\"paragraph\"}]}'::json"
 				},
-				"is_private": {
-					"name": "is_private",
-					"type": "boolean",
+				"iv": {
+					"name": "iv",
+					"type": "bytea",
 					"primaryKey": false,
-					"notNull": true,
-					"default": false
+					"notNull": false
 				},
 				"end_date": {
 					"name": "end_date",
@@ -72,9 +71,9 @@
 			},
 			"indexes": {},
 			"foreignKeys": {
-				"journal_entry_user_id_users_id_fk": {
-					"name": "journal_entry_user_id_users_id_fk",
-					"tableFrom": "journal_entry",
+				"entry_user_id_users_id_fk": {
+					"name": "entry_user_id_users_id_fk",
+					"tableFrom": "entry",
 					"tableTo": "users",
 					"columnsFrom": ["user_id"],
 					"columnsTo": ["id"],

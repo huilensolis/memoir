@@ -30,12 +30,6 @@ export function AsideNavLinks() {
     // },
   ];
 
-  const closeDrawer = useAsideNavStore((state) => state.closeDrawer);
-  const openDrawer = useAsideNavStore((state) => state.openDrawer);
-
-  const getEntryState = useEntryStore((state) => state.getState);
-  const getEntryId = useEntryStore((state) => state.getEntryId);
-
   return (
     <ul className="w-full flex flex-col gap-1">
       {NAV_ITEMS.map((item, i) => (
@@ -45,26 +39,6 @@ export function AsideNavLinks() {
             title={item.title}
             href={item.href}
             count={item.count}
-            onClick={() => {
-              closeDrawer();
-
-              setTimeout(() => {
-                openDrawer();
-              }, 300);
-
-              const entryId = getEntryId();
-              if (
-                entryId &&
-                pathName.startsWith(
-                  ClientRoutingService.app.entries.readById(entryId),
-                ) &&
-                (getEntryState() === "saving" || getEntryState() === "waiting")
-              ) {
-                window.alert(
-                  "Are you sure you want to leave this page? your changes has not been saved yet",
-                );
-              }
-            }}
           />
         </li>
       ))}

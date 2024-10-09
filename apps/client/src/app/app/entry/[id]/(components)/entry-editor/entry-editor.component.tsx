@@ -5,108 +5,111 @@ import { useDebounce } from "@/hooks/use-debounce";
 import type { Editor } from "@tiptap/react";
 import { useEffect, useState } from "react";
 import { useEntryStore } from "../../(store)/entry-store";
-import { EntryService } from "@/models/api/entry";
-import type { Entry, NewEntry } from "@/types/entry";
+import type { TParsedEntry, TRawEntry } from "@/types/entry";
 
 export function EntryEditor({
-  initialContent,
-  entry,
+    initialContent,
+    entry,
+    onUpdate
 }: {
-  initialContent: Entry["content"];
-  entry: Entry;
+    initialContent: TParsedEntry["content"];
+    entry: TRawEntry;
+    onUpdate: (documentContent: TParsedEntry['content']) => void
 }) {
-  // we dont use this state to set the content to the editor, but rather to handle the transactions saving.
-  // the editor starts from an initial content, and then manages the changed content by itself
-  // this state is just for savinf the changed editor content and then using it with useDebounce
-  const [throttlingContent, setThrottlingContent] =
-    useState<Entry["content"]>(initialContent);
+    // we dont use this state to set the content to the editor, but rather to handle the transactions saving.
+    // the editor starts from an initial content, and then manages the changed content by itself
+    // this state is just for savinf the changed editor content and then using it with useDebounce
+    const [throttlingContent, setThrottlingContent] =
+        useState<TParsedEntry["content"]>(initialContent);
 
-  const [lastTimeUpdated, setLastTimeUpdated] = useState(new Date());
+    const [lastTimeUpdated, setLastTimeUpdated] = useState(new Date());
 
-  const { debouncedValue: debouncedContent } = useDebounce<Entry["content"]>({
-    value: throttlingContent,
-    delay: 250,
-  });
+    const { debouncedValue: debouncedContent } = useDebounce<TParsedEntry["content"]>({
+        value: throttlingContent,
+        delay: 250,
+    });
 
-  const setEntryId = useEntryStore((state) => state.setEntryId);
-  const setEntryState = useEntryStore((state) => state.setState);
-  const getEntryState = useEntryStore((state) => state.getState);
+    const setEntryId = useEntryStore((state) => state.setEntryId);
+    const setEntryState = useEntryStore((state) => state.setState);
+    const getEntryState = useEntryStore((state) => state.getState);
 
-  function handleTransaction({ editor }: { editor: Editor }) {
-    if (getEntryState() !== "waiting") {
-      setEntryState("waiting");
+    function handleTransaction({ editor }: { editor: Editor }) {
+        if (getEntryState() !== "waiting") {
+            setEntryState("waiting");
+        }
+
+        setThrottlingContent(editor.getJSON());
     }
 
-    setThrottlingContent(editor.getJSON());
-  }
+    useEffect(() => {
+        setEntryId(entry.id);
 
-  useEffect(() => {
-    setEntryId(entry.id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    useEffect(() => {
+        async function saveDocumentNewData({
+            entryContent,
+        }: {
+            entryContent: TParsedEntry["content"];
+        }) {
+            onUpdate(entryContent)
+            // setEntryState("saving");
+            //
+            // const updatedEntry: Partial<TParsedEntry> = {
+            //    content: entryContent,
+            //    title
+            // };
+            //
+            // await EntryService.updateEntryById({
+            //    entryId: entry.id,
+            //    entry: updatedEntry,
+            //    signal,
+            // });
+            //
+            setLastTimeUpdated(new Date());
+            // setEntryState("up to date");
+        }
 
-  useEffect(() => {
-    async function saveDocumentNewData({
-      signal,
-      entryContent,
-    }: {
-      signal?: AbortSignal;
-      entryContent: Entry["content"];
-    }) {
-      setEntryState("saving");
+        const TimeIntervalId = setInterval(() => {
 
-      const updatedEntry: Partial<NewEntry> = {
-        content: entryContent,
-      };
+            if (throttlingContent === null) return
 
-      await EntryService.updateEntryById({
-        entryId: entry.id,
-        entry: updatedEntry,
-        signal,
-      });
+            // if the document has not been saved in the last 5 seconds, we save it
+            if (getEntryState() === "up to date") {
+                return;
+            }
+            if (lastTimeUpdated.getTime() < new Date().getTime() - 1000 * 2) {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                saveDocumentNewData({ entryContent: throttlingContent });
+            }
+        }, 5000);
 
-      setLastTimeUpdated(new Date());
-      setEntryState("up to date");
-    }
+        if (getEntryState() !== "up to date") {
 
-    const TimeIntervalId = setInterval(() => {
-      // if the document has not been saved in the last 5 seconds, we save it
-      if (getEntryState() === "up to date") {
-        return;
-      }
-      if (lastTimeUpdated.getTime() < new Date().getTime() - 1000 * 2) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        saveDocumentNewData({ entryContent: throttlingContent });
-      }
-    }, 5000);
+            if (debouncedContent === null) return
 
-    const ctrl = new AbortController();
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            saveDocumentNewData({
+                entryContent: debouncedContent,
+            });
+        }
 
-    if (getEntryState() !== "up to date") {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      saveDocumentNewData({
-        signal: ctrl.signal,
-        entryContent: debouncedContent,
-      });
-    }
+        return () => {
+            clearInterval(TimeIntervalId);
 
-    return () => {
-      ctrl.abort();
-      clearInterval(TimeIntervalId);
+            setEntryState("waiting");
+        };
 
-      setEntryState("waiting");
-    };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debouncedContent]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedContent]);
-
-  return (
-    <TextEditor
-      content={initialContent}
-      onTransaction={handleTransaction}
-      id={entry.id}
-      className="pb-24"
-    />
-  );
+    return (
+        <TextEditor
+            content={initialContent}
+            onTransaction={handleTransaction}
+            id={entry.id}
+            className="pb-24"
+        />
+    );
 }

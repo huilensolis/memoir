@@ -4,6 +4,9 @@ import Link from "next/link";
 import { type TNavLink } from "./nav-link.models";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useEntryStore } from "@/app/app/entry/[id]/(store)/entry-store";
+import { useAsideNavStore } from "@/components/feature/aside-nav/store";
+import { ClientRoutingService } from "@/models/routing/client";
 
 export function NavLink({
   icon,
@@ -16,6 +19,12 @@ export function NavLink({
 
   const pathName = usePathname();
 
+  const closeDrawer = useAsideNavStore((state) => state.closeDrawer);
+  const openDrawer = useAsideNavStore((state) => state.openDrawer);
+
+  const getEntryState = useEntryStore((state) => state.getState);
+  const getEntryId = useEntryStore((state) => state.getEntryId);
+
   useEffect(() => {
     if (pathName === href) {
       setIsActive(true);
@@ -26,6 +35,29 @@ export function NavLink({
   }, [href, pathName]);
 
   const Icon = icon;
+
+  function handleOnClick(e: React.MouseEvent<HTMLElement>) {
+    onClick(e);
+
+    // prevent user from navigating away from entry while saving entry
+    closeDrawer();
+
+    setTimeout(() => {
+      openDrawer();
+    }, 300);
+
+    const entryId = getEntryId();
+    if (
+      entryId &&
+      pathName.startsWith(ClientRoutingService.app.entries.readById(entryId)) &&
+      (getEntryState() === "saving" || getEntryState() === "waiting")
+    ) {
+      window.alert(
+        "Are you sure you want to leave this page? your changes has not been saved yet",
+      );
+    }
+  }
+
   return (
     <Link
       href={href}
@@ -34,7 +66,7 @@ export function NavLink({
           ? "bg-primary text-neutral-50"
           : "bg-transparent hover:bg-neutral-200"
       }`}
-      onClick={onClick ?? undefined}
+      onClick={handleOnClick}
       replace
     >
       <section className="flex gap-2 items-center">
