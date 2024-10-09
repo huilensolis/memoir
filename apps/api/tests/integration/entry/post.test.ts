@@ -1,9 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import { app } from "@/app";
-import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { EXAMPLE_DOCUMENT } from "@/tests/lib/constants";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
-import { uint8ArrayToBase64 } from "@/tests/lib/parse-unit8array";
 
 describe("Test POST method on entries endpoints", () => {
 	describe("Entry created succesfully", async () => {
@@ -16,12 +15,7 @@ describe("Test POST method on entries endpoints", () => {
 					"Content-Type": "application/json; charset=utf-8",
 					cookie: cookie,
 				},
-				body: JSON.stringify({
-					title: "test",
-					content: EXAMPLE_DOCUMENT_CONTENT,
-					word_count: 291,
-					iv: uint8ArrayToBase64(crypto.getRandomValues(new Uint8Array(12))),
-				}),
+				body: JSON.stringify(EXAMPLE_DOCUMENT),
 			}),
 		);
 

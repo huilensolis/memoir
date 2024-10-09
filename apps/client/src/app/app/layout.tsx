@@ -2,11 +2,13 @@ import { AsideNav } from "@/components/feature/aside-nav";
 import { BannerMessage } from "@/components/feature/banner-message";
 import { EntrySearchModalProvider } from "@/components/feature/entry-search-modal";
 import { Suspense, type ReactNode } from "react";
+import { CheckForClientKeys } from "./(components)/check-for-keys";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
     return (
         <>
             <EntrySearchModalProvider />
+            <CheckForClientKeys />
             <div className="flex flex-col w-full min-h-screen bg-neutral-50">
                 <Suspense>
                     <BannerMessage />
