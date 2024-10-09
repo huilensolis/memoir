@@ -1,7 +1,7 @@
 import { describe, expect, it, test } from "bun:test";
 
 import { app } from "@/app";
-import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { EXAMPLE_DOCUMENT } from "@/tests/lib/constants";
 import { createNewEntry } from "@/tests/lib/entry";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
@@ -16,11 +16,7 @@ describe("Entry guard", () => {
 						"Content-Type": "application/json; charset=utf-8",
 						Cookie: "not-a-cookie",
 					},
-					body: JSON.stringify({
-						title: "test",
-						content: EXAMPLE_DOCUMENT_CONTENT,
-						word_count: 291,
-					}),
+					body: JSON.stringify(EXAMPLE_DOCUMENT),
 				}),
 			);
 
@@ -38,14 +34,7 @@ describe("Entry guard", () => {
 		describe("Should not be able to perform GET", async () => {
 			const { cookie } = await createUser({});
 
-			await createNewEntry(
-				{
-					word_count: 0,
-					title: "test entry 3",
-					content: EXAMPLE_DOCUMENT_CONTENT,
-				},
-				cookie,
-			);
+			await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 			const res = await app.handle(
 				new Request(`${endpointPath}`, {
@@ -69,10 +58,7 @@ describe("Entry guard", () => {
 		describe("Should not be able to perform DELETE", async () => {
 			const { cookie } = await createUser({});
 
-			const { EntryId } = await createNewEntry(
-				{ title: "test", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
-				cookie,
-			);
+			const { EntryId } = await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 			if (!EntryId) throw new Error("entry not created");
 
@@ -103,11 +89,7 @@ describe("Entry guard", () => {
 						"Content-Type": "application/json; charset=utf-8",
 						cookie: "not-a-cookie",
 					},
-					body: JSON.stringify({
-						title: "test",
-						content: EXAMPLE_DOCUMENT_CONTENT,
-						word_count: 291,
-					}),
+					body: JSON.stringify(EXAMPLE_DOCUMENT),
 				}),
 			);
 

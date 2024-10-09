@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from "bun:test";
 import { app } from "@/app";
-import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { EXAMPLE_DOCUMENT } from "@/tests/lib/constants";
 import { createNewEntry } from "@/tests/lib/entry";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
@@ -9,10 +9,7 @@ describe("Test DELETE method on entries endpoints", () => {
 	describe("Delete own entry succesfully", async () => {
 		const { cookie } = await createUser({});
 
-		const { EntryId } = await createNewEntry(
-			{ title: "test", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
-			cookie,
-		);
+		const { EntryId } = await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 		if (!EntryId) throw new Error("Entry not created");
 
@@ -46,10 +43,7 @@ describe("Test DELETE method on entries endpoints", () => {
 	describe("should not return deleted entry after delete", async () => {
 		const { cookie } = await createUser({});
 
-		const { EntryId } = await createNewEntry(
-			{ title: "test", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
-			cookie,
-		);
+		const { EntryId } = await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 		if (!EntryId) throw new Error("entry not created");
 

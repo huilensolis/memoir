@@ -6,7 +6,7 @@ import {
 	EntrySafeSchema,
 	type TEntrySafe,
 } from "@/features/entry/models/entry.models";
-import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { EXAMPLE_DOCUMENT } from "@/tests/lib/constants";
 import { createNewEntry } from "@/tests/lib/entry";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
@@ -16,32 +16,11 @@ describe("Test GET method on entries endpoints", () => {
 		describe("GET entry list of user", async () => {
 			const { cookie } = await createUser({});
 
-			await createNewEntry(
-				{
-					word_count: 0,
-					title: "test entry 1",
-					content: EXAMPLE_DOCUMENT_CONTENT,
-				},
-				cookie,
-			);
+			await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
-			await createNewEntry(
-				{
-					word_count: 0,
-					title: "test entry 2",
-					content: EXAMPLE_DOCUMENT_CONTENT,
-				},
-				cookie,
-			);
+			await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
-			await createNewEntry(
-				{
-					word_count: 0,
-					title: "test entry 3",
-					content: EXAMPLE_DOCUMENT_CONTENT,
-				},
-				cookie,
-			);
+			await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 			const res = await app.handle(
 				new Request(`${endpointPath}/`, {
@@ -77,10 +56,7 @@ describe("Test GET method on entries endpoints", () => {
 		describe("GET entry by entryId", async () => {
 			const { cookie } = await createUser({});
 
-			const { EntryId } = await createNewEntry(
-				{ title: "Untitled", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 8 },
-				cookie,
-			);
+			const { EntryId } = await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 			const res = await app.handle(
 				new Request(`${endpointPath}/${EntryId}`, {

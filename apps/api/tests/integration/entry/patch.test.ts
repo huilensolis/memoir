@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { app } from "@/app";
-import { EXAMPLE_DOCUMENT_CONTENT } from "@/tests/lib/constants";
+import { EXAMPLE_DOCUMENT } from "@/tests/lib/constants";
 import { createNewEntry } from "@/tests/lib/entry";
 import { createUser } from "@/tests/lib/user";
 import { endpointPath } from ".";
@@ -9,10 +9,7 @@ describe("Test PATCH method on entries endpoints", () => {
 	describe("Succesfull request", async () => {
 		const { cookie } = await createUser({});
 
-		const { EntryId } = await createNewEntry(
-			{ title: "untitled", content: EXAMPLE_DOCUMENT_CONTENT, word_count: 0 },
-			cookie,
-		);
+		const { EntryId } = await createNewEntry(EXAMPLE_DOCUMENT, cookie);
 
 		const res = await app.handle(
 			new Request(`${endpointPath}/${EntryId}`, {
@@ -21,11 +18,7 @@ describe("Test PATCH method on entries endpoints", () => {
 					"Content-Type": "application/json; charset=utf-8",
 					cookie: cookie,
 				},
-				body: JSON.stringify({
-					title: "test",
-					content: EXAMPLE_DOCUMENT_CONTENT,
-					word_count: 291,
-				}),
+				body: JSON.stringify(EXAMPLE_DOCUMENT),
 			}),
 		);
 
