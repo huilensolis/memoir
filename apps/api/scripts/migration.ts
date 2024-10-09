@@ -16,6 +16,7 @@ await (async () => {
 
 		process.exit(0);
 	} catch (error) {
+		console.log({ error });
 		return Promise.reject({
 			message: "error generating shcema migration",
 			error,

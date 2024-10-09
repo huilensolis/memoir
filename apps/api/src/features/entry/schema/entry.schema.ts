@@ -7,7 +7,7 @@ export const Entry = pgTable("entry", {
         .references(() => Users.id, { onDelete: "cascade", onUpdate: "cascade" })
         .notNull(),
     data: text("data").notNull(),
-    iv: varchar("iv"),
+    iv: varchar("iv").notNull(),
     //
     //
     created_at: timestamp("created_at").defaultNow().notNull(),
