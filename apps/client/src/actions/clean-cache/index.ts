@@ -3,10 +3,10 @@
 import { revalidatePath } from "next/cache";
 
 export async function cleanCache(
-    path: string,
-    type: "layout" | "page" = "page",
+  path: string,
+  type: "layout" | "page" = "page",
 ) {
-    revalidatePath(path, type);
+  revalidatePath(path, type);
 
-    console.log('revalidating path:', path)
+  console.log("revalidating path:", path);
 }
