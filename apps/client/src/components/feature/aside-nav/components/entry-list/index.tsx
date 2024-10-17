@@ -3,16 +3,15 @@ import { getCookie } from "@/utils/getCookies";
 import { DecryptedEntryList } from "./decrypted-entry-list.component";
 
 export async function EntryList() {
-  const { cookie } = getCookie();
+    const { cookie } = getCookie();
 
-  if (!cookie) return <p>something went wrong </p>;
+    if (!cookie) return <p>something went wrong </p>;
 
-  const { entryList } = await EntryService.getUserEntyList({ cookie });
+    const { entryList } = await EntryService.getUserEntyList({ cookie });
 
-  return (
-    <ul className="w-full flex flex-col gap-2">
-      {" "}
-      <DecryptedEntryList entryList={entryList ?? []} />{" "}
-    </ul>
-  );
+    return (
+        <ul className="w-full flex flex-col gap-2 h-full overflow-y-auto">
+            <DecryptedEntryList entryList={entryList ?? []} />
+        </ul>
+    );
 }
