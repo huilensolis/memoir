@@ -1,18 +1,13 @@
 "use client";
 
 import { useDebounce } from "@/hooks/use-debounce";
-import type { TParsedEntry, TRawEntry, TNewEntry } from "@/types/entry";
-import { useEffect, useRef, useState } from "react";
-import { useEntryStore } from "../../(store)/entry-store";
-import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 export function EntryTitle({
     defaultValue = "",
-    entryId,
     onUpdateTitle
 }: {
     defaultValue?: string;
-    entryId: TRawEntry["id"];
     onUpdateTitle: (title: string) => void
 }) {
     const [inputValue, setInputValue] = useState(defaultValue);
@@ -24,10 +19,6 @@ export function EntryTitle({
 
     const renderingTimes = useRef(1);
 
-    const setEntryState = useEntryStore((state) => state.setState);
-
-    const router = useRouter();
-
     useEffect(() => {
         if (renderingTimes.current === 1) {
             renderingTimes.current++;
@@ -36,24 +27,6 @@ export function EntryTitle({
 
         async function UpdateTitle() {
             onUpdateTitle(debouncedTitle)
-
-            // setEntryState("saving");
-            //
-            // const { error } = await EntryService.updateEntryById({
-            //    entryId,
-            //    entry: { title: debouncedTitle },
-            //    signal,
-            // });
-            //
-            // if (error) {
-            //    setEntryState("error");
-            //
-            //    return;
-            // }
-            //
-            // setEntryState("up to date");
-            // await cleanCache(ClientRoutingService.app.home, "layout");
-            // router.refresh();
         }
 
         if (defaultValue === debouncedTitle) return;
@@ -66,15 +39,39 @@ export function EntryTitle({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedTitle]);
 
+
+    const textareaElement = useRef<HTMLTextAreaElement | null>(null)
+
+    useEffect(() => {
+
+        if (textareaElement.current) {
+            const scrollHeight = textareaElement.current.scrollHeight;
+            textareaElement.current.style.height = scrollHeight + 'px';
+        }
+
+    }, [textareaElement])
+
+    function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+        setInputValue(e.target.value);
+
+        if (!textareaElement.current) return
+
+        textareaElement.current.style.height = 'auto';
+
+        const scrollHeight = textareaElement.current.scrollHeight;
+        textareaElement.current.style.height = scrollHeight + 'px';
+    };
+
+
     return (
-        <input
-            type="text"
-            className="focus:outline-none font-bold text-[2.6666667em] bg-transparent w-full"
+        <textarea
+            className="focus:outline-none font-bold text-[2.6666667em] bg-transparent w-full resize-none leading-none"
+            ref={textareaElement}
+            rows={1}
+            wrap="soft"
             placeholder="Title"
             defaultValue={defaultValue}
-            onChange={(e) => {
-                setInputValue(e.target.value);
-            }}
+            onChange={handleChange}
         />
     );
 }
