@@ -10,8 +10,6 @@ type TEntryItem = Pick<TRawEntry, 'id' | 'updated_at' | 'created_at'> & Pick<TPa
 
 export function DecryptedEntryList({ entryList }: { entryList: TRawEntry[] }) {
     const [decryptedEntryList, setDecryptedEntryList] = useState<TEntryItem[]>([])
-    const [error, setError] = useState<boolean>(false)
-
 
     useEffect(() => {
 
@@ -41,13 +39,14 @@ export function DecryptedEntryList({ entryList }: { entryList: TRawEntry[] }) {
             setDecryptedEntryList(decryptedEntryList)
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         decryptEntryItems()
     }, [entryList])
 
 
     return (
         <ul className="w-full flex flex-col gap-2">
-            {!error &&
+            {
                 decryptedEntryList &&
                 decryptedEntryList.length > 0 &&
                 decryptedEntryList
@@ -62,7 +61,6 @@ export function DecryptedEntryList({ entryList }: { entryList: TRawEntry[] }) {
                             <EntryItem entry={entry} />
                         </li>
                     ))}
-            {error && <p>something went wrong</p>}
         </ul>
     );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useDebounce } from "@/hooks/use-debounce";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 
 export function EntryTitle({
     defaultValue = "",

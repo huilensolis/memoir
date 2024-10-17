@@ -17,7 +17,6 @@ export function Document({ entry }: { entry: TRawEntry }) {
     const [clientDocumentData, setClientDocumentData] = useState<TParsedEntry | null>(null)
 
     const setEntryState = useEntryStore((state) => state.setState);
-    const getEntryState = useEntryStore((state) => state.getState);
 
     useEffect(() => {
 
@@ -42,6 +41,7 @@ export function Document({ entry }: { entry: TRawEntry }) {
             }
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         decryptData()
 
 
@@ -67,6 +67,7 @@ export function Document({ entry }: { entry: TRawEntry }) {
 
         const ctrl = new AbortController()
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         updateDocument({ signal: ctrl.signal })
 
         return () => {
