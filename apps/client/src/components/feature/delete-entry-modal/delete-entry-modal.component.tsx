@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/modal";
 import { EntryService } from "@/models/api/entry";
 import { ClientRoutingService } from "@/models/routing/client";
-import type { Entry } from "@/types/entry";
+import type { TRawEntry } from "@/types/entry";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { type ReactNode, useState } from "react";
@@ -23,7 +23,7 @@ export function DeleteEntryModalTrigger({
   entryId,
 }: {
   children: ReactNode;
-  entryId: Entry["id"];
+  entryId: TRawEntry["id"];
 }) {
   const [loading, setLoading] = useState(false);
 

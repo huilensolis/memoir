@@ -1,80 +1,73 @@
 "use client";
 
 import { useDebounce } from "@/hooks/use-debounce";
-import type { TParsedEntry, TRawEntry, TNewEntry } from "@/types/entry";
-import { useEffect, useRef, useState } from "react";
-import { useEntryStore } from "../../(store)/entry-store";
-import { useRouter } from "next/navigation";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 
 export function EntryTitle({
-    defaultValue = "",
-    entryId,
-    onUpdateTitle
+  defaultValue = "",
+  onUpdateTitle,
 }: {
-    defaultValue?: string;
-    entryId: TRawEntry["id"];
-    onUpdateTitle: (title: string) => void
+  defaultValue?: string;
+  onUpdateTitle: (title: string) => void;
 }) {
-    const [inputValue, setInputValue] = useState(defaultValue);
+  const [inputValue, setInputValue] = useState(defaultValue);
 
-    const { debouncedValue: debouncedTitle } = useDebounce({
-        value: inputValue,
-        delay: 500,
-    });
+  const { debouncedValue: debouncedTitle } = useDebounce({
+    value: inputValue,
+    delay: 500,
+  });
 
-    const renderingTimes = useRef(1);
+  const renderingTimes = useRef(1);
 
-    const setEntryState = useEntryStore((state) => state.setState);
+  useEffect(() => {
+    if (renderingTimes.current === 1) {
+      renderingTimes.current++;
+      return;
+    }
 
-    const router = useRouter();
+    async function UpdateTitle() {
+      onUpdateTitle(debouncedTitle);
+    }
 
-    useEffect(() => {
-        if (renderingTimes.current === 1) {
-            renderingTimes.current++;
-            return;
-        }
+    if (defaultValue === debouncedTitle) return;
 
-        async function UpdateTitle() {
-            onUpdateTitle(debouncedTitle)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    UpdateTitle();
 
-            // setEntryState("saving");
-            //
-            // const { error } = await EntryService.updateEntryById({
-            //    entryId,
-            //    entry: { title: debouncedTitle },
-            //    signal,
-            // });
-            //
-            // if (error) {
-            //    setEntryState("error");
-            //
-            //    return;
-            // }
-            //
-            // setEntryState("up to date");
-            // await cleanCache(ClientRoutingService.app.home, "layout");
-            // router.refresh();
-        }
+    renderingTimes.current++;
 
-        if (defaultValue === debouncedTitle) return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTitle]);
 
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        UpdateTitle();
+  const textareaElement = useRef<HTMLTextAreaElement | null>(null);
 
-        renderingTimes.current++;
+  useEffect(() => {
+    if (textareaElement.current) {
+      const scrollHeight = textareaElement.current.scrollHeight;
+      textareaElement.current.style.height = scrollHeight + "px";
+    }
+  }, [textareaElement]);
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debouncedTitle]);
+  function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    setInputValue(e.target.value);
 
-    return (
-        <input
-            type="text"
-            className="focus:outline-none font-bold text-[2.6666667em] bg-transparent w-full"
-            placeholder="Title"
-            defaultValue={defaultValue}
-            onChange={(e) => {
-                setInputValue(e.target.value);
-            }}
-        />
-    );
+    if (!textareaElement.current) return;
+
+    textareaElement.current.style.height = "auto";
+
+    const scrollHeight = textareaElement.current.scrollHeight;
+    textareaElement.current.style.height = scrollHeight + "px";
+  }
+
+  return (
+    <textarea
+      className="focus:outline-none font-bold text-[2.6666667em] bg-transparent w-full resize-none leading-none"
+      ref={textareaElement}
+      rows={1}
+      wrap="soft"
+      placeholder="Title"
+      defaultValue={defaultValue}
+      onChange={handleChange}
+    />
+  );
 }
