@@ -11,7 +11,7 @@ Memoir is a web editor..
 2. **Entry:**
    - [x] A simple and intuitive interface for users to write their daily thoughts, reflections, or experiences.
 3. **Encryption**
-   - [ ] encrypt entries and make them only readable by the user
+   - [x] encrypt entries and make them only readable by the user
 4. **Search and Tagging System:**
    - [x] A search functionality to find specific entries by title.
    - [ ] Users can tag entries with keywords for easy categorization and future reference.
