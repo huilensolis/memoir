@@ -57,18 +57,18 @@ const projectURL =
 
 export const metadata: Metadata = {
   title: "Memoir",
-  description: "Text editor - focus in writting, not in the tools",
+  description: "Rich and encrypted web document editor.",
   metadataBase: new URL(projectURL),
   openGraph: {
     title: "Memoir",
-    description: "Text editor - focus in writting, not in the tools",
+    description: "Rich and encrypted web document editor.",
     images: ["/"],
     type: "website",
     locale: "en-US",
   },
   twitter: {
     title: "Memoir",
-    description: "Text editor - focus in writting, not in the tools",
+    description: "Rich and encrypted web document editor.",
     images: ["/"],
     card: "summary_large_image",
   },

@@ -27,8 +27,7 @@ export default async function Image() {
       // ImageResponse JSX element
       <div tw="bg-neutral-50 w-full h-full flex items-center justify-center flex-col">
         <h1 tw="text-neutral-900 text-6xl max-w-2xl text-center text-balance">
-          Start taking notes without distractions. focus in writting, not in the
-          tool.
+          Rich and encrypted web document editor.
         </h1>
       </div>
     ),
