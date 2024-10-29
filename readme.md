@@ -1,8 +1,8 @@
 # Memoir
 
-![791shots_so (1)](https://github.com/Huilensolis/memoir/assets/113150193/04ba49a9-1a00-4c80-bb02-5de080a16307)
+![80_1x_shots_so](https://github.com/user-attachments/assets/341d2c45-dc62-4966-a573-37396612e1c8)
 
-Memoir is a web editor..
+Memoir is a rich and private web editor
 
 # MVP Features
 
