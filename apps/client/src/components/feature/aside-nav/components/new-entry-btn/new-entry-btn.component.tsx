@@ -16,6 +16,7 @@ export function NewEntryBtn() {
     async function onSubmit() {
         setLoading(true);
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         cleanCache(ClientRoutingService.app.home, "layout");
 
         const { error, entryId } = await EntryService.createNewEntry({

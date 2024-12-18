@@ -99,7 +99,7 @@ export class CryptographyCustomApi {
                     return;
                 }
 
-                reject("could not remove key");
+                reject(new Error("could not remove key"));
             };
 
             request.onerror = (event) => {

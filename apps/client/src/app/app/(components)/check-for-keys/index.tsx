@@ -24,6 +24,8 @@ export function CheckForClientKeys() {
 
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         checkKeys();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPath]);
 
     return <></>;
