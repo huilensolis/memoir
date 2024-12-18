@@ -12,7 +12,9 @@ export class ClientRoutingService {
     };
 
     const keys = {
+      home: "/app/key/",
       generate: "/app/key/gen/",
+      input: "/app/key/input/",
     };
 
     return {

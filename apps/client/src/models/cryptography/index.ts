@@ -83,6 +83,35 @@ export class CryptographyCustomApi {
     });
   }
 
+  public async removeKey(id: string) {
+    const { db } = await getIndexDb(this.dbObjectName);
+    const transaction = db.transaction([this.dbObjectName], "readwrite");
+    const store = transaction.objectStore(this.dbObjectName);
+
+    return await new Promise<{ success: boolean }>((resolve, reject) => {
+      const request = store.delete(id); // undefined if successful
+
+      request.onsuccess = async (event) => {
+        const result: TDbKeyRecord | undefined = (event.target as any).result;
+
+        if (!result) {
+          resolve({ success: true });
+          return;
+        }
+
+        reject("could not remove key");
+      };
+
+      request.onerror = (event) => {
+        console.error(
+          "Error removing key: ",
+          (event.target as IDBRequest).error,
+        );
+        reject((event.target as IDBRequest).error);
+      };
+    });
+  }
+
   private async getRawKey(id: string) {
     const { db } = await getIndexDb(this.dbObjectName);
     const transaction = db.transaction([this.dbObjectName], "readonly");

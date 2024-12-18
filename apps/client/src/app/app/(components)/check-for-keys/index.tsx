@@ -2,11 +2,13 @@
 
 import { CryptographyCustomApi } from "@/models/cryptography";
 import { ClientRoutingService } from "@/models/routing/client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function CheckForClientKeys() {
   const router = useRouter();
+
+  const currentPath = usePathname();
 
   useEffect(() => {
     async function checkKeys() {
@@ -15,13 +17,14 @@ export function CheckForClientKeys() {
         await cryptoApi.doesClientHaveAStroredKey();
 
       if (!doesClientHaveCRyptoKey) {
-        router.push(ClientRoutingService.app.keys.generate);
+        if (!currentPath.startsWith(ClientRoutingService.app.keys.home))
+          router.push(ClientRoutingService.app.keys.home);
       }
     }
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     checkKeys();
-  }, []);
+  }, [currentPath]);
 
   return <></>;
 }

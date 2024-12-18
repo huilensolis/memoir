@@ -53,8 +53,8 @@ export function ProfileCard() {
               <li>
                 <NavLink
                   icon={Key}
-                  href={ClientRoutingService.app.keys.generate}
-                  title="Encryption key"
+                  href={ClientRoutingService.app.keys.home}
+                  title="Manage encryption key"
                 />
               </li>
               <li>
