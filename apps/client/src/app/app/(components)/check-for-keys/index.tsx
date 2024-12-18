@@ -17,7 +17,8 @@ export function CheckForClientKeys() {
                 await cryptoApi.doesClientHaveAStroredKey();
 
             if (!doesClientHaveCRyptoKey) {
-                router.push(ClientRoutingService.app.keys.generate);
+                if (!currentPath.startsWith(ClientRoutingService.app.keys.home))
+                    router.push(ClientRoutingService.app.keys.home);
             }
         }
 
