@@ -8,8 +8,16 @@
 bun run setup
 ```
 
-## start development server
+## start development server (this will also run `setup`)
 
 ```bash
 bun run dev
 ```
+
+# troubleshooting
+```bash
+error: Connection terminated unexpectedly
+```
+this error is usual, but dont worry, its not an issue. it means that the postgres databse is not ready to accept requests yet. just wait until it is ready
+
+---
