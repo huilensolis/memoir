@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export function CheckForClientKeys() {
     const router = useRouter();
 
-    const currentPath = usePathname()
+    const currentPath = usePathname();
 
     useEffect(() => {
         async function checkKeys() {
@@ -24,8 +24,6 @@ export function CheckForClientKeys() {
 
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         checkKeys();
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPath]);
 
     return <></>;
