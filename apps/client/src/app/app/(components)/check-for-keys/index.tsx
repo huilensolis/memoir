@@ -6,25 +6,25 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function CheckForClientKeys() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const currentPath = usePathname()
+  const currentPath = usePathname();
 
-    useEffect(() => {
-        async function checkKeys() {
-            const cryptoApi = new CryptographyCustomApi();
-            const doesClientHaveCRyptoKey =
-                await cryptoApi.doesClientHaveAStroredKey();
+  useEffect(() => {
+    async function checkKeys() {
+      const cryptoApi = new CryptographyCustomApi();
+      const doesClientHaveCRyptoKey =
+        await cryptoApi.doesClientHaveAStroredKey();
 
-            if (!doesClientHaveCRyptoKey) {
-                if (!currentPath.startsWith(ClientRoutingService.app.keys.home))
-                    router.push(ClientRoutingService.app.keys.home);
-            }
-        }
+      if (!doesClientHaveCRyptoKey) {
+        if (!currentPath.startsWith(ClientRoutingService.app.keys.home))
+          router.push(ClientRoutingService.app.keys.home);
+      }
+    }
 
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        checkKeys();
-    }, [currentPath]);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    checkKeys();
+  }, [currentPath]);
 
-    return <></>;
+  return <></>;
 }
