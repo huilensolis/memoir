@@ -54,7 +54,7 @@ export default function KeyPage() {
             <article className="prose prose-neutral mb-10 prose-strong:font-bold">
                 <h1>Encrypt your data!</h1>
                 <p>
-                    Secure your data with encryption. Genereate or input a key for encrypting & decrypting your documents.{" "}
+                    Secure your data with encryption. Generete or input a key for encrypting & decrypting your documents.{" "}
                 </p>
                 {!loading && !key && (
                     <>

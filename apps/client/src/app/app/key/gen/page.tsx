@@ -67,7 +67,7 @@ export default function GenKeyPage() {
             <article className="prose prose-neutral mb-10 prose-strong:font-bold">
                 <h1>Generate an encryption key</h1>
                 <p>
-                    Secure your data with encryption. Genereate a key, wich will server
+                    Secure your data with encryption. Generete a key, wich will server
                     for encrypting & decrypting your documents.{" "}
                 </p>
                 <p>
