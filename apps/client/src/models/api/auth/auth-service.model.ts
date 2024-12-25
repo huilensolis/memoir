@@ -81,6 +81,7 @@ export class AuthService extends ApiService {
    */
   public static async checkToken({ cookies }: { cookies?: string }): Promise<{
     isTokenValid: boolean;
+    isServerUp: boolean;
   }> {
     try {
       const res = await fetch(ApiRoutingService.routing.auth.checkToken, {
@@ -91,15 +92,17 @@ export class AuthService extends ApiService {
         signal: AbortSignal.timeout(4000),
       });
 
-      if (res.status !== 202) {
-        throw new Error(
-          "there is been an error on the check token request request response",
-        );
+      if (res.status === 404) {
+        return { isTokenValid: false, isServerUp: false };
       }
 
-      return { isTokenValid: true };
+      if (res.status !== 202) {
+        throw new Error("token is not valid");
+      }
+
+      return { isTokenValid: true, isServerUp: true };
     } catch (error) {
-      return { isTokenValid: false };
+      return { isTokenValid: false, isServerUp: true };
     }
   }
 
