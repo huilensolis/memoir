@@ -167,7 +167,6 @@ export class CryptographyCustomApi {
             const keyData = await window.crypto.subtle.exportKey("raw", key);
 
             const base64key = Base64Parser.from_arraybuffer_to_base64(keyData);
-
             return await Promise.resolve({ base64key });
         } catch (error) {
             console.log({ error });
@@ -186,7 +185,7 @@ export class CryptographyCustomApi {
                     name: "AES-GCM",
                     length: 256,
                 },
-                false,
+                true,
                 ["encrypt", "decrypt"],
             );
 
