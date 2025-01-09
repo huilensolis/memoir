@@ -14,8 +14,6 @@ export default async function EntryPage({
 }: {
   params: { id: string };
 }) {
-  // await new Promise((resolve) => setTimeout(resolve, 123132))
-
   const { cookie } = getCookie();
 
   if (!cookie)

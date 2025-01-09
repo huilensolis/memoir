@@ -28,17 +28,20 @@ export function DecryptedEntryList({ entryList }: { entryList: TRawEntry[] }) {
           );
 
           try {
-            const decryptedEntry = await cryptographyApi.decrypt({
-              iv: ivArrayBuffer,
-              encryptedData: dataArrayBuffer,
-            });
+            const decryptedEntry = await cryptographyApi
+              .decrypt({
+                iv: ivArrayBuffer,
+                encryptedData: dataArrayBuffer,
+              })
+              .catch(() => null);
 
-            const parsedDecryptedEntry: TParsedEntry =
-              JSON.parse(decryptedEntry);
+            const parsedDecryptedEntry: TParsedEntry | null = decryptedEntry
+              ? JSON.parse(decryptedEntry)
+              : null;
 
             const entryItem: TEntryItem = {
               created_at: encryptedEntry.created_at,
-              title: parsedDecryptedEntry.title,
+              title: parsedDecryptedEntry?.title ?? "could not decrypt file",
               updated_at: encryptedEntry.created_at,
               id: encryptedEntry.id,
             };

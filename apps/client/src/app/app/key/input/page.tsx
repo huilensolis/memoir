@@ -23,8 +23,11 @@ export default function KeyInputPage() {
 
     const cryptoApi = new CryptographyCustomApi();
 
-    // import key
-    await cryptoApi.importBase64Key(data.key);
+    try {
+      await cryptoApi.importBase64Key(data.key);
+    } catch (error) {
+      throw Error("error importing key");
+    }
   }
 
   return (
@@ -47,17 +50,18 @@ export default function KeyInputPage() {
             correct={Boolean(formState.errors.key) || false}
           />
         </fieldset>
+        {formState.isSubmitted && !formState.isSubmitSuccessful && (
+          <p className="text-red-500">invalid key</p>
+        )}
         <div>
-          {" "}
-          {!formState.isSubmitted && !formState.isSubmitSuccessful && (
+          {!formState.isSubmitSuccessful && (
             <Button
               disabled={!formState.isValid || formState.isSubmitting}
               loading={formState.isSubmitting}
             >
-              {" "}
               Save key
             </Button>
-          )}{" "}
+          )}
           {formState.isSubmitted && formState.isSubmitSuccessful && (
             <Link
               href={ClientRoutingService.app.home}
@@ -65,7 +69,7 @@ export default function KeyInputPage() {
             >
               Continue <ArrowUpRight className="w-5 h-5" />
             </Link>
-          )}{" "}
+          )}
         </div>
       </form>
     </div>

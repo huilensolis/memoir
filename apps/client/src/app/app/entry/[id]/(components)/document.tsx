@@ -15,6 +15,7 @@ import { ClientRoutingService } from "@/models/routing/client";
 import { useRouter } from "next/navigation";
 
 export function Document({ entry }: { entry: TRawEntry }) {
+  const [isLoading, setIsloading] = useState<boolean>(true);
   const [decryptedData, setDecryptedData] = useState<TParsedEntry | null>(null);
   const [clientDocumentData, setClientDocumentData] =
     useState<TParsedEntry | null>(null);
@@ -26,6 +27,7 @@ export function Document({ entry }: { entry: TRawEntry }) {
   useEffect(() => {
     async function decryptData() {
       try {
+        setIsloading(true);
         const cryptographyApi = new CryptographyCustomApi();
 
         const ivBuffer = Base64Parser.from_base64_to_arraybuffer(entry.iv);
@@ -45,6 +47,8 @@ export function Document({ entry }: { entry: TRawEntry }) {
 
         setDecryptedData(null);
         setClientDocumentData(null);
+      } finally {
+        setIsloading(false);
       }
     }
 
@@ -74,6 +78,8 @@ export function Document({ entry }: { entry: TRawEntry }) {
       }
     }
 
+    if (clientDocumentData === null) return;
+
     const ctrl = new AbortController();
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -102,7 +108,7 @@ export function Document({ entry }: { entry: TRawEntry }) {
 
   return (
     <>
-      {decryptedData ? (
+      {decryptedData && (
         <div className="flex flex-col gap-3 w-full h-full">
           <header className="flex flex-col">
             <EntryTitle
@@ -117,8 +123,24 @@ export function Document({ entry }: { entry: TRawEntry }) {
             onUpdate={updateContent}
           />
         </div>
-      ) : (
-        <EntryPageLoading />
+      )}
+      {isLoading && <EntryPageLoading />}
+      {!isLoading && !decryptedData && (
+        <article className="flex flex-col">
+          <h1 className="text-2xl font-semibold">Entry Encrypted</h1>
+          <br />
+          <p>
+            Why am I seeing this issue? <br /> This entry could not be decrypted
+            because your encryption key doesnt match the key that was used to
+            encrypt it.
+          </p>
+          <br />
+          <p>
+            How can I fix this issue? <br /> log out, log in again and input an
+            encryption key that matches the one that was used to encrypt this
+            entry.
+          </p>
+        </article>
       )}
       <footer className="fixed bottom-0 lg:left-80 left-0 w-full">
         <EntryOptions entryId={entry.id} />
